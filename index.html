@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Malero</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <ul class="links">
+                <li class="clicked"><img src="images/home1 1.png" alt=""> <a id="home" href="#">Home</a></li>
+                <li><i class="fa-sharp fa-solid fa-crown"></i> <a id="premium" href="#">Premium</a></li>
+                <li><img src="images/about (2) 1.png" alt=""> <a id="about" href="#">About us</a></li>
+                <li><img src="images/suppodrt 1.png" alt=""> <a id="contact" href="#">Contact us</a></li>
+            </ul>
+            <div class="form">
+                <img src="images/night-modde 1.png" alt="">
+                <div class="login"><img src="images/log-idn 1.png" alt=""> <p>Log in</p></div>
+                <div class="login"><img src="images/user 1.png" alt=""> <p>Sign up</p></div>
+            </div>
+            
+        </header>
+
+        <main>
+            <div class="home">
+                <div class="home-content">
+                    <img class="logo" src="images/Untitled-10@3x@3x 1.png" alt="">
+                    <p class="first">
+                        Harnessing Deep Learning for Evasive PDF Malware Detection, 
+                        Pioneering a New Frontier with Efficient Net and Image Transformation.
+                    </p>
+                    <form action="upload.php" method="post" enctype="multipart/form-data">
+                        <label for="file">Upload/drag and drop your PDF </label>
+                        <input type="file" name="file" id="file" style="display: none;" onchange="uploadFile(this)">
+                        <img src="images/upload 1.png" alt="" onclick="document.getElementById('file').click()">
+                    </form>
+
+                    <p class="second">
+                        By submitting data above, you are agreeing to our Terms of Service and Privacy Policy,
+                        and to the sharing of your Sample submission with the security community. 
+                        Please do not submit any personal information;
+                        VirusTotal is not responsible for the contents of your submission.
+                    </p>
+                </div>
+            </div> 
+            <hr class="home-end">
+        
+        </main>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
