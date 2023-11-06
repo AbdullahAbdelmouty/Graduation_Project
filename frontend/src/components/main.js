@@ -4,6 +4,9 @@ import freeIcon from "../images/free 1.png"
 import goldIcon from "../images/crown 1.png"
 import diamondIcon from "../images/diamond 1.png"
 import arrow from "../images/Arrow 1.png"
+import accuracyIcon from "../images/aim 1.png"
+import securityIcon from "../images/shield 1.png"
+import economicIcon from "../images/salary 1.png"
 export default function Main(){
     return(
         <main>
@@ -60,6 +63,30 @@ export default function Main(){
                 </div>
             </div>
             <hr className="premium-end"/>
+            <div className="why">
+                <div className="why-content">
+                    <h2>Why Malero ?</h2>
+                    <div className="advantages">
+                        <div className="accuracy">
+                            <img src={accuracyIcon} alt=""/>
+                            <h3>Accuracy</h3>
+                            <h4>Our Accuracy above 90%</h4>
+                        </div>
+                        <div className="security">
+                            <img src={securityIcon} alt=""/>
+                            <h3>Security</h3>
+                            <h4>Data Encryption :Secure File Uploads</h4>
+                        </div>
+                        <div className="economic">
+                            <img src={economicIcon} alt=""/>
+                            <h3>Economic</h3>
+                            <h4>Our premium account high value and low price</h4>
+                        </div>
+                    </div>
+                        <p>Malero is a real evasive PDF malware detector</p>
+                </div>
+            </div>
+            <hr className="why-end"/>
         </div>
     </main>
     )
