@@ -5,11 +5,15 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: sans-serif ;
+    font-family: Roboto ;
+}
+html {
+    scroll-behavior: smooth;
 }
 body{
     background-color: #D9D9D9;
 }
+/* start header style */
 header{
     display: flex;
     padding: 0 50px;
@@ -63,6 +67,8 @@ header .form img{
     padding-right: 5px;
     cursor: var(--hover-cursor);
 }
+/* end header style */
+/* start home style */
 .home{
     width: 60%;
     margin: auto;
@@ -102,6 +108,10 @@ header .form img{
     justify-content: center;
     align-items: center;
 }
+
+.home-content form .input-pdf{
+    display :none;
+}
 .home-content form label{
     cursor: var(--hover-cursor);
         padding-right: 20px;
@@ -110,4 +120,77 @@ header .form img{
 }
 .home-end{
     margin-top: 85px;
+}
+/* end of home style */
+/* start premium style */
+.premium-content .packages{
+    display: flex;
+    margin: 0 50px;
+    justify-content: space-evenly;
+}
+.premium-content h2{
+    text-align: center;
+    color: #173561;
+    padding: 81px 0 77px;
+    font-size: 40px;
+}
+.premium-content h3{
+    color: #173561;
+}
+.premium-content h4{
+    color: #173561;
+}
+.premium-content span{
+    color: #2E8E4E;
+}
+.premium-content .free,
+.premium-content .gold,
+.premium-content .diamond{
+    background-color: #E4E3E2;
+    width: 257px;
+    height: 426px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.premium-content .freeBtn,
+.premium-content .goldBtn,
+.premium-content .diamondBtn{
+    border: 1px solid;
+    border-radius: 25px;
+    padding: 0px 16.4px;
+    display: flex;
+    cursor: var(--hover-cursor);
+    align-items: center;
+}
+.premium-content .freeBtn:active{
+background-color: #2196F3;
+color: #fff;
+border: black 1px solid;
+}
+.premium-content .goldBtn:active{
+    background-color: #FFB743;
+    border: black 1px solid;
+    color: #fff;
+}
+.premium-content .diamondBtn:active{
+    background-color: #9857BD;
+    border: black 1px solid;
+    color: #fff;
+}
+.premium-content .freeBtn:active img,
+.premium-content .goldBtn:active img,
+.premium-content .diamondBtn:active img {
+    filter: brightness(0) invert(1);
+}
+.premium-content .freeBtn div:first-child,
+.premium-content .goldBtn div:first-child,
+.premium-content .diamondBtn div:first-child{
+    padding: 10px 10px 10px 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+.premium-end{
+    margin: 89px 0 85px;
 }
