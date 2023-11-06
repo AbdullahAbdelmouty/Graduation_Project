@@ -10,10 +10,10 @@ export default function Header(){
         <div>
                 <header>
             <ul className="links">
-                <li className="clicked"><img src={home} alt=""/> <a id="home" href="#">Home</a></li>
-                <li><i className="fa-sharp fa-solid fa-crown"></i> <a id="premium" href="#">Premium</a></li>
-                <li><img src={about} alt=""/> <a id="about" href="#">About us</a></li>
-                <li><img src={contact} alt=""/> <a id="contact" href="#">Contact us</a></li>
+                <li className="clicked"><img src={home} alt=""/> <a  href="#home">Home</a></li>
+                <li><i className="fa-sharp fa-solid fa-crown"></i> <a  href="#premium">Premium</a></li>
+                <li><img src={about} alt=""/> <a  href="#about">About us</a></li>
+                <li><img src={contact} alt=""/> <a  href="#contact">Contact us</a></li>
             </ul>
             <div className="form">
                 <img src={mode} alt=""/>
