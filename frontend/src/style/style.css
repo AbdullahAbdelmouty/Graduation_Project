@@ -1,5 +1,7 @@
 :root{
     --hover-cursor:pointer;
+    --drop-shadow: 0 4px 4px 0 rgb(0,0,0,25%);
+    --text-color:#173561;
 }
 *{
     box-sizing: border-box;
@@ -9,6 +11,7 @@
 }
 html {
     scroll-behavior: smooth;
+    
 }
 body{
     background-color: #D9D9D9;
@@ -16,6 +19,7 @@ body{
 /* start header style */
 header{
     display: flex;
+    box-shadow: var(--drop-shadow) ;
     padding: 0 50px;
     align-items: center;
     justify-content: space-between;
@@ -88,7 +92,7 @@ header .form img{
     font-size: 13px;
     text-align: center;
     padding-bottom: 33px;
-    color: #173561;
+    color: var(--text-color);
 }
 .home-content p.first{
     height: 52px;
@@ -130,26 +134,27 @@ header .form img{
 }
 .premium-content h2{
     text-align: center;
-    color: #173561;
+    color: var(--text-color);
     padding: 81px 0 77px;
     font-size: 40px;
 }
 .premium-content h3{
-    color: #173561;
+    color: var(--text-color);
 }
 .premium-content h4{
-    color: #173561;
+    color: var(--text-color);
 }
 .premium-content span{
     color: #2E8E4E;
 }
-.premium-content .free,
-.premium-content .gold,
-.premium-content .diamond{
+.premium-content .packages .free,
+.premium-content .packages .gold,
+.premium-content .packages .diamond{
     background-color: #E4E3E2;
     width: 257px;
     height: 426px;
     display: flex;
+    box-shadow: var(--drop-shadow) ;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
@@ -193,4 +198,54 @@ border: black 1px solid;
 }
 .premium-end{
     margin: 89px 0 85px;
+}
+/* end premium style */
+
+/* start why style */
+.why-content .advantages{
+    display: flex;
+    margin: 0 50px;
+    justify-content: space-evenly;
+    margin-bottom: 107px;
+}
+.why-content .accuracy,
+.why-content .security,
+.why-content .economic{
+    display: flex;
+    width: 20%;
+    height: 250px;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+.why-content .accuracy h4,
+.why-content .security h4,
+.why-content .economic h4{
+    text-align: center;
+    width: 56%;
+
+}
+.why-content h2{
+    text-align: center;
+    color: var(--text-color);
+    padding-bottom: 84px;
+    font-size: 40px;
+}
+.why-content h3{
+    font-size: 20px;
+    font-weight: 100;
+    color: #40405D;
+}
+.why-content h4{
+    font-weight: 100;
+    font-size: 14px;
+    color: var(--text-color);
+}
+.why-content p{
+    color: var(--text-color);
+    font-size: 25px;
+    text-align: center;
+}
+.why-end{
+    margin: 79px 0 74px;   
 }
