@@ -7,6 +7,7 @@ import arrow from "../images/Arrow 1.png"
 import accuracyIcon from "../images/aim 1.png"
 import securityIcon from "../images/shield 1.png"
 import economicIcon from "../images/salary 1.png"
+import mohamed from "../images/file (1).png"
 export default function Main(){
     return(
         <main>
@@ -63,6 +64,7 @@ export default function Main(){
                 </div>
             </div>
             <hr className="premium-end"/>
+        </div>
             <div className="why">
                 <div className="why-content">
                     <h2>Why Malero ?</h2>
@@ -87,7 +89,30 @@ export default function Main(){
                 </div>
             </div>
             <hr className="why-end"/>
-        </div>
+            <div id="about" className="about">
+                <div className="about-content">
+                    <h2>who are we ?</h2>
+                    <div className="we">
+                        <div><span></span><p>Eng Shady Esmael</p></div>
+                        <div><span></span><p>Eng Mostafa Mamdoh</p></div>
+                        <div><span></span><p>Eng Osama Khedr</p></div>
+                        <div><span></span><p>Eng Abdullah abdelmouty</p></div>
+                        <div><span><img src={mohamed}/></span><p>Eng Mohamed ahmed</p></div>
+                    </div>
+                    <div className="we-text">
+                        <p>
+                        We are a group of 5 engineers from Helwan Engineering, 
+                        2 of us from the Communications and Electronics Department and 3 from the Computers Department. 
+                        We met for one goal, which is to secure any user who fears the presence of a virus hidden in a PDF file. 
+                        The core of the idea is based on artificial intelligence, specifically deep learning. 
+                        Those responsible for the artificial intelligence part are Engineer Mustafa Mamdouh and Engineer Osama Khadr, 
+                        while engineer Shady esmael is the team leader and responsible for designing the site (user interface and user experiences), and finally,
+                        engineer Abdullah Abdel Mouty and engineer Mohamed Ahmed Mohamed are the site’s executors (front end & back end)
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <hr className="about-end"/>
     </main>
     )
 }
