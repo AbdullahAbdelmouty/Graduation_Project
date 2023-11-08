@@ -18,8 +18,11 @@ export default function Header(){
             <div className="form">
                 <img src={mode} alt=""/>
                 <div className="login"><img src={login} alt=""/> <p>Log in</p></div>
+                <div className="drop-login">
+                    
+                </div>
                 {/* u need to change the class name but wait till u see the changes */}
-                <div className="login"><img src={sign} alt=""/> <p>Sign up</p></div>
+                <div className="sign-up"><img src={sign} alt=""/> <p>Sign up</p></div>
             </div>
             
         </header>

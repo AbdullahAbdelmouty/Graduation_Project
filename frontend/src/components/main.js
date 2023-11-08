@@ -4,6 +4,7 @@ import freeIcon from "../images/free 1.png"
 import goldIcon from "../images/crown 1.png"
 import diamondIcon from "../images/diamond 1.png"
 import arrow from "../images/Arrow 1.png"
+import adIcon from "../images/advertising 1.png"
 import accuracyIcon from "../images/aim 1.png"
 import securityIcon from "../images/shield 1.png"
 import economicIcon from "../images/salary 1.png"
@@ -13,6 +14,15 @@ export default function Main(){
         <main>
         <div id="home" className="home">
             <div className="home-content">
+                
+                <div className="ads">
+                    <h3 className="ad-space">ِAd space #1</h3>
+                    <img src={adIcon} alt=""/>
+                    <h3 className="put-ad">Put your Ad here</h3>
+                    <h5>200 x 300 pixels</h5>
+                    <h3 className="contact-team">contact our team</h3>
+                </div>
+
                 <img className="logo" src={malero} alt=""/>
                 <p className="first">
                     Harnessing Deep Learning for Evasive PDF Malware Detection, 
@@ -31,8 +41,10 @@ export default function Main(){
                     VirusTotal is not responsible for the contents of your submission.
                 </p>
             </div>
-        </div> 
+        </div>
+        
         <hr className="home-end"/>
+        
         <div id="premium" className="premium">
             <div className="premium-content">
                 <h2>Try Premium Malero</h2>
@@ -40,32 +52,37 @@ export default function Main(){
                     <div className="free">
                         <img src={freeIcon}  alt=""/>
                         <h3>Free</h3>
+                        <span>Free</span>
                         <span></span>
                         <h4>Limited usage</h4>
                         <h4>Ads </h4>
-                        <button className="freeBtn"><div>More </div> <img src={arrow} alt=""/></button>
+                        <button className="freeBtn"><div>Try </div> <img src={arrow} alt=""/></button>
                     </div>
                     <div className="gold">
                         <img src={goldIcon}  alt=""/>
                         <h3>Gold</h3>
-                        <span>5$ per Month</span>
-                        <h4>Limited usage</h4>
+                        <span className="month">5$ per Month</span>
+                        <span>40$ per Year</span>
+                        <h4>Extra Limited usage</h4>
                         <h4>No Ads </h4>
-                        <button className="goldBtn"><div>More </div> <img src={arrow} alt=""/></button>
+                        <button className="goldBtn"><div>Buy </div> <img src={arrow} alt=""/></button>
                     </div>
                     <div className="diamond">
                         <img src={diamondIcon}  alt=""/>
                         <h3>Diamond</h3>
-                        <span>15$ per Month</span>
+                        <span className="month">15$ per Month</span>
+                        <span>80$ per Year</span>
                         <h4>Un Limited usage</h4>
                         <h4>No Ads </h4>
-                        <button className="diamondBtn"><div>More </div> <img src={arrow} alt=""/></button>
+                        <button className="diamondBtn"><div>Buy </div> <img src={arrow} alt=""/></button>
                     </div>
                 </div>
             </div>
-            <hr className="premium-end"/>
         </div>
-            <div className="why">
+        
+        <hr className="premium-end"/>
+        
+        <div className="why">
                 <div className="why-content">
                     <h2>Why Malero ?</h2>
                     <div className="advantages">
@@ -87,9 +104,11 @@ export default function Main(){
                     </div>
                         <p>Malero is a real evasive PDF malware detector</p>
                 </div>
-            </div>
+        </div>
+        
             <hr className="why-end"/>
-            <div id="about" className="about">
+        
+        <div id="about" className="about">
                 <div className="about-content">
                     <h2>who are we ?</h2>
                     <div className="we">
@@ -111,8 +130,11 @@ export default function Main(){
                         </p>
                     </div>
                 </div>
-            </div>
+        </div>
+        
             <hr className="about-end"/>
+    
+        
     </main>
     )
 }
