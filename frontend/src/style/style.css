@@ -420,7 +420,7 @@ header .form img{
         margin: 0 50px;
         justify-content: space-evenly;
     }
-@media screen and (max-width:1024px) {
+@media screen and (max-width:768px) {
     .premium-content .packages{
         align-items: center;
         flex-direction: column;
@@ -469,6 +469,8 @@ header .form img{
     .premium-content .packages .gold,
     .premium-content .packages .diamond{
         margin-top: 15px;
+        width: 240px;
+        margin-left: 10px;
     }
 }
 .premium-content .freeBtn,
