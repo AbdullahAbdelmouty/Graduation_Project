@@ -624,7 +624,7 @@ header .form img{
     justify-content: space-around;
     margin-bottom: 42px;
 }
-@media screen  and (max-width:1024px){
+@media screen  and (max-width:768px){
     
     .about-content .we{
 
@@ -650,6 +650,15 @@ header .form img{
     border-radius: 50%;
     overflow: auto;
     margin-bottom: 6px;
+}
+@media screen  and (max-width:1024px){
+    
+    .about-content .we span{
+        margin-right: 6px;
+        width: 141px;
+        height: 141px;
+    
+    }
 }
 .about-content .we-text{
     margin: 0 13%;
