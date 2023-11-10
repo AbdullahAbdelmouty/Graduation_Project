@@ -133,7 +133,21 @@ export default function Main(){
         </div>
         
             <hr className="about-end"/>
-    
+        
+        <div id="contact" className="contact">
+            <div className="contact-container">
+                <p>Have question ? Contact us.</p>
+                <input type="text" placeholder="Your name"></input>
+                <input type="email" placeholder="Your E-mail"></input>
+                <input type="numeric" placeholder="Phone number"></input>
+                <input className="message" type="text" placeholder="Your message"></input>
+                <div className="contact-number">
+                    <button className="contact-button">Send  </button>
+                    <h4>Or call <span>1234</span></h4>
+                </div>
+
+            </div>
+        </div>
         
     </main>
     )

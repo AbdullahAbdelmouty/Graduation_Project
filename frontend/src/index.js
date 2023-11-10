@@ -4,11 +4,13 @@ import './style/style.css';
 import Header from './components/header';
 import Main from "./components/main.js"
 import "./script/script.js"
+import Footer from "./components/footer.js"
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <div className='container'>
       <Header/>
       <Main/>
+      <Footer/>
     </div>
   );
 
