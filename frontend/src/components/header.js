@@ -2,12 +2,12 @@ import home from "../images/home1 1.png"
 import about from "../images/about (2) 1.png"
 import contact from "../images/suppodrt 1.png"
 import mode from "../images/night-modde 1.png"
-import sign from "../images/user 1.png"
-import login from "../images/log-idn 1.png"
+// import sign from "../images/user 1.png"
+// import login from "../images/log-idn 1.png"
 import userIcon from "../images/account (2) 2.png"
 import passIcon from "../images/losscfk 1.png"
 
-export default function Header(){
+export default function Header(props){
     return(
         <div>
             <header>
@@ -19,7 +19,7 @@ export default function Header(){
                 </ul>
                 <div className="form">
                     <img src={mode} alt=""/>
-                    <div  className="login"><img src={login} alt=""/> <p>Log in</p></div>
+                    <div  className="login"><img src={props.image} alt=""/> <p>{props.text}</p></div>
                     <div className="drop-login">
                         <form class="login-form">
                             <div class="input-container">
@@ -40,7 +40,7 @@ export default function Header(){
                             <button type="submit">Login</button>
                         </form>
                     </div>
-                    <div className="sign-up"><img src={sign} alt=""/> <p>Sign up</p></div>
+                    <div className="sign-up"><img src={props.signImage} alt=""/> <p>{props.sign}</p></div>
                 </div>
             
             </header>

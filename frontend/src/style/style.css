@@ -23,7 +23,7 @@ header{
     z-index: 1;
     display: flex;
     box-shadow: var(--drop-shadow);
-    padding: 0 50px;
+    padding: 0 170px;
     align-items: center;
     justify-content: space-between;
     height: 52px;
@@ -756,12 +756,12 @@ header .form img{
 /* start footer style */
 footer{
     background-color: rgb(244, 242, 239,50%);
-    height: auto;
-    
+
 }
 .footer-container{
     display: flex;
     width: 60%;
+    margin-left: 9%;
     justify-content: space-around;
 }
 @media screen and (max-width:768px){
@@ -773,10 +773,10 @@ footer{
     }
 }
 .footer-container .second-logo{
-    margin-top: 58px;
+    margin-top: 52px;
 }
 .footer-container ul{
-    margin-top: 51px;
+    margin-top: 42px;
     list-style: none;
     
 }
@@ -798,8 +798,7 @@ footer{
     display: flex;
     justify-content: center;
     align-items: end;
-    margin-top: 28px;
-    padding: 50px;
+    padding: 20px;
 }
 @media screen and (max-width:768px){
     .copy-right{        
@@ -818,3 +817,145 @@ footer{
 
 
 /* end footer style */
+/* start style of pay page*/
+.pay-main{
+    display: flex;
+    margin-left:8% ;
+}
+.pay-main .user-details{
+    padding: 104px 0 24px 68px;
+    display: flex;
+    flex-direction: column;
+}
+.pay-main input::placeholder{
+    color: rgb(30, 30, 30,30%);
+    font-size: 15px;
+}
+.pay-main input{
+    margin-bottom: 24px;
+    background-color: #FDF1D2;
+    outline: none;
+    border: none;
+    box-shadow: var(--drop-shadow);
+    padding: 14px 0 14px 34px;
+    border-radius: 20px;
+    width: 226px;
+}
+.date-CVV{
+    display: flex;
+    justify-content: space-between;
+    width: 226px;
+}
+.pay-main #CVV,
+.pay-main #date{
+    width: 106px;
+    
+}
+.pay-main #submit{
+    width: 113px;
+    padding: 0px;
+    height: 42px;
+    color: white;
+    background-color: #DF8216;
+    box-shadow: none;
+    cursor: var(--hover-cursor);   
+}
+.logo-discount{
+    margin-left: 13px;
+    padding-top: 52px;
+    position: relative;
+}
+.logo-discount::after{
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 163px;
+
+    background-color: rgb(0,0,0,10%);
+    height: 497px;
+    width: 1px;
+}
+
+.logo-discount img{
+    height: 523px;
+    width: 645px;
+    
+}
+.logo-discount .discount {
+    display: flex;
+    align-items: flex-end;
+}
+
+.pay-main #show-discount{
+    margin-bottom: 0px;
+    padding: 14px 0 14px;
+    width: 128px;
+}
+.logo-discount .discount .apply{
+    outline: none;
+    cursor: var(--hover-cursor);   
+    border: none;
+    color: white;
+    background-color: var(--text-color);
+    /* padding: 9px  5px  ; */
+    width: 83px;
+    height: 35px;
+    margin: 0 34px 0 29px;
+    font-size: 15px;
+    border-radius: 20px;
+}
+.logo-discount .discount p{
+    color: var(--text-color);
+    font-size: 15px;
+    display: flex;
+    margin: auto 0 auto 34px;
+}
+.remember{
+    padding-top: 104px;
+    margin: 0 3%;
+    display: flex;
+}
+
+.remember-packages {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    margin-bottom: 36px;
+}
+.remember-packages .gold,
+.remember-packages .diamond{
+
+    background-color:rgb(244,244,243,100%);
+    width: 196px;
+    height: 281px;
+    margin-bottom: 19px;
+    display: flex;
+    box-shadow: var(--drop-shadow) ;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    position: relative;
+}
+.remember-packages h3{
+    color: var(--text-color);
+    font-size: 15px;
+    color: rgb(0, 0, 0,80%);
+    font-weight: 400;
+    margin-bottom: 17px;
+}
+.remember-packages h4{
+    color: var(--text-color);
+}
+.remember-packages span{
+    color: #2E8E4E;
+    position: relative;
+    font-size: 17px;
+}
+.remember-packages .month::after{
+    content: "OR";
+    color: #000000;
+    top: 120%;
+    left: -30px;
+    font-size: 10px;
+    position: absolute;
+}
