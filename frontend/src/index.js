@@ -5,9 +5,9 @@ import './style/style.css';
 // import Main from "./components/main.js"
 import "./script/script.js"
 // import Footer from "./components/footer.js"
-import {BrowserRouter, Routes,Route}from "react-router-dom"
-import Pay from "./pages/Pay.js"; 
-import Home from './pages/Home.js';
+// import {BrowserRouter, Routes,Route}from "react-router-dom"
+// import Pay from "./pages/Pay.js"; 
+// import Home from './pages/Home.js';
 import App from './App.js';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
