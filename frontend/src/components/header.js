@@ -8,7 +8,34 @@ import userIcon from "../images/account (2) 2.png"
 import passIcon from "../images/losscfk 1.png"
 
 export default function Header(props){
+window.addEventListener("load",()=>{
+// select items off the links to make it colored when clicked
+    let links=document.querySelectorAll(".links li")
+    // green background for the selected link     
+    links.forEach((link)=>{
+        
+        link.addEventListener("click",()=>{
+            link.classList.add("clicked");
+            
+            links.forEach((otherLink)=>{
+                if(otherLink!==link){          
+                    otherLink.classList.remove("clicked");
+                }
+            });
+        });
+    })
+    // console.log(logIn)
+    // console.log(dropLogIn)
+    // let dropLogIn =document.querySelector(".form .drop-login")
+    // let logIn =document.querySelector(".form .login")
+    // logIn.addEventListener("click",()=>{
+    //     dropLogIn.style.display="block";
+        
+    // })
+})
+
     return(
+
         <div>
             <header>
                 <ul className="links">
