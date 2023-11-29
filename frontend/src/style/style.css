@@ -130,9 +130,9 @@ header .form .drop-login{
 }
 
   /* Style to show .drop-login when checkbox is checked */
-  .login:active + .drop-login {
+  /* .login:active + .drop-login {
     display: block;
-  }
+  } */
 .login-form .input-container {
     display: flex;
     align-items: center;

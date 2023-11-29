@@ -10,6 +10,13 @@ import securityIcon from "../images/shield 1.png"
 import economicIcon from "../images/salary 1.png"
 import mohamed from "../images/file (1).png"
 export default function Main(){
+function uploadFile(input) {
+    // Check if a file is selected
+    if (input.files.length > 0) {
+        // Automatically submit the form when a file is selected
+        input.closest('form').submit();
+    }
+}
     return(
         <main>
         <div id="home" className="home">
@@ -30,8 +37,8 @@ export default function Main(){
                 </p>
                 <form action="upload.php" method="post" enctype="multipart/form-data">
                     <label for="file">Upload/drag and drop your PDF </label>
-                    <input className="input-pdf" type="file" name="file" id="file"  onchange="uploadFile(this)"/>
-                    <img src={upload} alt="" onclick="document.getElementById('file').click()"/>
+                    <input className="input-pdf" type="file" name="file" id="file" onChange={(event) => uploadFile(event.target)}/>
+                    <img src={upload} alt="" onClick={() => document.getElementById('file').click()}/>
                 </form>
 
                 <p className="second">
