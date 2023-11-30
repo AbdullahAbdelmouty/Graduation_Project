@@ -6,36 +6,72 @@ import mode from "../images/night-modde 1.png"
 // import login from "../images/log-idn 1.png"
 import userIcon from "../images/account (2) 2.png"
 import passIcon from "../images/losscfk 1.png"
+import { useEffect } from "react"
+import {useNavigate} from "react-router-dom"
+
 
 export default function Header(props){
-window.addEventListener("load",()=>{
-// select items off the links to make it colored when clicked
-    let links=document.querySelectorAll(".links li")
-    // green background for the selected link     
-    links.forEach((link)=>{
+    const navigate = useNavigate();
+    useEffect(() => {
+        let dropLogIn = document.querySelector(".form .drop-login");
+        let logIn = document.querySelector(".form .login");
+        function showDrop() {
+            if (dropLogIn) {
+                dropLogIn.style.display = "block";
+            }
+        }
         
-        link.addEventListener("click",()=>{
-            link.classList.add("clicked");
+        function hideDrop() {
+            if (dropLogIn) {
+                dropLogIn.style.display = "none";
+            }
+        }
+        
+        if(props.text==="Log in"){
+
+            if (logIn) {
+                logIn.addEventListener("click", (event) => {
+                    event.stopPropagation(); // Prevent the click event from propagating to the document
+                    showDrop();
+                });
+            }
             
-            links.forEach((otherLink)=>{
-                if(otherLink!==link){          
-                    otherLink.classList.remove("clicked");
-                }
+            document.addEventListener("click", () => {
+                hideDrop();
             });
-        });
-    })
-    // console.log(logIn)
-    // console.log(dropLogIn)
-    // let dropLogIn =document.querySelector(".form .drop-login")
-    // let logIn =document.querySelector(".form .login")
-    // logIn.addEventListener("click",()=>{
-    //     dropLogIn.style.display="block";
-        
-    // })
-})
+        }
+        if(props.text==="Log out"){
 
+            const handleButtonClick = () => {
+                // Navigate to the 'pay' route
+                navigate('/Home');
+                window.scrollTo(0, 0);
+
+            };
+            logIn.addEventListener("click",()=>{
+                handleButtonClick()
+            })
+        }
+        window.addEventListener("load",()=>{
+            // select items off the links to make it colored when clicked
+            let links=document.querySelectorAll(".links li")
+            // green background for the selected link     
+            links.forEach((link)=>{
+                
+                link.addEventListener("click",()=>{
+                    link.classList.add("clicked");
+                    
+                    links.forEach((otherLink)=>{
+                        if(otherLink!==link){          
+                            otherLink.classList.remove("clicked");
+                        }
+                    });
+                });
+            })
+        })
+    }, []); 
     return(
-
+                                
         <div>
             <header>
                 <ul className="links">
@@ -48,21 +84,21 @@ window.addEventListener("load",()=>{
                     <img src={mode} alt=""/>
                     <div  className="login"><img src={props.image} alt=""/> <p>{props.text}</p></div>
                     <div className="drop-login">
-                        <form class="login-form">
-                            <div class="input-container">
+                        <form className="login-form">
+                            <div className="input-container">
                                 <img src={userIcon} alt=""/>
                                 <input type="text" placeholder="Email ID" required/>
                             </div>
-                            <div class="input-container">
+                            <div className="input-container">
                                 <img className="passIcon" src={passIcon} alt=""/>
                                 <input type="password" placeholder="Password" required/>
                             </div>
-                            <label class="check-container">
+                            <label className="check-container">
                                 <p>Remember me</p> 
                                 <h4>Forgot password?</h4>
 
                                 <input type="checkbox" />
-                                <span class="checkmark"></span>
+                                <span className="checkmark"></span>
                             </label>                            
                             <button type="submit">Login</button>
                         </form>

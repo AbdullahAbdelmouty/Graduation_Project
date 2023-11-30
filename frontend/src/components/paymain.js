@@ -1,7 +1,7 @@
 import payLogo from "../images/3d-hand-with-safe-payment-confirmation-bill 1.png"
 import goldIcon from "../images/crown 1.png"
 import diamondIcon from "../images/diamond 1.png"
-import arrow from "../images/Arrow 1.png"
+// import arrow from "../images/Arrow 1.png"
 
 export default function PayMain(){
     return(

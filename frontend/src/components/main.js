@@ -9,6 +9,10 @@ import accuracyIcon from "../images/aim 1.png"
 import securityIcon from "../images/shield 1.png"
 import economicIcon from "../images/salary 1.png"
 import mohamed from "../images/file (1).png"
+// import PayMain from "./paymain"
+import {useNavigate} from "react-router-dom"
+// import Pay from "../pages/Pay"
+import { useEffect } from "react"
 export default function Main(){
 function uploadFile(input) {
     // Check if a file is selected
@@ -17,6 +21,14 @@ function uploadFile(input) {
         input.closest('form').submit();
     }
 }
+
+const navigate = useNavigate();
+
+const handleButtonClick = () => {
+    // Navigate to the 'pay' route
+    navigate('/pay');
+    window.scrollTo(0, 0);
+};
     return(
         <main>
         <div id="home" className="home">
@@ -36,7 +48,7 @@ function uploadFile(input) {
                     Pioneering a New Frontier with Efficient Net and Image Transformation.
                 </p>
                 <form action="upload.php" method="post" enctype="multipart/form-data">
-                    <label for="file">Upload/drag and drop your PDF </label>
+                    <label htmlFor="file">Upload/drag and drop your PDF </label>
                     <input className="input-pdf" type="file" name="file" id="file" onChange={(event) => uploadFile(event.target)}/>
                     <img src={upload} alt="" onClick={() => document.getElementById('file').click()}/>
                 </form>
@@ -72,7 +84,7 @@ function uploadFile(input) {
                         <span>40$ per Year</span>
                         <h4>Extra Limited usage</h4>
                         <h4>No Ads </h4>
-                        <button className="goldBtn"><div>Buy </div> <img src={arrow} alt=""/></button>
+                        <button onClick={handleButtonClick}  className="goldBtn"><div>Buy </div> <img src={arrow} alt=""/></button>
                     </div>
                     <div className="diamond">
                         <img src={diamondIcon}  alt=""/>
@@ -81,7 +93,7 @@ function uploadFile(input) {
                         <span>80$ per Year</span>
                         <h4>Un Limited usage</h4>
                         <h4>No Ads </h4>
-                        <button className="diamondBtn"><div>Buy </div> <img src={arrow} alt=""/></button>
+                        <button onClick={handleButtonClick} className="diamondBtn"><div>Buy </div> <img src={arrow} alt=""/></button>
                     </div>
                 </div>
             </div>
