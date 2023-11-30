@@ -119,20 +119,19 @@ header .form .drop-login{
     width: 228px;
     height: 177px;
     background-color: #D9D9D9;
-    right: 90px;
     top: 53px;
     border-radius: 20px;
     box-shadow: var(--drop-shadow);
 }
 header .form .drop-login{
 
-    display: none; /* Hide by default */
-}
+    display: none; /*Hide by default*/
+} 
 
-  /* Style to show .drop-login when checkbox is checked */
-  /* .login:active + .drop-login {
+  /* /* Style to show .drop-login when checkbox is checked */
+/* .login:enabled + .drop-login {
     display: block;
-  } */
+  }  */
 .login-form .input-container {
     display: flex;
     align-items: center;
@@ -761,7 +760,7 @@ footer{
 .footer-container{
     display: flex;
     width: 60%;
-    margin-left: 9%;
+    /* margin-left: 9%; */
     justify-content: space-around;
 }
 @media screen and (max-width:768px){
@@ -776,7 +775,7 @@ footer{
     margin-top: 52px;
 }
 .footer-container ul{
-    margin-top: 42px;
+    margin-top: 30px;
     list-style: none;
     
 }
