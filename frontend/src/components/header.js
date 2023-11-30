@@ -13,6 +13,11 @@ import {useNavigate} from "react-router-dom"
 export default function Header(props){
     const navigate = useNavigate();
     useEffect(() => {
+        let mode = document.querySelector(".mode")
+        // console.log(mode)
+        mode.addEventListener("click",()=>{
+
+        })
         let dropLogIn = document.querySelector(".form .drop-login");
         let logIn = document.querySelector(".form .login");
         function showDrop() {
@@ -36,7 +41,7 @@ export default function Header(props){
                 });
             }
             
-            document.addEventListener("click", () => {
+            document.addEventListener("dblclick", () => {
                 hideDrop();
             });
         }
@@ -81,7 +86,7 @@ export default function Header(props){
                     <li><img src={contact} alt=""/> <a  href="#contact">Contact us</a></li>
                 </ul>
                 <div className="form">
-                    <img src={mode} alt=""/>
+                    <img className="mode" src={mode} alt=""/>
                     <div  className="login"><img src={props.image} alt=""/> <p>{props.text}</p></div>
                     <div className="drop-login">
                         <form className="login-form">
