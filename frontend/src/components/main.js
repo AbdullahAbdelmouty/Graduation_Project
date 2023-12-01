@@ -13,7 +13,7 @@ import mohamed from "../images/file (1).png"
 import {useNavigate} from "react-router-dom"
 // import Pay from "../pages/Pay"
 import { useEffect } from "react"
-export default function Main(){
+export default function Main(props){
 function uploadFile(input) {
     // Check if a file is selected
     if (input.files.length > 0) {
@@ -22,6 +22,7 @@ function uploadFile(input) {
     }
 }
 
+// head to pay when click the buy button
 const navigate = useNavigate();
 
 const handleButtonClick = () => {
@@ -29,20 +30,15 @@ const handleButtonClick = () => {
     navigate('/pay');
     window.scrollTo(0, 0);
 };
+
+
     return(
         <main>
         <div id="home" className="home">
             <div className="home-content">
                 
-                <div className="ads">
-                    <h3 className="ad-space">ِAd space #1</h3>
-                    <img src={adIcon} alt=""/>
-                    <h3 className="put-ad">Put your Ad here</h3>
-                    <h5>200 x 300 pixels</h5>
-                    <h3 className="contact-team">contact our team</h3>
-                </div>
 
-                <img className="logo" src={malero} alt=""/>
+                <img className="logo" src={props.logo} alt=""/>
                 <p className="first">
                     Harnessing Deep Learning for Evasive PDF Malware Detection, 
                     Pioneering a New Frontier with Efficient Net and Image Transformation.
@@ -66,6 +62,14 @@ const handleButtonClick = () => {
         
         <div id="premium" className="premium">
             <div className="premium-content">
+            <div className="ads">
+                    <h3 className="ad-space">ِAd space #1</h3>
+                    <img src={adIcon} alt=""/>
+                    <h3 className="put-ad">Put your Ad here</h3>
+                    <h5>200 x 300 pixels</h5>
+                    <h3 className="contact-team">contact our team</h3>
+                </div>
+
                 <h2>Try Premium Malero</h2>
                 <div className="packages">
                     <div className="free">
