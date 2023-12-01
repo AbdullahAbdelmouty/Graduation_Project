@@ -6,32 +6,33 @@ import diamondIcon from "../images/diamond 1.png"
 export default function PayMain(){
     return(
         <div className="pay-main">
-            <div className="user-details">
-                <input type="text" placeholder="Your name"/>
-                <input type="" placeholder="Your country"/>
-                <input type="phone" placeholder="Your phone number"/>
-                <input type="" placeholder="package"/>
-                <input type="numeric" placeholder="Card Number"/>
-                <input type="password" placeholder="Password"/>
-                <div className="date-CVV" >
-                    <input id="CVV" type placeholder="CVV"/>
-                    <input id="date" type="" placeholder="MM/YY"/>
-                </div>
-                <input placeholder="promo code (if you have)"/>
-                <input id="submit" type="submit" value="Confirm"/>
-            </div> 
-            <div className="logo-discount">
-                <img src={payLogo} alt="none"/>
-                <div className="discount">
-                    <button className="apply">Apply</button>
-                    <input id="show-discount"  type="submit" value="Discount 0%"/>
-                    <p>The New price is ...</p>
+            <div className="details-logo-discount">
+                <div className="user-details">
+                    <input type="text" placeholder="Your name"/>
+                    <input type="" placeholder="Your country"/>
+                    <input type="phone" placeholder="Your phone number"/>
+                    <input type="" placeholder="package"/>
+                    <input type="numeric" placeholder="Card Number"/>
+                    <input type="password" placeholder="Password"/>
+                    <div className="date-CVV" >
+                        <input id="CVV" type placeholder="CVV"/>
+                        <input id="date" type="" placeholder="MM/YY"/>
+                    </div>
+                    <input placeholder="promo code (if you have)"/>
+                    <input id="submit" type="submit" value="Confirm"/>
+                </div> 
+                <div className="logo-discount">
+                    <img src={payLogo} alt="none"/>
+                    <div className="discount">
+                        <button className="apply">Apply</button>
+                        <input id="show-discount"  type="submit" value="Discount 0%"/>
+                        <p>The New price is ...</p>
+                    </div>
                 </div>
             </div>
             <div className="remember">
+                <h3>Remember our packages</h3>
                 <div className="remember-packages">
-
-                    <h3>Remember our packages</h3>
                     <div className="gold">
                         <img src={goldIcon}  alt=""/>
                         <h3>Gold</h3>

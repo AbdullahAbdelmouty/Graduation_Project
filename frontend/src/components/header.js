@@ -12,12 +12,112 @@ import {useNavigate} from "react-router-dom"
 
 export default function Header(props){
     const navigate = useNavigate();
-    useEffect(() => {
+    useEffect(() => 
+    {
+        // select elements
         let mode = document.querySelector(".mode")
-        // console.log(mode)
+        let header=document.querySelector("header")
+        let body=document.querySelector("body")
+        let p1=document.querySelector(".home-content p.first")
+        let p2=document.querySelector(".home-content p.second")
+        let upload=document.querySelector(".home-content form")
+        let labelText=document.querySelector(".home-content form label")
+        let labelImage=document.querySelector(".home-content form img")
+        let ads=document.querySelector(".ads")
+        let adsText=document.querySelector(".ads h5")
+        let premiumText=document.querySelector(".premium-content h2")
+        let packages=document.querySelectorAll(".premium-content .packages div")
+        let packagesBtns=document.querySelectorAll(".premium-content .packages div button")
+        let packagesText3=document.querySelectorAll(".premium-content h3")
+        let packagesText4=document.querySelectorAll(".premium-content h4")
+        let packagesOR=document.querySelectorAll(".premium-content .month")
+        let btnsArrow=document.querySelectorAll(".premium-content button img")
+        let whyText2=document.querySelector(".why-content h2")
+        let whyText3=document.querySelectorAll(".why-content h3")
+        let whyText4=document.querySelectorAll(".why-content h4")
+        let whyPara=document.querySelector(".why-content p")
+        let aboutText=document.querySelector(".about-content h2")
+        let weContainer=document.querySelector(".about-content .we-text")
+        let contactContainer=document.querySelector(".contact-container")
+        let contactInputs=document.querySelectorAll(".contact-container input")
+        let contactNumber=document.querySelector(".contact-container .contact-number h4")
+        let contactNumberSpan=document.querySelector(".contact-container .contact-number h4 span")
+        let contactInputsPlace=document.querySelectorAll(".contact-container input::placeholder")
+        let contactBtn=document.querySelector(".contact-container .contact-number button")
+        let footer=document.querySelector("footer")
+        let footerLists=document.querySelectorAll(".footer-container ul li")
+        let copyText=document.querySelector(".copy-right h5")
+        console.log(footerLists)
+        // dark mode
         mode.addEventListener("click",()=>{
-
+            header.classList.toggle("dark")
+            body.classList.toggle("dark")
+            footer.classList.toggle("dark")
+            copyText.classList.toggle("dark")
+            footerLists.forEach((li)=>{
+                
+                li.classList.toggle("dark")
+            })
+            packagesText4.forEach((pack)=>{
+                
+                pack.classList.toggle("dark")
+            })
+            packages.forEach((pack)=>{
+                
+                pack.classList.toggle("dark")
+            })
+            packagesBtns.forEach((pack)=>{
+                
+                pack.classList.toggle("dark")
+            })
+            btnsArrow.forEach((btn)=>{
+                
+                btn.classList.toggle("dark")
+            })
+            packagesText3.forEach((pack)=>{
+                
+                pack.classList.toggle("dark")
+            })
+            packagesOR.forEach((pack)=>{
+                pack.classList.toggle("dark")
+            })
+            if(props.text==="Log in"){
+                
+                p1.classList.toggle("dark")
+                premiumText.classList.toggle("dark")
+                p2.classList.toggle("dark")
+                upload.classList.toggle("dark")
+                labelText.classList.toggle("dark")
+                labelImage.classList.toggle("dark")
+                ads.classList.toggle("dark")
+                adsText.classList.toggle("dark")
+                whyText2.classList.toggle("dark")
+                whyPara.classList.toggle("dark")
+                aboutText.classList.toggle("dark")
+                weContainer.classList.toggle("dark")
+                contactContainer.classList.toggle("dark")
+                contactNumber.classList.toggle("dark")
+                contactNumberSpan.classList.toggle("dark")
+                contactBtn.classList.toggle("dark")
+            whyText3.forEach((text3)=>{
+                
+                text3.classList.toggle("dark")
+            })
+            whyText4.forEach((text)=>{
+                
+                text.classList.toggle("dark")
+            })
+            contactInputs.forEach((inp)=>{
+                
+                inp.classList.toggle("dark")
+            })
+            contactInputsPlace.forEach((place)=>{
+                
+                place.classList.toggle("dark")
+            })
+        }
         })
+        // handle the appearance of the dropLogin
         let dropLogIn = document.querySelector(".form .drop-login");
         let logIn = document.querySelector(".form .login");
         function showDrop() {
@@ -45,6 +145,7 @@ export default function Header(props){
                 hideDrop();
             });
         }
+        // make the logout head to the home page
         if(props.text==="Log out"){
 
             const handleButtonClick = () => {
@@ -92,11 +193,11 @@ export default function Header(props){
                         <form className="login-form">
                             <div className="input-container">
                                 <img src={userIcon} alt=""/>
-                                <input type="text" placeholder="Email ID" required/>
+                                <input id="email" type="text" placeholder="Email ID" required/>
                             </div>
                             <div className="input-container">
                                 <img className="passIcon" src={passIcon} alt=""/>
-                                <input type="password" placeholder="Password" required/>
+                                <input id="pass" type="password" placeholder="Password" required/>
                             </div>
                             <label className="check-container">
                                 <p>Remember me</p> 
