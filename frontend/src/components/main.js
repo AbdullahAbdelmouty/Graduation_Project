@@ -35,7 +35,7 @@ const handleButtonClick = () => {
     return(
         <main>
         <div id="home" className="home">
-            <div className="home-content">
+            <div  className="home-content">
                 
 
                 <img className="logo" src={props.logo} alt=""/>
@@ -58,9 +58,9 @@ const handleButtonClick = () => {
             </div>
         </div>
         
-        <hr className="home-end"/>
+        <hr id="premium" className="home-end"/>
         
-        <div id="premium" className="premium">
+        <div className="premium">
             <div className="premium-content">
             <div className="ads">
                     <h3 className="ad-space">ِAd space #1</h3>
@@ -129,9 +129,9 @@ const handleButtonClick = () => {
                 </div>
         </div>
         
-            <hr className="why-end"/>
+            <hr id="about" className="why-end"/>
         
-        <div id="about" className="about">
+        <div  className="about">
                 <div className="about-content">
                     <h2>who are we ?</h2>
                     <div className="we">

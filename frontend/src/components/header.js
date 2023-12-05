@@ -47,15 +47,20 @@ export default function Header(props){
         let footer=document.querySelector("footer")
         let footerLists=document.querySelectorAll(".footer-container ul li")
         let copyText=document.querySelector(".copy-right h5")
-        console.log(footerLists)
+        
+
+        header.addEventListener("hover",()=>{
+            header.style.background="green"
+        })
         // dark mode
-        mode.addEventListener("click",()=>{
+        function darkModeHeadAndFoot(){
+
             header.classList.toggle("dark")
             body.classList.toggle("dark")
             footer.classList.toggle("dark")
             copyText.classList.toggle("dark")
             footerLists.forEach((li)=>{
-                
+            
                 li.classList.toggle("dark")
             })
             packagesText4.forEach((pack)=>{
@@ -81,8 +86,15 @@ export default function Header(props){
             packagesOR.forEach((pack)=>{
                 pack.classList.toggle("dark")
             })
-            if(props.text==="Log in"){
+        }
+        mode.addEventListener("click",()=>{
+            if(window.location.pathname==="/"||window.location.pathname==="/Home"||window.location.pathname==="/Sign"||window.location.pathname==="/pay"){
+                // window.localStorage.setItem("darkMode",(darkModeHeadAndFoot()))
+                darkModeHeadAndFoot()
+            }
+            if(window.location.pathname==="/"||window.location.pathname==="/Home"){
                 
+                // darkModeHeadAndFoot()
                 p1.classList.toggle("dark")
                 premiumText.classList.toggle("dark")
                 p2.classList.toggle("dark")
@@ -99,74 +111,113 @@ export default function Header(props){
                 contactNumber.classList.toggle("dark")
                 contactNumberSpan.classList.toggle("dark")
                 contactBtn.classList.toggle("dark")
-            whyText3.forEach((text3)=>{
-                
-                text3.classList.toggle("dark")
+                whyText3.forEach((text3)=>{
+                    
+                    text3.classList.toggle("dark")
+                })
+                whyText4.forEach((text)=>{
+                    
+                        text.classList.toggle("dark")
+                    })
+                    contactInputs.forEach((inp)=>{
+                        
+                        inp.classList.toggle("dark")
+                    })
+                    contactInputsPlace.forEach((place)=>{
+                        
+                        place.classList.toggle("dark")
+                    })
+                }
             })
-            whyText4.forEach((text)=>{
-                
-                text.classList.toggle("dark")
-            })
-            contactInputs.forEach((inp)=>{
-                
-                inp.classList.toggle("dark")
-            })
-            contactInputsPlace.forEach((place)=>{
-                
-                place.classList.toggle("dark")
-            })
-        }
-        })
-        // handle the appearance of the dropLogin
-        let dropLogIn = document.querySelector(".form .drop-login");
-        let logIn = document.querySelector(".form .login");
-        function showDrop() {
-            if (dropLogIn) {
-                dropLogIn.style.display = "block";
-            }
-        }
-        
-        function hideDrop() {
-            if (dropLogIn) {
-                dropLogIn.style.display = "none";
-            }
-        }
-        
-        if(props.text==="Log in"){
-
-            if (logIn) {
-                logIn.addEventListener("click", (event) => {
-                    event.stopPropagation(); // Prevent the click event from propagating to the document
-                    showDrop();
-                });
+            // handle the appearance of the dropLogin
+            let dropLogIn = document.querySelector(".form .drop-login");
+            let logIn = document.querySelector(".form .login");
+            function showDrop() {
+                if (dropLogIn) {
+                    dropLogIn.style.display = "block";
+                }
             }
             
-            document.addEventListener("dblclick", () => {
-                hideDrop();
-            });
-        }
-        // make the logout head to the home page
-        if(props.text==="Log out"){
-
-            const handleButtonClick = () => {
-                // Navigate to the 'pay' route
-                navigate('/Home');
-                window.scrollTo(0, 0);
-
-            };
-            logIn.addEventListener("click",()=>{
-                handleButtonClick()
+            function hideDrop() {
+                if (dropLogIn) {
+                    dropLogIn.style.display = "none";
+                }
+            }
+            
+            if(props.text==="Log in"){
+                
+                if (logIn) {
+                    logIn.addEventListener("click", (event) => {
+                        event.stopPropagation(); // Prevent the click event from propagating to the document
+                        showDrop();
+                    });
+                }
+                
+                document.addEventListener("dblclick", () => {
+                    hideDrop();
+                });
+            }
+            // make the logout head to the home page
+            if(props.text==="Log out"){
+                
+                const handleButtonClick = () => {
+                    // Navigate to the 'pay' route
+                    navigate('/Home');
+                    window.scrollTo(0, 0);
+                    
+                };
+                logIn.addEventListener("click",()=>{
+                    handleButtonClick()
+                })
+            }
+            // head to signup page
+            let SignUp=document.querySelector(".sign-up")
+            const goToSign = () => {
+                // Navigate to the 'Sign' route
+                navigate('/Sign');
+                window.scrollTo(0, 0);            
+                };
+                
+                
+                          
+            SignUp.addEventListener("click",()=>{
+                goToSign()
             })
+            //head to home page by the home word on the header 
+        let homeDiv=document.querySelector(".get-back-to-home")    
+        const goBackHome = () => {
+            
+            // Navigate to the 'pay' route
+            navigate('/Home');
+            window.scrollTo(0, 0);
+            highLightHome()
+            
+        };
+        homeDiv.addEventListener("click",()=>{
+            goBackHome()
+        })
+        // highlight the links if u get back to the home page
+        if(window.location.pathname==="/"||window.location.pathname==="/Home"){
+            highLightLinks()   
         }
-        window.addEventListener("load",()=>{
-            // select items off the links to make it colored when clicked
+        // function to highlight the links in the header
+        function highLightHome(){
+            
+            if(window.location.pathname==="/"||window.location.pathname==="/Home"){
+                
+                homeDiv.classList.add("clicked");
+            }
+        }
+        
+
+        // green background for the selected link     
+        function highLightLinks(){
+
             let links=document.querySelectorAll(".links li")
-            // green background for the selected link     
             links.forEach((link)=>{
                 
                 link.addEventListener("click",()=>{
                     link.classList.add("clicked");
-                    
                     links.forEach((otherLink)=>{
                         if(otherLink!==link){          
                             otherLink.classList.remove("clicked");
@@ -174,14 +225,18 @@ export default function Header(props){
                     });
                 });
             })
+        }
+        window.addEventListener("load",()=>{
+            // select items off the links to make it colored when clicked
+            highLightHome()
         })
     }, []); 
     return(
-                                
+        
         <div>
             <header>
                 <ul className="links">
-                    <li className="clicked"><img src={home} alt=""/> <a  href="#home">Home</a></li>
+                    <li  className="get-back-to-home" ><img src={home} alt=""/> <a   href="#home">Home</a></li>
                     <li><i className="fa-sharp fa-solid fa-crown"></i> <a  href="#premium">Premium</a></li>
                     <li><img src={about} alt=""/> <a  href="#about">About us</a></li>
                     <li><img src={contact} alt=""/> <a  href="#contact">Contact us</a></li>
