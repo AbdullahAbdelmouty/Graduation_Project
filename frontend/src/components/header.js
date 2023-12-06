@@ -25,6 +25,7 @@ export default function Header(props){
         let labelImage=document.querySelector(".home-content form img")
         let ads=document.querySelector(".ads")
         let adsText=document.querySelector(".ads h5")
+        let adsText1=document.querySelector(".premium .ads .ad-space")
         let premiumText=document.querySelector(".premium-content h2")
         let packages=document.querySelectorAll(".premium-content .packages div")
         let packagesBtns=document.querySelectorAll(".premium-content .packages div button")
@@ -48,10 +49,30 @@ export default function Header(props){
         let footerLists=document.querySelectorAll(".footer-container ul li")
         let copyText=document.querySelector(".copy-right h5")
         
+        // sign page elements
+        let inputSign=document.querySelectorAll(".fields input")
+        let signAds=document.querySelectorAll(".more-ads .ads")
+        let signAdsText=document.querySelectorAll(".more-ads .ads h5")
+        let signAdsText1=document.querySelectorAll(".more-ads .ads h1")
+        let signPic=document.querySelector(".fields-pic .sign-pic")
+        
+        // pay page elements
+        let rememberTitle=document.querySelector(".remember h3")
+        let payBackages=document.querySelectorAll(".remember-packages  div")
+        let payText=document.querySelectorAll(".remember-packages  div h3")
+        let payText4=document.querySelectorAll(".remember-packages  div h4")
+        let payMonth=document.querySelectorAll(".remember-packages .month")
+        let payInput=document.querySelectorAll(".pay-main input")
+        let applyBtn=document.querySelector(".logo-discount .discount .apply")
+        let payPara=document.querySelector(".logo-discount .discount p")
 
-        header.addEventListener("hover",()=>{
-            header.style.background="green"
-        })
+        // make the header transparent
+        // let scrollPos = document.documentElement.scrollTop || document.body.scrollTop;
+        window.onscroll = function () {
+            header.style.opacity="0.8"
+        }
+            
+        
         // dark mode
         function darkModeHeadAndFoot(){
 
@@ -103,6 +124,7 @@ export default function Header(props){
                 labelImage.classList.toggle("dark")
                 ads.classList.toggle("dark")
                 adsText.classList.toggle("dark")
+                adsText1.classList.toggle("dark")
                 whyText2.classList.toggle("dark")
                 whyPara.classList.toggle("dark")
                 aboutText.classList.toggle("dark")
@@ -117,17 +139,54 @@ export default function Header(props){
                 })
                 whyText4.forEach((text)=>{
                     
-                        text.classList.toggle("dark")
-                    })
-                    contactInputs.forEach((inp)=>{
+                    text.classList.toggle("dark")
+                })
+                contactInputs.forEach((inp)=>{
                         
-                        inp.classList.toggle("dark")
-                    })
-                    contactInputsPlace.forEach((place)=>{
+                    inp.classList.toggle("dark")
+                })
+                contactInputsPlace.forEach((place)=>{
                         
-                        place.classList.toggle("dark")
-                    })
+                    place.classList.toggle("dark")
+                })
                 }
+            if(window.location.pathname==="/Sign"){
+                signAds.forEach((ad)=>{
+                    ad.classList.toggle("dark")
+                })
+                signAdsText.forEach((text)=>{
+                    text.classList.toggle("dark")
+                })
+                signAdsText1.forEach((text)=>{
+                    text.classList.toggle("dark")
+                })
+                inputSign.forEach((inp)=>{
+                    inp.classList.toggle("dark")
+                    
+                })
+                signPic.classList.toggle("dark")
+            }
+            if(window.location.pathname==="/pay"){
+                rememberTitle.classList.toggle("dark")
+                payBackages.forEach((back)=>{
+                    back.classList.toggle("dark")
+                })
+                payText.forEach((text)=>{
+                    text.classList.toggle("dark")
+                })
+                payText4.forEach((text)=>{
+                    text.classList.toggle("dark")
+                })
+                payMonth.forEach((month)=>{
+                    month.classList.toggle("dark")
+
+                })
+                payInput.forEach((inp)=>{
+                    inp.classList.toggle("dark")
+                })
+                applyBtn.classList.toggle("dark")
+                payPara.classList.toggle("dark")
+            }
             })
             // handle the appearance of the dropLogin
             let dropLogIn = document.querySelector(".form .drop-login");
@@ -179,7 +238,7 @@ export default function Header(props){
                 };
                 
                 
-                          
+                        
             SignUp.addEventListener("click",()=>{
                 goToSign()
             })
@@ -226,6 +285,7 @@ export default function Header(props){
                 });
             })
         }
+
         window.addEventListener("load",()=>{
             // select items off the links to make it colored when clicked
             highLightHome()

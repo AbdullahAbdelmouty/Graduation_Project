@@ -63,7 +63,7 @@ const handleButtonClick = () => {
         <div className="premium">
             <div className="premium-content">
             <div className="ads">
-                    <h3 className="ad-space">ِAd space #1</h3>
+                    <h1 className="ad-space">ِAd space #1</h1>
                     <img src={adIcon} alt=""/>
                     <h3 className="put-ad">Put your Ad here</h3>
                     <h5>200 x 300 pixels</h5>
@@ -155,9 +155,9 @@ const handleButtonClick = () => {
                 </div>
         </div>
         
-            <hr className="about-end"/>
+            <hr id="contact" className="about-end"/>
         
-        <div id="contact" className="contact">
+        <div className="contact">
             <div className="contact-container">
                 <p>Have question ? Contact us.</p>
                 <input type="text" placeholder="Your name"></input>
