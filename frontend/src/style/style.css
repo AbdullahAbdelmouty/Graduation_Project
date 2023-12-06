@@ -1305,10 +1305,23 @@ footer.dark{
     content: "Sign up now!";
     width: 117px;
     left: 53%;
-    top: 50%;
+    top: 30%;
     height: 37px;
     color: rgb(64,63,94,35%);
     transform: translate(-50%,-50%);
+}
+@media screen and (max-width:1024px){
+    
+    .fields-pic .sign-pic::after{
+        position: absolute;
+        content: "Sign up now!";
+        width: 117px;
+        left: 53%;
+        top: 50%;
+        height: 37px;
+        color: rgb(64,63,94,35%);
+        transform: translate(-50%,-50%);
+    }
 }
 .fields-pic img{
     position: relative;
@@ -1349,6 +1362,7 @@ footer.dark{
 }
 .fields input.dark{
     background-color: #201F2F;
+    color: white;
 }    
 .fields input::placeholder{
     color: rgb(30, 30, 30,25%);
