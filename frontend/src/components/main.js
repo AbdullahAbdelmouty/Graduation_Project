@@ -35,7 +35,7 @@ const handleButtonClick = () => {
     return(
         <main>
         <div id="home" className="home">
-            <div className="home-content">
+            <div  className="home-content">
                 
 
                 <img className="logo" src={props.logo} alt=""/>
@@ -58,12 +58,12 @@ const handleButtonClick = () => {
             </div>
         </div>
         
-        <hr className="home-end"/>
+        <hr id="premium" className="home-end"/>
         
-        <div id="premium" className="premium">
+        <div className="premium">
             <div className="premium-content">
             <div className="ads">
-                    <h3 className="ad-space">ِAd space #1</h3>
+                    <h1 className="ad-space">ِAd space #1</h1>
                     <img src={adIcon} alt=""/>
                     <h3 className="put-ad">Put your Ad here</h3>
                     <h5>200 x 300 pixels</h5>
@@ -129,9 +129,9 @@ const handleButtonClick = () => {
                 </div>
         </div>
         
-            <hr className="why-end"/>
+            <hr id="about" className="why-end"/>
         
-        <div id="about" className="about">
+        <div  className="about">
                 <div className="about-content">
                     <h2>who are we ?</h2>
                     <div className="we">
@@ -155,9 +155,9 @@ const handleButtonClick = () => {
                 </div>
         </div>
         
-            <hr className="about-end"/>
+            <hr id="contact" className="about-end"/>
         
-        <div id="contact" className="contact">
+        <div className="contact">
             <div className="contact-container">
                 <p>Have question ? Contact us.</p>
                 <input type="text" placeholder="Your name"></input>
