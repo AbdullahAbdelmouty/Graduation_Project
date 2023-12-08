@@ -2,15 +2,71 @@ import payLogo from "../images/3d-hand-with-safe-payment-confirmation-bill 1.png
 import goldIcon from "../images/crown 1.png"
 import diamondIcon from "../images/diamond 1.png"
 // import arrow from "../images/Arrow 1.png"
-
+import React, { useState } from 'react';
 export default function PayMain(){
+    const countries = [
+        { name: 'USA', code: '+1' },
+        { name: 'Canada', code: '+1' },
+        { name: 'UK', code: '+44' },
+        { name: 'Germany', code: '+49' },
+        { name: 'France', code: '+33' },
+        { name: 'India', code: '+91' },
+        { name: 'Australia', code: '+61' },
+        { name: 'Egypt', code: '+02' },
+      ];
+    
+      // State to keep track of the selected country and phone number
+      const [selectedCountry, setSelectedCountry] = useState('');
+    //   const [selectColor, setSelectColor] = useState('rgb(30, 30, 30,30%)');
+      const [phoneNumber, setPhoneNumber] = useState('');
+      // Event handler for when a country is selected
+      const handleCountryChange = (event) => {
+        const selectedCountryName = event.target.value;
+        setSelectedCountry(selectedCountryName);
+    
+        // Find the selected country's phone code
+        const selectedCountryObject = countries.find(country => country.name === selectedCountryName);
+        const countryPhoneCode = selectedCountryObject ? selectedCountryObject.code : '';
+    
+        // Update the phone number with the country code
+        setPhoneNumber(countryPhoneCode);
+        // Change the color to black when a country is selected
+        
+        // setSelectColor('black');     
+    };
+    
+      // Event handler for when the phone number is entered
+    const handlePhoneNumberChange = (event) => {
+        setPhoneNumber(event.target.value);
+    }
     return(
         <div className="pay-main">
             <div className="details-logo-discount">
                 <div className="user-details">
                     <input type="text" placeholder="Your name"/>
-                    <input type="" placeholder="Your country"/>
-                    <input type="phone" placeholder="Your phone number"/>
+                    <div className="custom-dropdown-arrow">
+                    <select
+                    id="countryDropdown"
+                    value={selectedCountry}
+                    onChange={handleCountryChange}
+                    // style={{ color: selectColor}}
+                    >
+                    <option value="" disabled selected>Your Country</option>
+                    {countries.map((country) => (
+                    <option key={country.name} value={country.name}>
+                        {country.name}
+                    </option>
+                    ))}
+                </select>
+
+                </div>
+                <input
+                    type="phone"
+                    placeholder="Your phone number"
+                    value={phoneNumber}
+                    onChange={handlePhoneNumberChange}
+                    
+                    />
                     <input type="" placeholder="package"/>
                     <input type="numeric" placeholder="Card Number"/>
                     <input type="password" placeholder="Password"/>

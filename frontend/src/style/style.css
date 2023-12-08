@@ -542,6 +542,24 @@ header .form img{
 .premium-content .packages div button.dark{
     border: 1px solid white;
 }
+.premium-content .freeBtn:hover{
+
+    background-color: #2196F3;
+    color: #fff;
+    border: black 1px solid;
+}
+.premium-content .goldBtn:hover{
+
+    background-color: #FFB743;
+    color: #fff;
+    border: black 1px solid;
+}
+.premium-content .diamondBtn:hover{
+
+    background-color: #9857BD;
+    color: #fff;
+    border: black 1px solid;
+}
 .premium-content .freeBtn:active{
     background-color: #2196F3;
     color: #fff;
@@ -557,6 +575,11 @@ header .form img{
     background-color: #9857BD;
     border: black 1px solid;
     color: #fff;
+}
+.premium-content .freeBtn:hover img,
+.premium-content .goldBtn:hover img,
+.premium-content .diamondBtn:hover img {
+    filter: brightness(0) invert(1);
 }
 .premium-content .freeBtn:active img,
 .premium-content .goldBtn:active img,
@@ -977,6 +1000,7 @@ footer.dark{
 .pay-main input::placeholder{
     color: rgb(30, 30, 30,30%);
     font-size: 15px;
+
 }
 .pay-main input{
     margin-bottom: 24px;
@@ -988,7 +1012,68 @@ footer.dark{
     border-radius: 20px;
     width: 226px;
 }
+.pay-main select{
+    color: rgb(30, 30, 30,30%);
+    margin-bottom: 24px;
+    background-color: #FDF1D2;
+    outline: none;
+    border: none;
+    box-shadow: var(--drop-shadow);
+    border-radius: 20px;
+    width: 226px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 14px 0 14px 34px;
+    font-size: 16px;
+    
+}
+.pay-main select[selected]{
+color: red;
+}
+.custom-dropdown-arrow {
+    position: relative;
+    display: inline-block;
+}
+.custom-dropdown-arrow::after {
+    content: "";
+    position: absolute;
+    top: 36%;
+    right: 40px;
+    transform: translateY(-50%);
+    width: 0px;
+    height: 0px;
+    color: red;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid rgb(30, 30, 30,30%);
+}
+.custom-dropdown-arrow.dark::after {
+border-top: 5px solid white;
+}
+option {
+    color: black;
+    border-bottom: 1px solid black;
+    padding: 14px 0 14px 34px;
+}
+option.dark {
+    color: white;
+    
+}
+.pay-main select option[disabled] {
+    color: #777; /* Example: Light gray for disabled option */
+    padding: 14px 0 14px 14px ;
+    border-bottom: 1px solid black;
+}  
 .pay-main input.dark{
+    background-color: rgb(30,30,30,50%);
+    color: white;
+}
+.pay-main select.dark option[disabled] {
+    
+    /* color: rgb(255, 255, 255,30%); */
+}
+.pay-main select.dark{
     background-color: rgb(30,30,30,50%);
     color: white;
 }
@@ -996,10 +1081,17 @@ footer.dark{
     color: rgb(255, 255, 255,30%);
 }
 @media screen and (max-width:768px) {
-.pay-main input{
-    width: 80%;
-    padding:14px 5px 14px 14px;
-}
+    .pay-main input{
+        width: 80%;
+        padding:14px 5px 14px 14px;
+    }
+        .pay-main select{
+            width: 80%;
+            padding:14px 5px 14px 14px;
+        }
+        .custom-dropdown-arrow::after {
+            right: 30%;
+        }
 }
 .date-CVV{
     display: flex;
@@ -1060,7 +1152,7 @@ footer.dark{
 @media screen and (max-width:1024px) {
     
     .logo-discount img{
-        height: 70%;
+        height: 67.8%;
         width: 80%;
         margin-top: -10px;
     }
@@ -1085,9 +1177,6 @@ footer.dark{
         grid-template-columns: 1fr 1fr;
         align-items: end;
         row-gap: 40px;
-    }
-    .pay-main #submit{
-        
     }
     
     .pay-main #CVV,
