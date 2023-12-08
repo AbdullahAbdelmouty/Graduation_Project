@@ -63,6 +63,9 @@ export default function Header(props){
         let payText4=document.querySelectorAll(".remember-packages  div h4")
         let payMonth=document.querySelectorAll(".remember-packages .month")
         let payInput=document.querySelectorAll(".pay-main input")
+        let paySelect=document.querySelector(".pay-main select")
+        let selectArrow=document.querySelector(".custom-dropdown-arrow")
+        let payOption=document.querySelectorAll(".pay-main select option")
         let applyBtn=document.querySelector(".logo-discount .discount .apply")
         let payPara=document.querySelector(".logo-discount .discount p")
 
@@ -186,6 +189,11 @@ export default function Header(props){
                 })
                 applyBtn.classList.toggle("dark")
                 payPara.classList.toggle("dark")
+                paySelect.classList.toggle("dark")
+                payOption.forEach((opt)=>{
+                    opt.classList.toggle("dark")
+                })
+                selectArrow.classList.toggle("dark")
             }
             })
             // handle the appearance of the dropLogin
