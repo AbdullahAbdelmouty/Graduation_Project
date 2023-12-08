@@ -555,6 +555,9 @@ header .form img{
     border: black 1px solid;
 }
 .premium-content .diamondBtn:hover{
+    background-color: #9857BD;
+}
+.premium-content .diamondBtn:hover{
 
     background-color: #9857BD;
     color: #fff;
@@ -590,6 +593,18 @@ header .form img{
 .premium-content .goldBtn img.dark,
 .premium-content .diamondBtn img.dark {
     filter: brightness(0) invert(1);
+}
+.premium-content .freeBtn div.dark:first-child:hover{
+    background-color: #2196F3;
+    
+}
+.premium-content .goldBtn div.dark:first-child:hover{
+    background-color: #FFB743;
+    
+}
+.premium-content .diamondBtn div.dark:first-child:hover{
+    background-color: #9857BD;
+    
 }
 .premium-content .freeBtn div:first-child,
 .premium-content .goldBtn div:first-child,
