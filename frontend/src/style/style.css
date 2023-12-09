@@ -397,20 +397,35 @@ header .form img{
     }
     /* end of home style */
     /* start premium style */
+    /* @media screen and (max-width:1024) {
+        .premium .ads{
+            position: relative;
+            top: 0;
+            right: 0;
+        }
+    } */
 .premium .ads{
     background-color: #FEF7E5;
-    /* right: -180px; */
     box-shadow: var(--drop-shadow);
     width: 183px;
     height: 267px;
-    /* top: 110px; */
-    /* position: absolute; */
+    right: 40px;
+    top: 110px;
+    position: absolute;
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: space-evenly;
     font-weight: 100;
     margin: 117px auto 144px;
+}
+@media screen and (max-width:1024px) {
+    
+    .premium .ads{
+        position: relative;
+        right: 0;
+        top: 0;
+    }
 }
 .premium .ads.dark{
     background-color: #625F73;
@@ -1003,11 +1018,11 @@ footer.dark{
     flex-direction: column;
 }
 @media screen and (max-width:768px) {
-.pay-main .user-details{
-    width: 40%;
-    padding-left: 12px;
-    flex: 1;
-}
+    .pay-main .user-details{
+        width: 40%;
+        padding-left: 12px;
+        flex: 1;
+    }
 }
 .details-logo-discount{
     display: flex;
@@ -1015,7 +1030,13 @@ footer.dark{
 .pay-main input::placeholder{
     color: rgb(30, 30, 30,30%);
     font-size: 15px;
-
+    
+}
+@media screen and (max-width:768px) {
+    .pay-main input::placeholder{
+        
+        font-size: 12px;
+    }
 }
 .pay-main input{
     margin-bottom: 24px;
@@ -1043,8 +1064,11 @@ footer.dark{
     font-size: 16px;
     
 }
+/* .pay-main select::placeholder{
+    font-size: 12px;
+} */
 .pay-main select[selected]{
-color: red;
+    color: red;
 }
 .custom-dropdown-arrow {
     position: relative;
@@ -1064,7 +1088,7 @@ color: red;
     border-top: 5px solid rgb(30, 30, 30,30%);
 }
 .custom-dropdown-arrow.dark::after {
-border-top: 5px solid white;
+    border-top: 5px solid white;
 }
 option {
     color: black;
@@ -1100,13 +1124,20 @@ option.dark {
         width: 80%;
         padding:14px 5px 14px 14px;
     }
-        .pay-main select{
-            width: 80%;
-            padding:14px 5px 14px 14px;
-        }
-        .custom-dropdown-arrow::after {
-            right: 30%;
-        }
+    .pay-main select{
+        font-size: 12px;
+        width: 80%;
+        padding:14px 5px 14px 14px;
+        
+    }
+    .custom-dropdown-arrow::after {
+        right: 30%;
+    }
+}
+@media screen and (max-width:768px) {
+.pay-main input::placeholder{
+    font-size: 12px;
+}
 }
 .date-CVV{
     display: flex;
@@ -1148,6 +1179,11 @@ option.dark {
         justify-content: space-evenly;
     }
 }
+@media screen and (max-width:481px){
+    .pay-main #submit{
+        width: 50%;
+    }
+}
 .logo-discount::after{
     content: "";
     position: absolute;
@@ -1175,9 +1211,9 @@ option.dark {
 @media screen and (max-width:481px) {
     
     .logo-discount img{
-        height: 131px;
-        width: 121px;
-        
+        height: 154px;
+        width: 169px;
+    margin-top: 200px;    
     }
 }
 .logo-discount .discount {
@@ -1204,8 +1240,11 @@ option.dark {
     
     
     .logo-discount .discount {
-        padding-top: 320px;
+        height: 55%;
+        margin-top: 85px;
+        row-gap: 0;    
     }
+
 }
 .pay-main #show-discount{
     margin-bottom: 0px;
@@ -1251,6 +1290,12 @@ option.dark {
     color: white;
 }
 
+@media screen and (max-width:768px) {
+    .logo-discount .discount p{
+        font-size: 12px;
+        margin: auto 0 auto 0px;
+}
+}
 @media screen and (max-width:481px) {
     .logo-discount .discount p{
         
@@ -1322,6 +1367,7 @@ option.dark {
 }
 .remember-packages h4{
     color: var(--text-color);
+    font-weight: 400;
 }
 .remember-packages h4.dark{
     color: white;
@@ -1513,11 +1559,19 @@ option.dark {
     }
     .fields input{     
         width:initial;
+        font-size: 12px;
     }  
     .fields input.confirmDetails{
         /* width: 10%; */
     }
 }    
+@media screen and (max-width:481px) {
+
+    .fields input{     
+        width:initial;
+        font-size: 10px;
+    }  
+}
 @media screen and (max-width:768px) {
     .fields{
         width: 42%;
