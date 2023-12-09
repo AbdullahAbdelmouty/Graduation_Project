@@ -5,14 +5,14 @@ import diamondIcon from "../images/diamond 1.png"
 import React, { useState } from 'react';
 export default function PayMain(){
     const countries = [
-        { name: 'USA', code: '+1' },
-        { name: 'Canada', code: '+1' },
-        { name: 'UK', code: '+44' },
-        { name: 'Germany', code: '+49' },
-        { name: 'France', code: '+33' },
-        { name: 'India', code: '+91' },
-        { name: 'Australia', code: '+61' },
-        { name: 'Egypt', code: '+02' },
+        { name: 'USA', code: '+1-' },
+        { name: 'Canada', code: '+1-' },
+        { name: 'UK', code: '+44-' },
+        { name: 'Germany', code: '+49-' },
+        { name: 'France', code: '+33-' },
+        { name: 'India', code: '+91-' },
+        { name: 'Australia', code: '+61-' },
+        { name: 'Egypt', code: '+02-' },
       ];
     
       // State to keep track of the selected country and phone number
@@ -69,7 +69,7 @@ export default function PayMain(){
                     />
                     <input type="" placeholder="package"/>
                     <input type="numeric" placeholder="Card Number"/>
-                    <input type="password" placeholder="Password"/>
+                    <input type="text" placeholder="Name on card"/>
                     <div className="date-CVV" >
                         <input id="CVV" type placeholder="CVV"/>
                         <input id="date" type="" placeholder="MM/YY"/>
