@@ -18,5 +18,4 @@ urlpatterns = [
     path("update_operation/<int:id>", views.update_operation, name="update_operation"),
     path("delete_operation/<int:id>", views.delete_operation, name="delete_operation"),
     path("get_all_operations", views.get_all_operations, name="get_all_operations"),
-    
 ]
