@@ -782,6 +782,12 @@ header .form img{
         margin-bottom: 30px;
     }
 }
+@media screen  and (max-width:481px){
+    
+    .about-content .we div{
+        font-size: 12px;
+    }
+}
 .about-content .we span{
     display: flex;
     justify-content: center;
@@ -799,7 +805,7 @@ header .form img{
         margin-right: 6px;
         width: 141px;
         height: 141px;
-    
+        
     }
 }
 .about-content .we-text{
@@ -809,6 +815,12 @@ header .form img{
     font-weight: 100;
     font-size: 20px;
     border-radius: 50px;
+}
+@media screen  and (max-width:481px){
+    .about-content .we-text{
+        font-size: 12px;
+        
+    }
 }
 .about-content .we-text.dark{
     background-color: #3A3955;
@@ -873,6 +885,7 @@ header .form img{
 .contact-container input.dark{
     background-color: #46455F;
     border: 1px solid white;
+    color: white;
 }
 .contact-container input::placeholder{
     color: lightgray;   
@@ -1068,7 +1081,7 @@ footer.dark{
     font-size: 12px;
 } */
 .pay-main select[selected]{
-    color: red;
+    background-color: red;
 }
 .custom-dropdown-arrow {
     position: relative;
@@ -1100,7 +1113,7 @@ option.dark {
     
 }
 .pay-main select option[disabled] {
-    color: #777; /* Example: Light gray for disabled option */
+    color: #777; /* Light gray for disabled option */
     padding: 14px 0 14px 14px ;
     border-bottom: 1px solid black;
 }  
@@ -1213,12 +1226,20 @@ option.dark {
     .logo-discount img{
         height: 154px;
         width: 169px;
-    margin-top: 200px;    
-    }
+        margin-top: 200px;    
+}
 }
 .logo-discount .discount {
     display: flex;
+    margin-top: 75px;    
     align-items: flex-end;
+}
+@media screen and (max-width:1024px) {
+    
+    
+    .logo-discount .discount {
+        margin-top: 95px;
+    }
 }
 @media screen and (max-width:768px) {
     
@@ -1228,6 +1249,7 @@ option.dark {
         grid-template-columns: 1fr 1fr;
         align-items: end;
         row-gap: 40px;
+        margin-top: -30px;
     }
     
     .pay-main #CVV,
@@ -1241,7 +1263,7 @@ option.dark {
     
     .logo-discount .discount {
         height: 55%;
-        margin-top: 85px;
+        margin-top: 148px;
         row-gap: 0;    
     }
 
@@ -1255,6 +1277,7 @@ option.dark {
     
     .pay-main #show-discount{
         width: 20vw;    
+        font-size: 12px;
     }
 }
 .logo-discount .discount .apply{
@@ -1278,6 +1301,22 @@ option.dark {
     
     .logo-discount .discount .apply{
         margin: 0 24px 0 0px;
+}
+}
+@media screen and (max-width:768px) {
+    
+    
+    .logo-discount .discount .apply{
+        /* margin: 0 24px 0 0px; */
+        position: relative;
+
+}
+}
+@media screen and (max-width:1024px) {
+    
+    
+    .logo-discount .discount .apply{
+        /* margin: 0 24px 0 0px; */
 }
 }
 .logo-discount .discount p{

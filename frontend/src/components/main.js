@@ -30,9 +30,11 @@ const handleButtonClick = () => {
     navigate('/pay');
     window.scrollTo(0, 0);
 };
-
-
-    return(
+// function to scroll to upload when click the free btn
+function freeBtnScroll(){
+    window.scrollTo(0,0)
+}
+return(
         <main>
         <div id="home" className="home">
             <div  className="home-content">
@@ -58,7 +60,7 @@ const handleButtonClick = () => {
             </div>
         </div>
         
-        <hr id="premium" className="home-end"/>
+        <hr  className="home-end"/>
         
         <div className="premium">
             <div className="premium-content">
@@ -70,7 +72,7 @@ const handleButtonClick = () => {
                     <h3 className="contact-team">contact our team</h3>
                 </div>
 
-                <h2>Try Premium Malero</h2>
+                <h2 id="premium">Try Premium Malero</h2>
                 <div className="packages">
                     <div className="free">
                         <img src={freeIcon}  alt=""/>
@@ -79,7 +81,7 @@ const handleButtonClick = () => {
                         <span></span>
                         <h4>Limited usage</h4>
                         <h4>Ads </h4>
-                        <button className="freeBtn"><div>Try </div> <img src={arrow} alt=""/></button>
+                        <button onClick={freeBtnScroll} className="freeBtn"><div>Try </div> <img src={arrow} alt=""/></button>
                     </div>
                     <div className="gold">
                         <img src={goldIcon}  alt=""/>
