@@ -8,29 +8,29 @@ from rest_framework.decorators import api_view
 def index(requset):
     return HttpResponse("<h1>Home</h>")
 
-# add new user
+# add new customer
 @api_view(['POST'])
-def add_user(requset):
+def add_customer(requset):
     return Response({"status": "ok"})
 
-# get user
+# get customer
 @api_view(['GET'])
-def get_user(requrest, id):
+def get_customer(requrest, id):
     return Response({"status": "ok", "id": id})
 
-# update user
+# update customer
 @api_view(['PATCH'])
-def update_user(request, id):
+def update_customer(request, id):
     return Response({"status": "ok", "id": id})
 
-# delete user
+# delete customer
 @api_view(['DELETE'])
-def delete_user(request, id):
+def delete_customer(request, id):
     return Response({"status": "ok", "id": id})
 
-# get all users
+# get all customers
 @api_view(['GET'])
-def get_all_users(request):
+def get_all_customers(request):
     return Response({"status": "ok"})
 
 # add new package
@@ -58,28 +58,109 @@ def delete_package(request, id):
 def get_all_packages(request):
     return Response({"status": "ok"})
 
-# add new operation
+# add new upload
 @api_view(['POST'])
-def add_operation(request):
+def add_upload(request):
     return Response({"status": "ok"})
 
-# get operation
+# get upload
 @api_view(['GET'])
-def get_operation(request, id):
+def get_upload(request, id):
     return Response({"status": "ok", "id": id})
 
-# update operation
+# update upload
 @api_view(['PATCH'])
-def update_operation(request, id):
+def update_upload(request, id):
     return Response({"status": "ok", "id": id})
 
-# delete operation
+# delete upload
 @api_view(['DELETE'])
-def delete_operation(request, id):
+def delete_upload(request, id):
     return Response({"status": "ok", "id": id})
 
-# get all operations
+# get all uploads
 @api_view(['GET'])
-def get_all_operations(request):
+def get_all_uploads(request):
     return Response({"status": "ok"})
+
+# add new card
+@api_view(['POST'])
+def add_card(request):
+    return Response({"status": "ok"})
+
+# get card
+@api_view(['GET'])
+def get_card(request, id):
+    return Response({"status": "ok", "id": id})
+
+# update card
+@api_view(['PATCH'])
+def update_card(request, id):
+    return Response({"status": "ok", "id": id})
+
+# delete card
+@api_view(['DELETE'])
+def delete_card(request, id):
+    return Response({"status": "ok", "id": id})
+
+# get all cards
+@api_view(['GET'])
+def get_all_cards(request):
+    return Response({"status": "ok"})
+
+# add new coupon
+@api_view(['POST'])
+def add_coupon(request):
+    return Response({"status": "ok"})
+
+# get coupon
+@api_view(['GET'])
+def get_coupon(request, id):
+    return Response({"status": "ok", "id": id})
+
+# update coupon
+@api_view(['PATCH'])
+def update_coupon(request, id):
+    return Response({"status": "ok", "id": id})
+
+# delete coupon
+@api_view(['DELETE'])
+def delete_coupon(request, id):
+    return Response({"status": "ok", "id": id})
+
+# get all coupons
+@api_view(['GET'])
+def get_all_coupons(request):
+    return Response({"status": "ok"})
+
+# add new order
+@api_view(['POST'])
+def add_order(request):
+    return Response({"status": "ok"})
+
+# get order
+@api_view(['GET'])
+def get_order(request, id):
+    return Response({"status": "ok", "id": id})
+
+# update order
+@api_view(['PATCH'])
+def update_order(request, id):
+    return Response({"status": "ok", "id": id})
+
+# delete order
+@api_view(['DELETE'])
+def delete_order(request, id):
+    return Response({"status": "ok", "id": id})
+
+# get all orders
+@api_view(['GET'])
+def get_all_orders(request):
+    return Response({"status": "ok"})
+
+# get all uploads for specific customer
+@api_view(['GET'])
+def get_all_uploads_for_customer(request, id):
+    return Response({"status": "ok", "id": id})
+
 
