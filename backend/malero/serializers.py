@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from malero.models import Packages,Customers,Uploads,Cards,Coupons
+from malero.models import Packages,Customers,Uploads,Cards,Coupons,Orders
 
 # package serializer
 class PackagesSerializer(serializers.ModelSerializer):
@@ -26,4 +26,10 @@ class CardsSerializer(serializers.ModelSerializer):
 class CouponsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Coupons
-        fields = '__all__'        
+        fields = '__all__'       
+# order serializer
+class OrdersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Orders
+        fields = '__all__'
+                 

@@ -23,6 +23,9 @@ class Customers(models.Model):
     password = models.CharField(max_length=20, null=False, blank=True)
     # if packages is deleted then set to free package that is default
     package = models.ForeignKey(Packages, on_delete=models.SET_DEFAULT,default='free')
+    #maxOfupload,if it is 0 then the user can't upload any more
+    maxOfuploads = models.IntegerField(null=False, blank=True,default=3)
+    numberOfuploads = models.IntegerField(null=False, blank=True,default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
@@ -35,6 +38,7 @@ class Uploads(models.Model):
     image = models.CharField(max_length=400, null=False, blank=True)
     # if user is deleted then delete all uploads of that user
     user = models.ForeignKey(Customers, on_delete=models.CASCADE,null=True, blank=True)
+    orderNumber = models.ForeignKey('Orders', on_delete=models.CASCADE,null=True, blank=True)
     pdfName = models.CharField(max_length=100, null=False, blank=True)
     isBenign = models.BooleanField(default=False, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -70,3 +74,29 @@ class Coupons(models.Model):
     def __str__(self):
         # return self.couponCode
         return self.couponCode
+# orders model
+class Orders(models.Model):
+    orderNumber = models.AutoField(primary_key=True)
+    fullName = models.CharField(max_length=60, null=False, blank=True)
+    email = models.CharField(max_length=100, null=False, blank=True)
+    phoneNumber = models.IntegerField(null=False, blank=True)
+    country = models.CharField(max_length=60, null=False, blank=True)
+    # if user is deleted then delete all orders of that user
+    user = models.ForeignKey(Customers, on_delete=models.CASCADE,null=True, blank=True)
+    # if coupon is deleted then set to null
+    coupon = models.ForeignKey(Coupons, on_delete=models.SET_NULL,null=True, blank=True)
+    # if package is deleted then set to null
+    package = models.ForeignKey(Packages, on_delete=models.SET_NULL,null=True, blank=True)
+    period = models.IntegerField(null=False, blank=True)
+    cost = models.IntegerField(null=False, blank=True)
+    # if card is deleted then set to null
+    card = models.ForeignKey(Cards, on_delete=models.SET_NULL,null=True, blank=True)
+    nameOnCard = models.CharField(max_length=50, null=False, blank=True)
+    expiryDateCard = models.IntegerField(null=False, blank=True)
+    cvv = models.IntegerField(null=False, blank=True)
+    expiryDateOrder = models.DateTimeField( null=False, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    def __str__(self):
+        # return self.user
+        return self.user

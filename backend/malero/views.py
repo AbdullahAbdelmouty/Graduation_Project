@@ -132,3 +132,35 @@ def delete_coupon(request, id):
 @api_view(['GET'])
 def get_all_coupons(request):
     return Response({"status": "ok"})
+
+# add new order
+@api_view(['POST'])
+def add_order(request):
+    return Response({"status": "ok"})
+
+# get order
+@api_view(['GET'])
+def get_order(request, id):
+    return Response({"status": "ok", "id": id})
+
+# update order
+@api_view(['PATCH'])
+def update_order(request, id):
+    return Response({"status": "ok", "id": id})
+
+# delete order
+@api_view(['DELETE'])
+def delete_order(request, id):
+    return Response({"status": "ok", "id": id})
+
+# get all orders
+@api_view(['GET'])
+def get_all_orders(request):
+    return Response({"status": "ok"})
+
+# get all uploads for specific customer
+@api_view(['GET'])
+def get_all_uploads_for_customer(request, id):
+    return Response({"status": "ok", "id": id})
+
+
