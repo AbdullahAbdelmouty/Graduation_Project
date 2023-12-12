@@ -20,3 +20,4 @@ CREATE TABLE Users (
 );
 DROP TABLE Users;
 DROP TABLE Packegs;
+ALTER TABLE malero_packages DROP COLUMN keyName;

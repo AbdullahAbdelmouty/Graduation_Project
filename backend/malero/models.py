@@ -5,16 +5,17 @@ from django.db import models
 class Packages(models.Model):
     # image will be in cloundinary
     packageImage = models.CharField(max_length=400, null=False, blank=True)
-    packageName = models.CharField(max_length=30,primary_key=True)
-    pricePmonth = models.IntegerField(null=False, blank=True)
-    pricePyear = models.IntegerField(null=False, blank=True)
+    frontName = models.CharField(max_length=30, null=False, blank=True)
+    packageName = models.CharField(max_length=30,primary_key=True,default='free')
+    pricePmonth = models.CharField(max_length=30, null=False, blank=False)
+    pricePyear = models.CharField(max_length=30, null=False, blank=False)
     features = models.CharField(max_length=1000)
     numberOfuploads = models.IntegerField(null=False, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
         # return self.packageName
-        return self.packageName
+        return self.keyName
 # user model
 class Customers(models.Model):
     fullName = models.CharField(max_length=60, null=False, blank=True)
@@ -22,7 +23,7 @@ class Customers(models.Model):
     userName = models.CharField(max_length=50, primary_key=True,blank=True)
     password = models.CharField(max_length=20, null=False, blank=True)
     # if packages is deleted then set to free package that is default
-    package = models.ForeignKey(Packages, on_delete=models.SET_DEFAULT,default='free')
+    package = models.ForeignKey(Packages, on_delete=models.SET_NULL,null=True)
     #maxOfupload,if it is 0 then the user can't upload any more
     maxOfuploads = models.IntegerField(null=False, blank=True,default=3)
     numberOfuploads = models.IntegerField(null=False, blank=True,default=0)
@@ -87,7 +88,7 @@ class Orders(models.Model):
     coupon = models.ForeignKey(Coupons, on_delete=models.SET_NULL,null=True, blank=True)
     # if package is deleted then set to null
     package = models.ForeignKey(Packages, on_delete=models.SET_NULL,null=True, blank=True)
-    period = models.IntegerField(null=False, blank=True)
+    period = models.CharField(max_length=30, null=False, blank=True)
     cost = models.IntegerField(null=False, blank=True)
     # if card is deleted then set to null
     card = models.ForeignKey(Cards, on_delete=models.SET_NULL,null=True, blank=True)
@@ -100,3 +101,4 @@ class Orders(models.Model):
     def __str__(self):
         # return self.user
         return self.user
+    

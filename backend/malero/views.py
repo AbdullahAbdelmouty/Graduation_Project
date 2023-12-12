@@ -3,15 +3,33 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-# Create your views here.
-
+# import models
+from .models import Customers as Customer
+from .models import Packages as Package
+from .models import Uploads as Upload
+from .models import Cards as Card
+from .models import Coupons as Coupon
+from .models import Orders as Order
+# import serializers
+from .serializers import CustomersSerializer
+from .serializers import PackagesSerializer
+from .serializers import UploadsSerializer
+from .serializers import CardsSerializer
+from .serializers import CouponsSerializer
+from .serializers import OrdersSerializer
+# views
 def index(requset):
     return HttpResponse("<h1>Home</h>")
 
 # add new customer
 @api_view(['POST'])
 def add_customer(requset):
-    return Response({"status": "ok"})
+    newCustomer = Customer.objects.create(requset.data)
+    if newCustomer:
+        serializer = CustomersSerializer(newCustomer)
+        return Response(serializer.data)
+    else:
+        return Response({"status": "failed"})
 
 # get customer
 @api_view(['GET'])
@@ -31,7 +49,9 @@ def delete_customer(request, id):
 # get all customers
 @api_view(['GET'])
 def get_all_customers(request):
-    return Response({"status": "ok"})
+    getAllCustomers = Customer.objects.all()
+    serializer = CustomersSerializer(getAllCustomers, many=True)
+    return Response(serializer.data)
 
 # add new package
 @api_view(['POST'])
@@ -56,7 +76,9 @@ def delete_package(request, id):
 # get all packages
 @api_view(['GET'])
 def get_all_packages(request):
-    return Response({"status": "ok"})
+    getAllPackages = Package.objects.all()
+    serializer = PackagesSerializer(getAllPackages, many=True)
+    return Response(serializer.data)
 
 # add new upload
 @api_view(['POST'])
@@ -158,9 +180,17 @@ def delete_order(request, id):
 def get_all_orders(request):
     return Response({"status": "ok"})
 
+# get order for specific customer
+@api_view(['GET'])
+def get_order_for_customer(request, userName):
+    getCustomerOrder = Order.objects.filter(user=userName)
+    serializer = OrdersSerializer(getCustomerOrder, many=True)
+    return Response(serializer.data)
 # get all uploads for specific customer
 @api_view(['GET'])
-def get_all_uploads_for_customer(request, id):
-    return Response({"status": "ok", "id": id})
+def get_all_uploads_for_customer(request, userName):
+    getAllUploads = Upload.objects.filter(user=userName)
+    serializer = UploadsSerializer(getAllUploads, many=True)
+    return Response(serializer.data)
 
 

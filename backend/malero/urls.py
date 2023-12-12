@@ -30,9 +30,10 @@ urlpatterns = [
     path("get_all_coupons", views.get_all_coupons, name="get_all_coupons"),
     path("add_order", views.add_order, name="add_order"),
     path("get_order/<int:id>", views.get_order, name="get_order"),
+    path("get_order_for_customer/<int:userName>", views.get_order_for_customer, name="get_order_for_customer"),
     path("update_order/<int:id>", views.update_order, name="update_order"),
     path("delete_order/<int:id>", views.delete_order, name="delete_order"),
     path("get_all_orders", views.get_all_orders, name="get_all_orders"),
-    path("get_all_uploads_for_customer/<int:id>", views.get_all_uploads_for_customer, name="get_all_uploads_for_specific_customer"),
+    path("get_all_uploads_for_customer/<int:userName>", views.get_all_uploads_for_customer, name="get_all_uploads_for_specific_customer"),
 
 ]
