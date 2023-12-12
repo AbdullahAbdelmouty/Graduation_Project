@@ -39,35 +39,58 @@ export default function PayMain(){
     const handlePhoneNumberChange = (event) => {
         setPhoneNumber(event.target.value);
     }
+    const [selectedDuration, setSelectedDuration] = useState('');
+
+    const handleDurationChange = (event) => {
+      setSelectedDuration(event.target.value);
+    };
+    const [selectedType, setSelectedType] = useState('');
+
+    const handleTypeChange = (event) => {
+      setSelectedType(event.target.value);
+    };
     return(
         <div className="pay-main">
             <div className="details-logo-discount">
                 <div className="user-details">
                     <input type="text" placeholder="Your name"/>
                     <div className="custom-dropdown-arrow">
-                    <select
-                    id="countryDropdown"
-                    value={selectedCountry}
-                    onChange={handleCountryChange}
-                    // style={{ color: selectColor}}
-                    >
-                    <option value="" disabled selected>Your Country</option>
-                    {countries.map((country) => (
-                    <option key={country.name} value={country.name}>
-                        {country.name}
-                    </option>
-                    ))}
-                </select>
+                        <select
+                        id="countryDropdown"
+                        value={selectedCountry}
+                        onChange={handleCountryChange}
+                        // style={{ color: selectColor}}
+                        >
+                        <option value="" disabled selected>Your Country</option>
+                        {countries.map((country) => (
+                        <option key={country.name} value={country.name}>
+                            {country.name}
+                        </option>
+                        ))}
+                        </select>
 
-                </div>
-                <input
+                    </div>
+                    <input  
                     type="phone"
                     placeholder="Your phone number"
                     value={phoneNumber}
                     onChange={handlePhoneNumberChange}
                     
                     />
-                    <input type="" placeholder="package"/>
+                    <div className="custom-dropdown-arrow">
+                    <select id="packageDuration"  value={selectedDuration} onChange={handleDurationChange}>
+                        <option value="" selected disabled> Packet duration</option>
+                        <option value="month">Month</option>
+                        <option value="year">Year</option>
+                    </select>
+                    </div>
+                    <div className="custom-dropdown-arrow">
+                    <select id="packageType"  value={selectedType} onChange={handleTypeChange}>
+                        <option value="" selected disabled>Packet type</option>
+                        <option value="gold">Gold</option>
+                        <option value="diamond">Diamond</option>
+                    </select>
+                    </div>
                     <input type="numeric" placeholder="Card Number"/>
                     <input type="text" placeholder="Name on card"/>
                     <div className="date-CVV" >
