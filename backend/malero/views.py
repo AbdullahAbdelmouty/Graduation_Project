@@ -17,19 +17,62 @@ from .serializers import UploadsSerializer
 from .serializers import CardsSerializer
 from .serializers import CouponsSerializer
 from .serializers import OrdersSerializer
+# forms
+from .forms import UploadForm, PdfUploadForm
 # views
 def index(requset):
     return HttpResponse("<h1>Home</h>")
-
-# add new customer
+# upload image
 @api_view(['POST'])
-def add_customer(requset):
+def upload_image(request):
+    if request.method == 'POST':
+        form = UploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Save the form data to the model
+            upload_instance = form.save(commit=False)
+            # Save the instance with the updated user field
+            upload_instance.save()
+            # Get the URL for the uploaded image
+            print(upload_instance.image)
+            # image_url = upload_instance.image.url if upload_instance.image else None
+            return Response({"url": upload_instance.image})
+        else:
+            return Response({"status": "failed", "errors": form.errors})
+    else:
+        return Response({"status": "failed"})
+
+# upload pdf
+@api_view(['POST'])
+def upload_pdf(request):
+    if request.method == 'POST':
+        form = PdfUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Save the form data to the model
+            upload_instance = form.save(commit=False)
+            # Save the instance with the updated user field
+            upload_instance.save()
+            # Get the URL for the uploaded image
+            print(upload_instance.pdf)
+            # image_url = upload_instance.image.url if upload_instance.image else None
+            return Response({"url": upload_instance.pdf})
+        else:
+            return Response({"status": "failed", "errors": form.errors})
+    else:
+        return Response({"status": "failed"})    
+# Sign up
+@api_view(['POST'])
+def sign_up(requset):
     newCustomer = Customer.objects.create(requset.data)
     if newCustomer:
         serializer = CustomersSerializer(newCustomer)
         return Response(serializer.data)
     else:
         return Response({"status": "failed"})
+
+# Sign in
+@api_view(['POST'])
+def sign_in(request):
+    return Response({"status": "ok"})
 
 # get customer
 @api_view(['GET'])
@@ -56,7 +99,14 @@ def get_all_customers(request):
 # add new package
 @api_view(['POST'])
 def add_package(request):
-    return Response({"status": "ok"})
+    print(request.data)
+    try:
+        newPackage = Package.objects.create(**request.data)
+        serializer = PackagesSerializer(newPackage)
+        return Response(serializer.data)
+    except:
+        return Response({"status": "failed"})
+    
 
 # get package
 @api_view(['GET'])

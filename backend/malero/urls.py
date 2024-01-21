@@ -3,7 +3,10 @@ from . import views
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("add_customer", views.add_customer, name="add_customer"),
+    path("upload_image", views.upload_image, name="upload_image"),
+    path("upload_pdf", views.upload_pdf, name="upload_pdf"),
+    path("sign_up", views.sign_up, name="sign_up"),
+    path("sign_in", views.sign_in, name="sign_in"),
     path("get_customer/<int:id>", views.get_customer, name="get_customer"),
     path("update_customer/<int:id>", views.update_customer, name="update_customer"),
     path("delete_customer/<int:id>", views.delete_customer, name="delete_customer"),
