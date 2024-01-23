@@ -1,4 +1,6 @@
 from django.shortcuts import render
+import os
+from PIL import Image
 from django.http import HttpResponse
 from django.http import JsonResponse
 from rest_framework.response import Response
@@ -19,6 +21,8 @@ from .serializers import CouponsSerializer
 from .serializers import OrdersSerializer
 # forms
 from .forms import UploadForm, PdfUploadForm
+# machine learning model
+from malero.ML.model import ML_Model
 # views
 def index(requset):
     return HttpResponse("<h1>Home</h>")
@@ -53,6 +57,13 @@ def upload_pdf(request):
             upload_instance.save()
             # Get the URL for the uploaded image
             print(upload_instance.pdf)
+            print(str(upload_instance.pdf).split("/")[-1])
+            ml_obj = ML_Model()
+            # convert pdf to binary
+            uploaded_pdf = 'media/malero/uploads/pdfs/'
+            out_binaries = 'media/binaries/'
+            file_name = str(upload_instance.pdf).split("/")[-1]
+            ml_obj.convert_to_binary(uploaded_pdf,file_name,out_binaries)
             # image_url = upload_instance.image.url if upload_instance.image else None
             return Response({"url": upload_instance.pdf})
         else:

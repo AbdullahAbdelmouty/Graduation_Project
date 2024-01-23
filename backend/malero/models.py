@@ -51,14 +51,14 @@ class Uploads(models.Model):
 
 # image upload model
 class ImageUpload(models.Model):
-    image = models.ImageField(upload_to='uploads/images/')
+    image = models.ImageField(upload_to='malero/uploads/images/')
     created_at = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return str(self.image)  
 
 # pdf upload model
 class PdfUpload(models.Model):
-    pdf = models.FileField(upload_to='uploads/pdfs/')
+    pdf = models.FileField(upload_to='malero/uploads/pdfs/')
     created_at = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return str(self.pdf)    
