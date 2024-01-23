@@ -21,6 +21,40 @@ class ML_Model:
                     with open(output_file_path, 'wb') as output_file:
                         output_file.write(data)
 
+    @staticmethod
+    def file_to_png(infile_path, outfile_path, dimensions=(128, 128)):
+        try:
+            with open(infile_path, 'rb') as infile:
+                byte_data = infile.read()
+                img = Image.new('RGB', dimensions)
+                pixels = img.load()
+                byte_index = 0
+                for y in range(dimensions[1]):
+                    for x in range(dimensions[0]):
+                        r = byte_data[byte_index] if byte_index < len(byte_data) else 0
+                        g = byte_data[byte_index + 1] if byte_index + 1 < len(byte_data) else 0
+                        b = byte_data[byte_index + 2] if byte_index + 2 < len(byte_data) else 0
+                        pixels[x, y] = (r, g, b)
+                        byte_index += 3
+                img.save(outfile_path, format="PNG")
+        except Exception as e:
+            print(f"Error processing file {infile_path}: {str(e)}")
+
+    @staticmethod
+    def convert_binaries_to_images(src_folder,file_name, dest_folder, dimensions=(128, 128)):
+        if not os.path.exists(dest_folder):
+            os.makedirs(dest_folder)
+            print(file_name,"file_name in convert_binaries_to_images 1")
+            
+            if file_name.endswith(".bin"):
+                print(file_name,"file_name in convert_binaries_to_images")
+                src_file_path = os.path.join(src_folder, file_name)
+                dest_file_path = os.path.join(dest_folder, file_name.replace('.bin', '.png'))
+                ML_Model.file_to_png(src_file_path, dest_file_path, dimensions)    
+
+
+                
+
 
 # # Paths to the input directories
 # benign_pdfs = 'Benign_PDF'

@@ -64,6 +64,12 @@ def upload_pdf(request):
             out_binaries = 'media/binaries/'
             file_name = str(upload_instance.pdf).split("/")[-1]
             ml_obj.convert_to_binary(uploaded_pdf,file_name,out_binaries)
+            # convert binary to png
+            out_png = 'media/pngs/'
+            fixed_dimensions = (128, 128)
+            file_name_with_blus_bin = file_name + '.bin'
+            print(file_name_with_blus_bin,"file_name_with_blus_bin")
+            ml_obj.convert_binaries_to_images(out_binaries,file_name_with_blus_bin,out_png,fixed_dimensions)
             # image_url = upload_instance.image.url if upload_instance.image else None
             return Response({"url": upload_instance.pdf})
         else:
