@@ -260,8 +260,8 @@ def get_order_for_customer(request, userName):
     serializer = OrdersSerializer(getCustomerOrder, many=True)
     return Response(serializer.data)
 # get all uploads for specific customer
-# @api_view(['GET'])
-# def get_all_uploads_for_customer(request, userName):
-#     getAllUploads = Upload.objects.filter(user=userName)
-#     serializer = UploadsSerializer(getAllUploads, many=True)
-#     return Response(serializer.data)
+@api_view(['GET'])
+def get_all_uploads_for_customer(request, userName):
+    getAllUploads = Upload.objects.filter(user=userName)
+    serializer = UploadsSerializer(getAllUploads, many=True)
+    return Response(serializer.data)
