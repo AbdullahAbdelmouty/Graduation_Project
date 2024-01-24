@@ -1,4 +1,5 @@
 import os
+import tensorflow as tf
 from PIL import Image
 class ML_Model:
     @staticmethod
@@ -46,12 +47,27 @@ class ML_Model:
             os.makedirs(dest_folder)
             print(file_name,"file_name in convert_binaries_to_images 1")
             
-            if file_name.endswith(".bin"):
-                print(file_name,"file_name in convert_binaries_to_images")
-                src_file_path = os.path.join(src_folder, file_name)
-                dest_file_path = os.path.join(dest_folder, file_name.replace('.bin', '.png'))
-                ML_Model.file_to_png(src_file_path, dest_file_path, dimensions)    
+        if file_name.endswith(".bin"):
+            print(file_name,"file_name in convert_binaries_to_images")
+            src_file_path = os.path.join(src_folder, file_name)
+            dest_file_path = os.path.join(dest_folder, file_name.replace('.bin', '.png'))
+            ML_Model.file_to_png(src_file_path, dest_file_path, dimensions)    
 
+    @staticmethod
+    def predict( image_path, model_path):
+        print(image_path,"image_path")
+        modele = tf.keras.models.load_model(model_path)
+        print(modele,"model")
+        img = tf.keras.preprocessing.image.load_img(image_path, target_size=(128, 128))
+        print(img,"img")
+        img_array = tf.keras.preprocessing.image.img_to_array(img)
+        print(img_array,"img_array")
+        img_array = tf.expand_dims(img_array, 0) # Create a batch
+        print(img_array,"img_array")
+        predictions = modele.predict(img_array)
+        print(predictions,"predictions")
+        
+     
 
                 
 

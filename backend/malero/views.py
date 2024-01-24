@@ -1,6 +1,7 @@
 from django.shortcuts import render
 import os
 from PIL import Image
+import tensorflow as tf
 from django.http import HttpResponse
 from django.http import JsonResponse
 from rest_framework.response import Response
@@ -58,6 +59,7 @@ def upload_pdf(request):
             # Get the URL for the uploaded image
             print(upload_instance.pdf)
             print(str(upload_instance.pdf).split("/")[-1])
+            model_path = 'media/model_file/best_weights.h5'
             ml_obj = ML_Model()
             # convert pdf to binary
             uploaded_pdf = 'media/malero/uploads/pdfs/'
@@ -70,7 +72,11 @@ def upload_pdf(request):
             file_name_with_blus_bin = file_name + '.bin'
             print(file_name_with_blus_bin,"file_name_with_blus_bin")
             ml_obj.convert_binaries_to_images(out_binaries,file_name_with_blus_bin,out_png,fixed_dimensions)
-            # image_url = upload_instance.image.url if upload_instance.image else None
+            # pass png to model
+            file_name_with_blus_png = file_name + '.png'
+            image_path = 'media/pngs/' + file_name_with_blus_png
+            result = ml_obj.predict(image_path,model_path)
+            print(result,"result")
             return Response({"url": upload_instance.pdf})
         else:
             return Response({"status": "failed", "errors": form.errors})
@@ -259,5 +265,3 @@ def get_all_uploads_for_customer(request, userName):
     getAllUploads = Upload.objects.filter(user=userName)
     serializer = UploadsSerializer(getAllUploads, many=True)
     return Response(serializer.data)
-
-
