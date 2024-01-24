@@ -77,7 +77,7 @@ def upload_pdf(request):
             image_path = 'media/pngs/' + file_name_with_blus_png
             result = ml_obj.predict(image_path,model_path)
             print(result,"result")
-            return Response({"url": upload_instance.pdf})
+            return Response({ "result": result})
         else:
             return Response({"status": "failed", "errors": form.errors})
     else:
@@ -85,11 +85,13 @@ def upload_pdf(request):
 # Sign up
 @api_view(['POST'])
 def sign_up(requset):
-    newCustomer = Customer.objects.create(requset.data)
-    if newCustomer:
+    try:
+        # destrucring the request data
+        print(requset.data)
+        newCustomer = Customer.objects.create(**requset.data)
         serializer = CustomersSerializer(newCustomer)
         return Response(serializer.data)
-    else:
+    except:
         return Response({"status": "failed"})
 
 # Sign in
