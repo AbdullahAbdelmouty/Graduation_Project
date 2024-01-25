@@ -27,6 +27,12 @@ from malero.ML.model import ML_Model
 # views
 def index(requset):
     return HttpResponse("<h1>Home</h>")
+
+# test for mcu
+@api_view(['POST'])
+def test(request):
+    print(request.data)
+    return Response({"status": "ok"})
 # upload image
 @api_view(['POST'])
 def upload_image(request):
