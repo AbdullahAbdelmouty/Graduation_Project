@@ -15,13 +15,17 @@ import {useNavigate} from "react-router-dom"
 import { useEffect } from "react"
 export default function Main(props){
     const url = "http://127.0.0.1:8000/api/upload_pdf"
-function uploadFile(input) {
-    // Check if a file is selected
-    if (input.files.length > 0) {
-        // Automatically submit the form when a file is selected
-        input.closest('form').submit();
-    }
-}
+    const uploadFile = async (event) => {
+        event.preventDefault();
+        const formData = new FormData();
+        formData.append('pdf', event.target.files[0]);
+        const response = await fetch(url, {
+            method: 'POST',
+            body: formData
+        });
+        const data = await response.json();
+        console.log(data);
+    };
 
 // head to pay when click the buy button
 const navigate = useNavigate();
@@ -48,7 +52,7 @@ return(
                 </p>
                 <form>
                     <label htmlFor="file">Upload/drag and drop your PDF </label>
-                    <input className="input-pdf" type="file" name="file" id="file" onChange={(event) => uploadFile(event.target)}/>
+                    <input className="input-pdf" type="file" name="file" id="file" onChange={(event) => uploadFile(event)}/>
                     {/* <img src={upload} alt="" onClick={() => document.getElementById('file').click()}/> */}
                 </form>
 
