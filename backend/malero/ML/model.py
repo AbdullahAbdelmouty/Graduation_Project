@@ -61,36 +61,14 @@ class ML_Model:
 
     @staticmethod
     def predict( image_path, model_path):
-        base_model = tf.keras.applications.EfficientNetB0(include_top=False, weights="imagenet",input_shape=(128,128,3))
         reconstructed_model = tf.keras.Sequential([
-                base_model,
-                GlobalAveragePooling2D(),
-                Dense(1, activation='sigmoid')])
-
+            tf.keras.applications.EfficientNetB0(include_top=False, weights="imagenet", input_shape=(128, 128, 3)),
+            GlobalAveragePooling2D(),
+            Dense(1, activation='sigmoid')
+        ])
         reconstructed_model.load_weights(model_path)
-
-        # Load your image and preprocess it
-        img = Image.open(image_path).resize((128, 128))  # Resize the image to match the input shape
-        img_array = np.array(img) / 255.0  # Normalize pixel values to be between 0 and 1
-        img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
-        # Make a prediction
+        img = Image.open(image_path).resize((128, 128))
+        img_array = np.expand_dims(img, axis=0)
         prediction = reconstructed_model.predict(img_array)
-        # Print the prediction
-        print("Probability of being in class 1:", prediction[0, 0])
         return prediction[0, 0]
         
-     
-
-                
-
-
-# # Paths to the input directories
-# benign_pdfs = 'Benign_PDF'
-# mal_pdfs = 'Mal_PDF'
-
-# # Paths to the output directories
-# benign_bins = 'Benign_bin'
-# mal_bins = 'Mal_bin'
-
-# # Convert PDFs to binary format and save in corresponding directories
-# convert_to_binary(benign_pdfs,"Lec_1_2.pdf", benign_bins)
