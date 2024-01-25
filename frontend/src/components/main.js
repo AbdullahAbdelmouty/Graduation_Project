@@ -14,6 +14,7 @@ import {useNavigate} from "react-router-dom"
 // import Pay from "../pages/Pay"
 import { useEffect } from "react"
 export default function Main(props){
+    const url = "http://127.0.0.1:8000/api/upload_pdf"
 function uploadFile(input) {
     // Check if a file is selected
     if (input.files.length > 0) {
@@ -45,10 +46,10 @@ return(
                     Harnessing Deep Learning for Evasive PDF Malware Detection, 
                     Pioneering a New Frontier with Efficient Net and Image Transformation.
                 </p>
-                <form action="upload.php" method="post" enctype="multipart/form-data">
+                <form>
                     <label htmlFor="file">Upload/drag and drop your PDF </label>
                     <input className="input-pdf" type="file" name="file" id="file" onChange={(event) => uploadFile(event.target)}/>
-                    <img src={upload} alt="" onClick={() => document.getElementById('file').click()}/>
+                    {/* <img src={upload} alt="" onClick={() => document.getElementById('file').click()}/> */}
                 </form>
 
                 <p className="second">
