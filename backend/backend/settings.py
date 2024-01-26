@@ -15,9 +15,14 @@ import os
 
 
 
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# all upload files will be in media folder
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -28,12 +33,17 @@ SECRET_KEY = 'django-insecure-=x-oq5iewus_sm2k)wqkufg1$+_1$y_7yf8lwm=!(9+6wan*02
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["malero.onrender.com","127.0.0.1"]
+# allow to node mcu esp_8266 12E to send request to this server
+# ALLOWED_HOSTS = ["malero.onrender.com"," 
+ALLOWED_HOSTS = ["*"]
+
+# ALLOWED_HOSTS = ["malero.onrender.com","127.0.0.1"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,6 +55,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', # corsheaders
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -52,6 +63,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "https://malero.vercel.app"
 ]
 
 ROOT_URLCONF = 'backend.urls'

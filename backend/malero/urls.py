@@ -3,7 +3,11 @@ from . import views
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("add_customer", views.add_customer, name="add_customer"),
+    path("test_mcu", views.test, name="test"),
+    path("upload_image", views.upload_image, name="upload_image"),
+    path("upload_pdf", views.upload_pdf, name="upload_pdf"),
+    path("sign_up", views.sign_up, name="sign_up"),
+    path("sign_in", views.sign_in, name="sign_in"),
     path("get_customer/<int:id>", views.get_customer, name="get_customer"),
     path("update_customer/<int:id>", views.update_customer, name="update_customer"),
     path("delete_customer/<int:id>", views.delete_customer, name="delete_customer"),
@@ -30,9 +34,10 @@ urlpatterns = [
     path("get_all_coupons", views.get_all_coupons, name="get_all_coupons"),
     path("add_order", views.add_order, name="add_order"),
     path("get_order/<int:id>", views.get_order, name="get_order"),
+    path("get_order_for_customer/<int:userName>", views.get_order_for_customer, name="get_order_for_customer"),
     path("update_order/<int:id>", views.update_order, name="update_order"),
     path("delete_order/<int:id>", views.delete_order, name="delete_order"),
     path("get_all_orders", views.get_all_orders, name="get_all_orders"),
-    path("get_all_uploads_for_customer/<int:id>", views.get_all_uploads_for_customer, name="get_all_uploads_for_specific_customer"),
+    path("get_all_uploads_for_customer/<int:userName>", views.get_all_uploads_for_customer, name="get_all_uploads_for_specific_customer"),
 
 ]

@@ -8,3 +8,6 @@ django-cors-headers
 gunicorn
 mysql-connector-python
 mysqlclient
+Pillow
+tensorflow
+numpy

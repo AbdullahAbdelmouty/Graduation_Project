@@ -14,13 +14,18 @@ import {useNavigate} from "react-router-dom"
 // import Pay from "../pages/Pay"
 import { useEffect } from "react"
 export default function Main(props){
-function uploadFile(input) {
-    // Check if a file is selected
-    if (input.files.length > 0) {
-        // Automatically submit the form when a file is selected
-        input.closest('form').submit();
-    }
-}
+    const url = "http://127.0.0.1:8000/api/upload_pdf"
+    const uploadFile = async (event) => {
+        event.preventDefault();
+        const formData = new FormData();
+        formData.append('pdf', event.target.files[0]);
+        const response = await fetch(url, {
+            method: 'POST',
+            body: formData
+        });
+        const data = await response.json();
+        console.log(data);
+    };
 
 // head to pay when click the buy button
 const navigate = useNavigate();
@@ -45,10 +50,10 @@ return(
                     Harnessing Deep Learning for Evasive PDF Malware Detection, 
                     Pioneering a New Frontier with Efficient Net and Image Transformation.
                 </p>
-                <form action="upload.php" method="post" enctype="multipart/form-data">
+                <form>
                     <label htmlFor="file">Upload/drag and drop your PDF </label>
-                    <input className="input-pdf" type="file" name="file" id="file" onChange={(event) => uploadFile(event.target)}/>
-                    <img src={upload} alt="" onClick={() => document.getElementById('file').click()}/>
+                    <input className="input-pdf" type="file" name="file" id="file" onChange={(event) => uploadFile(event)}/>
+                    {/* <img src={upload} alt="" onClick={() => document.getElementById('file').click()}/> */}
                 </form>
 
                 <p className="second">

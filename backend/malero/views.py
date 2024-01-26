@@ -1,16 +1,108 @@
 from django.shortcuts import render
+import os
+from PIL import Image
+import tensorflow as tf
 from django.http import HttpResponse
 from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-# Create your views here.
-
+# import models
+from .models import Customers as Customer
+from .models import Packages as Package
+from .models import Uploads as Upload
+from .models import Cards as Card
+from .models import Coupons as Coupon
+from .models import Orders as Order
+# import serializers
+from .serializers import CustomersSerializer
+from .serializers import PackagesSerializer
+from .serializers import UploadsSerializer
+from .serializers import CardsSerializer
+from .serializers import CouponsSerializer
+from .serializers import OrdersSerializer
+# forms
+from .forms import UploadForm, PdfUploadForm
+# machine learning model
+from malero.ML.model import ML_Model
+# views
 def index(requset):
     return HttpResponse("<h1>Home</h>")
 
-# add new customer
+# test for mcu
 @api_view(['POST'])
-def add_customer(requset):
+def test(request):
+    print(request.data)
+    return Response({"status": "ok"})
+# upload image
+@api_view(['POST'])
+def upload_image(request):
+    if request.method == 'POST':
+        form = UploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Save the form data to the model
+            upload_instance = form.save(commit=False)
+            # Save the instance with the updated user field
+            upload_instance.save()
+            # Get the URL for the uploaded image
+            print(upload_instance.image)
+            # image_url = upload_instance.image.url if upload_instance.image else None
+            return Response({"url": upload_instance.image})
+        else:
+            return Response({"status": "failed", "errors": form.errors})
+    else:
+        return Response({"status": "failed"})
+
+# upload pdf
+@api_view(['POST'])
+def upload_pdf(request):
+    if request.method == 'POST':
+        form = PdfUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Save the form data to the model
+            upload_instance = form.save(commit=False)
+            # Save the instance with the updated user field
+            upload_instance.save()
+            # Get the URL for the uploaded image
+            print(upload_instance.pdf)
+            print(str(upload_instance.pdf).split("/")[-1])
+            model_path = 'media/model_file/best_weights.h5'
+            ml_obj = ML_Model()
+            # convert pdf to binary
+            uploaded_pdf = 'media/malero/uploads/pdfs/'
+            out_binaries = 'media/binaries/'
+            file_name = str(upload_instance.pdf).split("/")[-1]
+            ml_obj.convert_to_binary(uploaded_pdf,file_name,out_binaries)
+            # convert binary to png
+            out_png = 'media/pngs/'
+            fixed_dimensions = (128, 128)
+            file_name_with_blus_bin = file_name + '.bin'
+            print(file_name_with_blus_bin,"file_name_with_blus_bin")
+            ml_obj.convert_binaries_to_images(out_binaries,file_name_with_blus_bin,out_png,fixed_dimensions)
+            # pass png to model
+            file_name_with_blus_png = file_name + '.png'
+            image_path = 'media/pngs/' + file_name_with_blus_png
+            result = ml_obj.predict(image_path,model_path)
+            print(result,"result")
+            return Response({ "result": result})
+        else:
+            return Response({"status": "failed", "errors": form.errors})
+    else:
+        return Response({"status": "failed"})    
+# Sign up
+@api_view(['POST'])
+def sign_up(requset):
+    try:
+        # destrucring the request data
+        print(requset.data)
+        newCustomer = Customer.objects.create(**requset.data)
+        serializer = CustomersSerializer(newCustomer)
+        return Response(serializer.data)
+    except:
+        return Response({"status": "failed"})
+
+# Sign in
+@api_view(['POST'])
+def sign_in(request):
     return Response({"status": "ok"})
 
 # get customer
@@ -31,12 +123,21 @@ def delete_customer(request, id):
 # get all customers
 @api_view(['GET'])
 def get_all_customers(request):
-    return Response({"status": "ok"})
+    getAllCustomers = Customer.objects.all()
+    serializer = CustomersSerializer(getAllCustomers, many=True)
+    return Response(serializer.data)
 
 # add new package
 @api_view(['POST'])
 def add_package(request):
-    return Response({"status": "ok"})
+    print(request.data)
+    try:
+        newPackage = Package.objects.create(**request.data)
+        serializer = PackagesSerializer(newPackage)
+        return Response(serializer.data)
+    except:
+        return Response({"status": "failed"})
+    
 
 # get package
 @api_view(['GET'])
@@ -56,7 +157,9 @@ def delete_package(request, id):
 # get all packages
 @api_view(['GET'])
 def get_all_packages(request):
-    return Response({"status": "ok"})
+    getAllPackages = Package.objects.all()
+    serializer = PackagesSerializer(getAllPackages, many=True)
+    return Response(serializer.data)
 
 # add new upload
 @api_view(['POST'])
@@ -158,9 +261,15 @@ def delete_order(request, id):
 def get_all_orders(request):
     return Response({"status": "ok"})
 
+# get order for specific customer
+@api_view(['GET'])
+def get_order_for_customer(request, userName):
+    getCustomerOrder = Order.objects.filter(user=userName)
+    serializer = OrdersSerializer(getCustomerOrder, many=True)
+    return Response(serializer.data)
 # get all uploads for specific customer
 @api_view(['GET'])
-def get_all_uploads_for_customer(request, id):
-    return Response({"status": "ok", "id": id})
-
-
+def get_all_uploads_for_customer(request, userName):
+    getAllUploads = Upload.objects.filter(user=userName)
+    serializer = UploadsSerializer(getAllUploads, many=True)
+    return Response(serializer.data)
