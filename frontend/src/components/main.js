@@ -14,18 +14,74 @@ import {useNavigate} from "react-router-dom"
 // import Pay from "../pages/Pay"
 import { useEffect } from "react"
 export default function Main(props){
-    const url = "http://127.0.0.1:8000/api/upload_pdf"
-    const uploadFile = async (event) => {
-        event.preventDefault();
-        const formData = new FormData();
-        formData.append('pdf', event.target.files[0]);
-        const response = await fetch(url, {
-            method: 'POST',
-            body: formData
-        });
-        const data = await response.json();
-        console.log(data);
-    };
+        
+            const url = "http://127.0.0.1:8000/api/upload_pdf"
+            const uploadFile = async (event) => {
+                event.preventDefault();
+                const formData = new FormData();
+                formData.append('pdf', event.target.files[0]);
+                const response = await fetch(url, {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                console.log(data);
+                    let result=document.querySelector(".home-content .result")
+                
+                    if(parseFloat(data.result)>0.5){
+                        result.innerHTML="Malicious"
+                    }
+                    else{
+                        result.innerHTML="Benign"
+                    }
+                    
+            };
+            // const signUpUrl = "http://127.0.0.1:8000/api/sign_up"
+            // const signUpFetch = async (event) => {
+            //     // event.preventDefault();
+            //     // const formData = new FormData();
+            //     // formData.append('sign', event.target.files[0]);
+            //     const response = await fetch(signUpUrl, {
+            //         method: 'POST',
+            //         // body: formData
+            //     });
+            //     const data = await response.json();
+            //     console.log(data);
+            // }
+            // signUpFetch()
+            let allPackUrl="http://127.0.0.1:8000/api/get_all_packages"
+            let signUpUrl="http://127.0.0.1:8000/api/sign_up"
+            let signInUrl="http://127.0.0.1:8000/api/sign_in"
+            let getCustomerUrl="http://127.0.0.1:8000/api/get_customer"
+            let addCustomerUrl="http://127.0.0.1:8000/api/add_package"
+            let addCardUrl="http://127.0.0.1:8000/api/add_card"
+            let getAllCardUrl="http://127.0.0.1:8000/api/get_all_cards"
+            let addUploadUrl="http://127.0.0.1:8000/api/add_upload"
+            let getOrderForCustomerUrl="http://127.0.0.1:8000/api/get_order_for_customer"
+            let updateOrderUrl="http://127.0.0.1:8000/api/update_order"
+            let getUploadsForSpecificCustomerUrl="http://127.0.0.1:8000/api/get_all_uploads_for_specific_customer"
+            function Fetch(url){
+                fetch(url,{method:"GET"}).then((res)=>{
+                return res.json()
+                }).then((res)=>{
+                    console.log(res)
+                }).catch((error) => {
+                    // Handle errors
+                    console.error('Error fetching data:', error);
+                });
+            }
+
+            // Fetch(allPackUrl)
+            // Fetch(signUpUrl)
+            // Fetch(signInUrl)
+            // Fetch(getCustomerUrl)
+            // Fetch(addCustomerUrl)
+            // Fetch(addCardUrl)
+            // Fetch(getAllCardUrl)
+            // Fetch(addUploadUrl)
+            // Fetch(getOrderForCustomerUrl)
+            // Fetch(updateOrderUrl)
+            Fetch(getUploadsForSpecificCustomerUrl)
 
 // head to pay when click the buy button
 const navigate = useNavigate();
@@ -44,7 +100,7 @@ return(
         <div id="home" className="home">
             <div  className="home-content">
                 
-
+                <p className="result"></p>
                 <img className="logo" src={props.logo} alt=""/>
                 <p className="first">
                     Harnessing Deep Learning for Evasive PDF Malware Detection, 
@@ -52,7 +108,7 @@ return(
                 </p>
                 <form>
                     <label htmlFor="file">Upload/drag and drop your PDF </label>
-                    <input className="input-pdf" type="file" name="file" id="file" onChange={(event) => uploadFile(event)}/>
+                    <input className="input-pdf" type="file" name="file" id="file" onChange={(event) => uploadFile(event)} />
                     {/* <img src={upload} alt="" onClick={() => document.getElementById('file').click()}/> */}
                 </form>
 

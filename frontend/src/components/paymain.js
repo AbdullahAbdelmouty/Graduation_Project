@@ -13,14 +13,14 @@ export default function PayMain(){
         { name: 'India', code: '+91-' },
         { name: 'Australia', code: '+61-' },
         { name: 'Egypt', code: '+02-' },
-      ];
+    ];
     
       // State to keep track of the selected country and phone number
-      const [selectedCountry, setSelectedCountry] = useState('');
+    const [selectedCountry, setSelectedCountry] = useState('');
     //   const [selectColor, setSelectColor] = useState('rgb(30, 30, 30,30%)');
-      const [phoneNumber, setPhoneNumber] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
       // Event handler for when a country is selected
-      const handleCountryChange = (event) => {
+    const handleCountryChange = (event) => {
         const selectedCountryName = event.target.value;
         setSelectedCountry(selectedCountryName);
     

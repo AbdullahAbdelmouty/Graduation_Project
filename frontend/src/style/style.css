@@ -294,7 +294,7 @@ header .form img{
 
 
 .home-content{
-    
+    position: relative;
     justify-content: center;
     display: flex;
     align-items: center;
@@ -315,12 +315,31 @@ header .form img{
     }
     
 }
+
+.home-content .result{
+    position: absolute;
+    font-size: 25px;
+    top: 84%;
+    font-weight: 900;
+}
+@media screen and (max-width:768px){
+    .home-content .result{
+        top: 80%;
+    }
+    
+}
 .home-content p{
     width: 473px;
     font-size: 13px;
     text-align: center;
     padding-bottom: 33px;
     color: var(--text-color);
+}
+@media screen and (max-width:481px){
+    .home-content p{
+    font-size: 10px;
+    }
+    
 }
 @media screen and (max-width:768px){
     .home-content p{
