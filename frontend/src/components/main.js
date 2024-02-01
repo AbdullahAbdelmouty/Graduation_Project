@@ -60,18 +60,56 @@ export default function Main(props){
             let getOrderForCustomerUrl="http://127.0.0.1:8000/api/get_order_for_customer"
             let updateOrderUrl="http://127.0.0.1:8000/api/update_order"
             let getUploadsForSpecificCustomerUrl="http://127.0.0.1:8000/api/get_all_uploads_for_specific_customer"
-            function Fetch(url){
-                fetch(url,{method:"GET"}).then((res)=>{
-                return res.json()
-                }).then((res)=>{
-                    console.log(res)
-                }).catch((error) => {
-                    // Handle errors
-                    console.error('Error fetching data:', error);
-                });
-            }
+            
+            function FetchPack(url){
+                useEffect(()=>{
 
-            // Fetch(allPackUrl)
+                    // diamond element selection
+                    let frontNameDiamond=document.querySelector(".premium-content .packages .diamond h3")
+                    let priMonthDiamond=document.querySelector(".premium-content .packages .diamond .month")
+                    let priYearDiamond=document.querySelector(".premium-content .packages .diamond .year")
+                    let numUsageDiamond=document.querySelector(".premium-content .packages .diamond .usage")
+                    // gold element selection
+                    let frontNameGold=document.querySelector(".premium-content .packages .gold h3")
+                    let priMonthGold=document.querySelector(".premium-content .packages .gold .month")
+                    let priYearGold=document.querySelector(".premium-content .packages .gold .year")
+                    let numUsageGold=document.querySelector(".premium-content .packages .gold .usage")
+                    // free element selection
+                    let frontNameFree=document.querySelector(".premium-content .packages .free h3")
+                    let priMonthFree=document.querySelector(".premium-content .packages .free .month")
+                    let priYearFree=document.querySelector(".premium-content .packages .free .year")
+                    let numUsageFree=document.querySelector(".premium-content .packages .free .usage")
+                    fetch(url,{method:"GET"}).then((res)=>{
+                        return res.json()
+                    }).then((res)=>{
+                        console.log(res)
+                        console.log(res[0].frontName)
+                        
+                        // diamond package appending
+                        frontNameDiamond.innerHTML=(res[0].frontName)
+                        priMonthDiamond.innerHTML=(`${res[0].pricePmonth}$ per Month`)
+                        priYearDiamond.innerHTML=(`${res[0].pricePyear}$ per Year`)
+                        numUsageDiamond.innerHTML=(`usage number: ${res[0].numberOfuploads}`)
+                        // free package appending
+                        frontNameFree.innerHTML=(res[1].frontName)
+                        priMonthFree.innerHTML=(`${res[1].pricePmonth}$ per Month`)
+                        priYearFree.innerHTML=(`${res[1].pricePyear}$ per Year`)
+                        numUsageFree.innerHTML=(`usage number: ${res[1].numberOfuploads}`)
+                        
+                        // Gold package appending
+                        frontNameGold.innerHTML=(res[2].frontName)
+                        priMonthGold.innerHTML=(`${res[2].pricePmonth}$ per Month`)
+                        priYearGold.innerHTML=(`${res[2].pricePyear}$ per Year`)
+                        numUsageGold.innerHTML=(`usage number: ${res[2].numberOfuploads}`)
+                    }).catch((error) => {
+                        // Handle errors
+                        console.error('Error fetching data:', error);
+                    });
+                })
+                return 
+            }
+            
+                FetchPack(allPackUrl)
             // Fetch(signUpUrl)
             // Fetch(signInUrl)
             // Fetch(getCustomerUrl)
@@ -81,7 +119,7 @@ export default function Main(props){
             // Fetch(addUploadUrl)
             // Fetch(getOrderForCustomerUrl)
             // Fetch(updateOrderUrl)
-            Fetch(getUploadsForSpecificCustomerUrl)
+            // Fetch(getUploadsForSpecificCustomerUrl)
 
 // head to pay when click the buy button
 const navigate = useNavigate();
@@ -137,28 +175,28 @@ return(
                 <div className="packages">
                     <div className="free">
                         <img src={freeIcon}  alt=""/>
-                        <h3>Free</h3>
-                        <span>Free</span>
-                        <span></span>
-                        <h4>Limited usage</h4>
+                        <h3></h3>
+                        <span className="month"></span>
+                        <span className="year"></span>
+                        <h4 className="usage"></h4>
                         <h4>Ads </h4>
                         <button onClick={freeBtnScroll} className="freeBtn"><div>Try </div> <img src={arrow} alt=""/></button>
                     </div>
                     <div className="gold">
                         <img src={goldIcon}  alt=""/>
-                        <h3>Gold</h3>
-                        <span className="month">5$ per Month</span>
-                        <span>40$ per Year</span>
-                        <h4>Extra Limited usage</h4>
+                        <h3></h3>
+                        <span className="month"></span>
+                        <span className="year"></span>
+                        <h4 className="usage"></h4>
                         <h4>No Ads </h4>
                         <button onClick={handleButtonClick}  className="goldBtn"><div>Buy </div> <img src={arrow} alt=""/></button>
                     </div>
                     <div className="diamond">
                         <img src={diamondIcon}  alt=""/>
-                        <h3>Diamond</h3>
-                        <span className="month">15$ per Month</span>
-                        <span>80$ per Year</span>
-                        <h4>Un Limited usage</h4>
+                        <h3></h3>
+                        <span className="month"></span>
+                        <span className="year"></span>
+                        <h4 className="usage"></h4>
                         <h4>No Ads </h4>
                         <button onClick={handleButtonClick} className="diamondBtn"><div>Buy </div> <img src={arrow} alt=""/></button>
                     </div>
