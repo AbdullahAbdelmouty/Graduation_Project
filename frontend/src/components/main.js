@@ -9,23 +9,31 @@ import accuracyIcon from "../images/aim 1.png"
 import securityIcon from "../images/shield 1.png"
 import economicIcon from "../images/salary 1.png"
 import mohamed from "../images/file (1).png"
+import { useState } from "react"
 // import PayMain from "./paymain"
 import {useNavigate} from "react-router-dom"
 // import Pay from "../pages/Pay"
 import { useEffect } from "react"
 export default function Main(props){
-    const url = "http://127.0.0.1:8000/api/upload_pdf"
-    const uploadFile = async (event) => {
-        event.preventDefault();
-        const formData = new FormData();
-        formData.append('pdf', event.target.files[0]);
-        const response = await fetch(url, {
-            method: 'POST',
-            body: formData
-        });
-        const data = await response.json();
-        console.log(data);
-    };
+    // const [isBegin, setIsBegin] = useState("");
+    // const url = "http://127.0.0.1:8000/api/upload_pdf"
+    // const uploadFile = async (event) => {
+    //     event.preventDefault();
+    //     const formData = new FormData();
+    //     formData.append('pdf', event.target.files[0]);
+    //     const response = await fetch(url, {
+    //         method: 'POST',
+    //         body: formData
+    //     });
+    //     const data = await response.json();
+    //     if(data.result >=0.5){
+    //         setIsBegin("Malicious")
+    //     }
+    //     if(data.result <0.5){
+    //         setIsBegin("Benign")
+    //     }
+    //     console.log(data.result);
+    // };
 
 // head to pay when click the buy button
 const navigate = useNavigate();
@@ -50,9 +58,10 @@ return(
                     Harnessing Deep Learning for Evasive PDF Malware Detection, 
                     Pioneering a New Frontier with Efficient Net and Image Transformation.
                 </p>
+                {/* <h1>{isBegin}</h1> */}
                 <form>
                     <label htmlFor="file">Upload/drag and drop your PDF </label>
-                    <input className="input-pdf" type="file" name="file" id="file" onChange={(event) => uploadFile(event)}/>
+                    {/* <input className="input-pdf" type="file" name="file" id="file" onChange={(event) => uploadFile(event)}/> */}
                     {/* <img src={upload} alt="" onClick={() => document.getElementById('file').click()}/> */}
                 </form>
 

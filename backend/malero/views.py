@@ -20,12 +20,16 @@ from .serializers import UploadsSerializer
 from .serializers import CardsSerializer
 from .serializers import CouponsSerializer
 from .serializers import OrdersSerializer
+from .serializers import SignUpSerializer
+from .serializers import LoginSerializer
 # forms
 from .forms import UploadForm, PdfUploadForm
 # machine learning model
 from malero.ML.model import ML_Model
+import datetime
+import bcrypt
 # views
-def index(requset):
+def index(request):
     return HttpResponse("<h1>Home</h>")
 
 # test for mcu
@@ -55,55 +59,123 @@ def upload_image(request):
 # upload pdf
 @api_view(['POST'])
 def upload_pdf(request):
-    if request.method == 'POST':
-        form = PdfUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            # Save the form data to the model
-            upload_instance = form.save(commit=False)
-            # Save the instance with the updated user field
-            upload_instance.save()
-            # Get the URL for the uploaded image
-            print(upload_instance.pdf)
-            print(str(upload_instance.pdf).split("/")[-1])
-            model_path = 'media/model_file/best_weights.h5'
-            ml_obj = ML_Model()
-            # convert pdf to binary
-            uploaded_pdf = 'media/malero/uploads/pdfs/'
-            out_binaries = 'media/binaries/'
-            file_name = str(upload_instance.pdf).split("/")[-1]
-            ml_obj.convert_to_binary(uploaded_pdf,file_name,out_binaries)
-            # convert binary to png
-            out_png = 'media/pngs/'
-            fixed_dimensions = (128, 128)
-            file_name_with_blus_bin = file_name + '.bin'
-            print(file_name_with_blus_bin,"file_name_with_blus_bin")
-            ml_obj.convert_binaries_to_images(out_binaries,file_name_with_blus_bin,out_png,fixed_dimensions)
-            # pass png to model
-            file_name_with_blus_png = file_name + '.png'
-            image_path = 'media/pngs/' + file_name_with_blus_png
-            result = ml_obj.predict(image_path,model_path)
-            print(result,"result")
-            return Response({ "result": result})
+    user = "abdo"
+    # get the user
+    user_obj = Customer.objects.get(userName=user)
+    # get the number of uploads for the user
+    numberOfuploads = user_obj.numberOfuploads
+    # get the max of uploads for the user
+    maxOfuploads = user_obj.maxOfuploads
+    # check if the user can upload or not
+    # get user order
+    user_order = Order.objects.get(user=user)
+    # get user expiry date
+    expiry_date = user_order.expiryDateOrder
+    # get current date
+    current_date = datetime.datetime.now()
+    # check if the user order is expired or not
+    if current_date > expiry_date:
+        return Response({"status": "failed", "errors": "your order is expired"})
+    if numberOfuploads < maxOfuploads:
+        # upload the pdf
+        if request.method == 'POST':
+            form = PdfUploadForm(request.POST, request.FILES)
+            if form.is_valid():
+                # Save the form data to the model
+                upload_instance = form.save(commit=False)
+                # Save the instance with the updated user field
+                upload_instance.save()
+                # Get the URL for the uploaded image
+                print(upload_instance.pdf)
+                print(str(upload_instance.pdf).split("/")[-1])
+                model_path = 'media/model_file/best_weights.h5'
+                ml_obj = ML_Model()
+                # convert pdf to binary
+                uploaded_pdf = 'media/malero/uploads/pdfs/'
+                out_binaries = 'media/binaries/'
+                file_name = str(upload_instance.pdf).split("/")[-1]
+                ml_obj.convert_to_binary(uploaded_pdf,file_name,out_binaries)
+                # convert binary to png
+                out_png = 'media/pngs/'
+                fixed_dimensions = (128, 128)
+                file_name_with_blus_bin = file_name + '.bin'
+                print(file_name_with_blus_bin,"file_name_with_blus_bin")
+                ml_obj.convert_binaries_to_images(out_binaries,file_name_with_blus_bin,out_png,fixed_dimensions)
+                # pass png to model
+                file_name_with_blus_png = file_name + '.png'
+                image_path = 'media/pngs/' + file_name_with_blus_png
+                result = ml_obj.predict(image_path,model_path)
+                # 
+                print(result,"result")    
+                # newUpload 
+                bengin_image_path = 'media/bengin_images/'
+                malicious_image_path = 'media/malignant_images/'
+                pdf_path = 'media/malero/uploads/pdfs/' + file_name
+                isBenign = False
+                if result <0.5:
+                    image_path = bengin_image_path
+                    isBenign = True
+                if result >=0.5:
+                    image_path = malicious_image_path
+                newUpload = Upload.objects.create(image=image_path, pdf=pdf_path, isBenign=isBenign)
+                # if the user can upload then increase the number of uploads for the user
+                user_obj.numberOfuploads = user_obj.numberOfuploads + 1
+                user_obj.save()
+                return Response({ "result": result})
+            else:
+                return Response({"status": "failed", "errors": form.errors})
         else:
-            return Response({"status": "failed", "errors": form.errors})
+            return Response({"status": "failed"})   
     else:
-        return Response({"status": "failed"})    
+        return Response({"status": "failed", "errors": "you can't upload any more"}) 
 # Sign up
 @api_view(['POST'])
-def sign_up(requset):
+def sign_up(request):
     try:
         # destrucring the request data
-        print(requset.data)
-        newCustomer = Customer.objects.create(**requset.data)
-        serializer = CustomersSerializer(newCustomer)
+        fullName = request.data['fullName']
+        userName = request.data['userName']
+        email = request.data['email']
+        password = request.data['password']
+        password2 = request.data['password2']
+        package_id = "free"
+        print(request.data)
+        # validate the email
+        if Customer.objects.filter(email=email).exists():
+            return Response({"status": "failed", "errors": "email already exist"})
+        # validate the username
+        if Customer.objects.filter(userName=userName).exists():
+            return Response({"status": "failed", "errors": "username already exist"})
+        # validate the password
+        if password != password2:
+            return Response({"status": "failed", "errors": "passwords do not match"})
+        # hash the password
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        password = hashed_password
+        print(password)
+        # create new customer
+        newCustomer = Customer.objects.create(fullName=fullName,userName=userName, email=email, password=password, package_id=package_id)
+        # newCustomer = Customer.objects.create(**request.data)
+        serializer = SignUpSerializer(newCustomer)
         return Response(serializer.data)
     except:
-        return Response({"status": "failed"})
+        return Response({"status": "failed", "errors": "something went wrong"})
 
 # Sign in
 @api_view(['POST'])
 def sign_in(request):
-    return Response({"status": "ok"})
+    try:
+        userName = request.data['userName']
+        password = request.data['password'].encode('utf-8') # Encode the password to bytes
+        # get the user from the database
+        user_obj = Customer.objects.get(userName=userName)
+        hashPass = user_obj.password[1:].replace("'", "")
+        if bcrypt.checkpw(password, hashPass.encode('utf-8')):
+            return Response({"status": "ok", "user": userName})
+    except Customer.DoesNotExist:
+        return Response({"status": "failed", "errors": "User does not exist"})
+    except Exception as e:
+        return Response({"status": "failed", "errors": str(e)})
 
 # get customer
 @api_view(['GET'])
@@ -239,7 +311,68 @@ def get_all_coupons(request):
 # add new order
 @api_view(['POST'])
 def add_order(request):
-    return Response({"status": "ok"})
+    try:
+        # destrucring the request data
+        fullName = request.data['fullName']
+        userName = request.data['userName']
+        email = request.data['email']
+        password = request.data['password']
+        package_id = request.data['package_id']
+        numberOfuploads = 0
+        expiryDateOrder = datetime.datetime.now()
+        country = request.data['country']
+        coupon = request.data['coupon']
+        period = request.data['period']
+        cost = 0
+        card = request.data['card']
+        numberOnCard = request.data['numberOnCard']
+        expiryDateCard = request.data['expiryDateCard']
+        cvv = request.data['cvv']
+        # check if the card is in the database or not
+        card_obj = Card.objects.get(cardNumber=numberOnCard)
+        # check if the card is expired or not   
+        if card_obj.expiryDate < datetime.datetime.now():
+            return Response({"status": "failed", "errors": "your card is expired"})
+        # check if the card is valid or not
+        if card_obj.cvv != cvv:
+            return Response({"status": "failed", "errors": "your card is not valid"})
+        # check if the coupon is in the database or not
+        coupon_obj = Coupon.objects.get(couponCode=coupon)
+        # check if the coupon is expired or not
+        if coupon_obj.expiryDate < datetime.datetime.now():
+            return Response({"status": "failed", "errors": "your coupon is expired"})
+        # check if the coupon is valid or not
+        if coupon_obj.numberOfUses == 0:
+            return Response({"status": "failed", "errors": "your coupon is not valid"})
+        # check if the user is in the database or not
+        user_obj = Customer.objects.get(userName=userName)
+        # check if the user is already exist or not
+        if user_obj:
+            return Response({"status": "failed", "errors": "user already exist"})
+        # check if the package is in the database or not
+        package_obj = Package.objects.get(package_id=package_id)
+        # check if the package is already exist or not
+        if package_obj:
+            return Response({"status": "failed", "errors": "package already exist"})
+        if package_id == "free":
+            maxOfuploads = 3
+            expiryDateOrder = datetime.datetime.now() + datetime.timedelta(days=3)
+        if package_id == "Gold":
+            maxOfuploads = 100    
+            expiryDateOrder = datetime.datetime.now() + datetime.timedelta(days=30)
+            if period == "monthly":
+                cost = 5
+            if period == "yearly":
+                cost = 50
+        if package_id == "diamond":
+            maxOfuploads = 200    
+            expiryDateOrder = datetime.datetime.now() + datetime.timedelta(days=360)
+            if period == "monthly":
+                cost = 10
+            if period == "yearly":
+                cost = 100
+    except:
+        return Response({"status": "failed"})            
 
 # get order
 @api_view(['GET'])

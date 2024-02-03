@@ -1,5 +1,4 @@
 from django.db import models
-
 # Create your models here.
 # packages model
 class Packages(models.Model):
@@ -21,17 +20,16 @@ class Customers(models.Model):
     fullName = models.CharField(max_length=60, null=False, blank=True)
     email = models.CharField(max_length=60, null=False, blank=True,unique=True)
     userName = models.CharField(max_length=50, primary_key=True,blank=True)
-    password = models.CharField(max_length=20, null=False, blank=True)
+    password = models.CharField(max_length=300, null=False, blank=True)
     # if packages is deleted then set to free package that is default
     package = models.ForeignKey(Packages, on_delete=models.SET_NULL,null=True)
     #maxOfupload,if it is 0 then the user can't upload any more
-    maxOfuploads = models.IntegerField(null=False, blank=True,default=3)
-    numberOfuploads = models.IntegerField(null=False, blank=True,default=0)
+    # maxOfuploads = models.IntegerField(null=False, blank=True,default=3)
+    # numberOfuploads = models.IntegerField(null=False, blank=True,default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
-        # return self.userName
-        return self.userName
+        return f"{self.userName} - {self.password} - {self.email}"
 # user uploads model
 class Uploads(models.Model):
     id = models.AutoField(primary_key=True)
@@ -58,7 +56,11 @@ class ImageUpload(models.Model):
 
 # pdf upload model
 class PdfUpload(models.Model):
+    id = models.AutoField(primary_key=True)
     pdf = models.FileField(upload_to='malero/uploads/pdfs/')
+    # isBenign = models.BooleanField(default=False, null=False)
+    # user = models.ForeignKey(Customers, on_delete=models.CASCADE,null=True, blank=True)
+    # pdfPath = models.CharField(max_length=400, null=False, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return str(self.pdf)    

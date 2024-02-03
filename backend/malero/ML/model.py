@@ -61,6 +61,7 @@ class ML_Model:
 
     @staticmethod
     def predict( image_path, model_path):
+        print(tf.version.VERSION)
         reconstructed_model = tf.keras.Sequential([
             tf.keras.applications.EfficientNetB0(include_top=False, weights="imagenet", input_shape=(128, 128, 3)),
             GlobalAveragePooling2D(),
