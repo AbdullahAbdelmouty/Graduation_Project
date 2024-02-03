@@ -15,26 +15,98 @@ import {useNavigate} from "react-router-dom"
 // import Pay from "../pages/Pay"
 import { useEffect } from "react"
 export default function Main(props){
-    // const [isBegin, setIsBegin] = useState("");
-    // const url = "http://127.0.0.1:8000/api/upload_pdf"
-    // const uploadFile = async (event) => {
-    //     event.preventDefault();
-    //     const formData = new FormData();
-    //     formData.append('pdf', event.target.files[0]);
-    //     const response = await fetch(url, {
-    //         method: 'POST',
-    //         body: formData
-    //     });
-    //     const data = await response.json();
-    //     if(data.result >=0.5){
-    //         setIsBegin("Malicious")
-    //     }
-    //     if(data.result <0.5){
-    //         setIsBegin("Benign")
-    //     }
-    //     console.log(data.result);
-    // };
-
+        
+            const url = "http://127.0.0.1:8000/api/upload_pdf"
+            const uploadFile = async (event) => {
+                event.preventDefault();
+                const formData = new FormData();
+                formData.append('pdf', event.target.files[0]);
+                const response = await fetch(url, {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                console.log(data);
+                    let result=document.querySelector(".home-content .result")
+                
+                    if(parseFloat(data.result)>0.5){
+                        result.innerHTML="Malicious"
+                    }
+                    else{
+                        result.innerHTML="Benign"
+                    }
+                    
+            };
+            let allPackUrl="http://127.0.0.1:8000/api/get_all_packages"
+            let signUpUrl="http://127.0.0.1:8000/api/sign_up"
+            let signInUrl="http://127.0.0.1:8000/api/sign_in"
+            let getCustomerUrl="http://127.0.0.1:8000/api/get_customer"
+            let addCustomerUrl="http://127.0.0.1:8000/api/add_package"
+            let addCardUrl="http://127.0.0.1:8000/api/add_card"
+            let getAllCardUrl="http://127.0.0.1:8000/api/get_all_cards"
+            let addUploadUrl="http://127.0.0.1:8000/api/add_upload"
+            let getOrderForCustomerUrl="http://127.0.0.1:8000/api/get_order_for_customer"
+            let updateOrderUrl="http://127.0.0.1:8000/api/update_order"
+            let getUploadsForSpecificCustomerUrl="http://127.0.0.1:8000/api/get_all_uploads_for_specific_customer"
+            
+            function FetchPack(url){
+                useEffect(()=>{
+                    // diamond element selection
+                    let frontNameDiamond=document.querySelector(".premium-content .packages .diamond h3")
+                    let priMonthDiamond=document.querySelector(".premium-content .packages .diamond .month")
+                    let priYearDiamond=document.querySelector(".premium-content .packages .diamond .year")
+                    let numUsageDiamond=document.querySelector(".premium-content .packages .diamond .usage")
+                    // gold element selection
+                    let frontNameGold=document.querySelector(".premium-content .packages .gold h3")
+                    let priMonthGold=document.querySelector(".premium-content .packages .gold .month")
+                    let priYearGold=document.querySelector(".premium-content .packages .gold .year")
+                    let numUsageGold=document.querySelector(".premium-content .packages .gold .usage")
+                    // free element selection
+                    let frontNameFree=document.querySelector(".premium-content .packages .free h3")
+                    let priMonthFree=document.querySelector(".premium-content .packages .free .month")
+                    let priYearFree=document.querySelector(".premium-content .packages .free .year")
+                    let numUsageFree=document.querySelector(".premium-content .packages .free .usage")
+                    fetch(url,{method:"GET"}).then((res)=>{
+                        return res.json()
+                    }).then((res)=>{
+                        console.log(res)
+                        console.log(res[0].frontName)
+                        
+                        // diamond package appending
+                        frontNameDiamond.innerHTML=(res[0].frontName)
+                        priMonthDiamond.innerHTML=(`${res[0].pricePmonth}$ per Month`)
+                        priYearDiamond.innerHTML=(`${res[0].pricePyear}$ per Year`)
+                        numUsageDiamond.innerHTML=(`usage number: ${res[0].numberOfuploads}`)
+                        // free package appending
+                        frontNameFree.innerHTML=(res[1].frontName)
+                        priMonthFree.innerHTML=(`${res[1].pricePmonth}$ per Month`)
+                        priYearFree.innerHTML=(`${res[1].pricePyear}$ per Year`)
+                        numUsageFree.innerHTML=(`usage number: ${res[1].numberOfuploads}`)
+                        
+                        // Gold package appending
+                        frontNameGold.innerHTML=(res[2].frontName)
+                        priMonthGold.innerHTML=(`${res[2].pricePmonth}$ per Month`)
+                        priYearGold.innerHTML=(`${res[2].pricePyear}$ per Year`)
+                        numUsageGold.innerHTML=(`usage number: ${res[2].numberOfuploads}`)
+                    }).catch((error) => {
+                        // Handle errors
+                        console.error('Error fetching data:', error);
+                    });
+                })
+                return 
+            }
+            
+                FetchPack(allPackUrl)
+            // Fetch(signUpUrl)
+            // Fetch(signInUrl)
+            // Fetch(getCustomerUrl)
+            // Fetch(addCustomerUrl)
+            // Fetch(addCardUrl)
+            // Fetch(getAllCardUrl)
+            // Fetch(addUploadUrl)
+            // Fetch(getOrderForCustomerUrl)
+            // Fetch(updateOrderUrl)
+            // Fetch(getUploadsForSpecificCustomerUrl)
 // head to pay when click the buy button
 const navigate = useNavigate();
 
@@ -52,7 +124,7 @@ return(
         <div id="home" className="home">
             <div  className="home-content">
                 
-
+                <p className="result"></p>
                 <img className="logo" src={props.logo} alt=""/>
                 <p className="first">
                     Harnessing Deep Learning for Evasive PDF Malware Detection, 
@@ -61,9 +133,7 @@ return(
                 {/* <h1>{isBegin}</h1> */}
                 <form>
                     <label htmlFor="file">Upload/drag and drop your PDF </label>
-                    {/* <input className="input-pdf" type="file" name="file" id="file" onChange={(event) => uploadFile(event)}/> */}
-                    {/* <img src={upload} alt="" onClick={() => document.getElementById('file').click()}/> */}
-                </form>
+                    <input className="input-pdf" type="file" name="file" id="file" onChange={(event) => uploadFile(event)} />                </form>
 
                 <p className="second">
                     By submitting data above, you are agreeing to our Terms of Service and Privacy Policy,
@@ -90,28 +160,28 @@ return(
                 <div className="packages">
                     <div className="free">
                         <img src={freeIcon}  alt=""/>
-                        <h3>Free</h3>
-                        <span>Free</span>
-                        <span></span>
-                        <h4>Limited usage</h4>
+                        <h3></h3>
+                        <span className="month"></span>
+                        <span className="year"></span>
+                        <h4 className="usage"></h4>
                         <h4>Ads </h4>
                         <button onClick={freeBtnScroll} className="freeBtn"><div>Try </div> <img src={arrow} alt=""/></button>
                     </div>
                     <div className="gold">
                         <img src={goldIcon}  alt=""/>
-                        <h3>Gold</h3>
-                        <span className="month">5$ per Month</span>
-                        <span>40$ per Year</span>
-                        <h4>Extra Limited usage</h4>
+                        <h3></h3>
+                        <span className="month"></span>
+                        <span className="year"></span>
+                        <h4 className="usage"></h4>
                         <h4>No Ads </h4>
                         <button onClick={handleButtonClick}  className="goldBtn"><div>Buy </div> <img src={arrow} alt=""/></button>
                     </div>
                     <div className="diamond">
                         <img src={diamondIcon}  alt=""/>
-                        <h3>Diamond</h3>
-                        <span className="month">15$ per Month</span>
-                        <span>80$ per Year</span>
-                        <h4>Un Limited usage</h4>
+                        <h3></h3>
+                        <span className="month"></span>
+                        <span className="year"></span>
+                        <h4 className="usage"></h4>
                         <h4>No Ads </h4>
                         <button onClick={handleButtonClick} className="diamondBtn"><div>Buy </div> <img src={arrow} alt=""/></button>
                     </div>
