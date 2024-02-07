@@ -1,6 +1,10 @@
 from rest_framework import serializers
 from malero.models import Packages,Customers,Uploads,Cards,Coupons,Orders
 import bcrypt 
+
+# test serializer
+class TestSerializer(serializers.Serializer):
+    message = serializers.CharField(max_length=100)
 # Sign up serializer
 class SignUpSerializer(serializers.ModelSerializer):
     class Meta:

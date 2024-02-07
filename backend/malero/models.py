@@ -24,8 +24,8 @@ class Customers(models.Model):
     # if packages is deleted then set to free package that is default
     package = models.ForeignKey(Packages, on_delete=models.SET_NULL,null=True)
     #maxOfupload,if it is 0 then the user can't upload any more
-    # maxOfuploads = models.IntegerField(null=False, blank=True,default=3)
-    # numberOfuploads = models.IntegerField(null=False, blank=True,default=0)
+    maxOfuploads = models.IntegerField(null=False, blank=True,default=3)
+    numberOfuploads = models.IntegerField(null=False, blank=True,default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):

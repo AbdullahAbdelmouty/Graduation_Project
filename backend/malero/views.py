@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework.decorators import parser_classes
 # import models
 from .models import Customers as Customer
 from .models import Packages as Package
@@ -28,15 +29,33 @@ from .forms import UploadForm, PdfUploadForm
 from malero.ML.model import ML_Model
 import datetime
 import bcrypt
+from rest_framework.parsers import BaseParser
+from django.views.decorators.csrf import csrf_exempt
 # views
 def index(request):
     return HttpResponse("<h1>Home</h>")
 
-# test for mcu
+class PlainTextParser(BaseParser):
+    """
+    Plain text parser.
+    """
+    media_type = 'text/plain'
+    def parse(self, stream, media_type=None, parser_context=None):
+        """
+        Simply return a string representing the body of the request.
+        """
+        return stream.read()
+
+# test for mcu ,I will use it to test the connection between the backend and the mcu as plain text
 @api_view(['POST'])
+@csrf_exempt
+@parser_classes([PlainTextParser])
 def test(request):
-    print(request.data)
-    return Response({"status": "ok"})
+    try:
+        print(request.data)
+        return Response({"status": "ok"})
+    except Exception as e:
+        return Response({"status": "failed", "errors": str(e)})
 # upload image
 @api_view(['POST'])
 def upload_image(request):
@@ -59,7 +78,7 @@ def upload_image(request):
 # upload pdf
 @api_view(['POST'])
 def upload_pdf(request):
-    user = "abdo"
+    user = "b"
     # get the user
     user_obj = Customer.objects.get(userName=user)
     # get the number of uploads for the user
@@ -73,7 +92,7 @@ def upload_pdf(request):
     expiry_date = user_order.expiryDateOrder
     # get current date
     current_date = datetime.datetime.now()
-    # check if the user order is expired or not
+    # check if the user order is expired or not +1 (619) 860-1769
     if current_date > expiry_date:
         return Response({"status": "failed", "errors": "your order is expired"})
     if numberOfuploads < maxOfuploads:
