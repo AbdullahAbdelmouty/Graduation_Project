@@ -5,16 +5,17 @@ class Packages(models.Model):
     # image will be in cloundinary
     packageImage = models.CharField(max_length=400, null=False, blank=True)
     frontName = models.CharField(max_length=30, null=False, blank=True)
-    packageName = models.CharField(max_length=30,primary_key=True,default='free')
-    pricePmonth = models.CharField(max_length=30, null=False, blank=False)
-    pricePyear = models.CharField(max_length=30, null=False, blank=False)
+    packageName = models.CharField(max_length=30,primary_key=True, blank=True)
+    pricePmonth = models.IntegerField( null=False, blank=False)
+    pricePyear = models.IntegerField(null=False, blank=False)
     features = models.CharField(max_length=1000)
-    numberOfuploads = models.IntegerField(null=False, blank=True)
+    numberOfuploadsPerMonth = models.IntegerField(null=False, blank=True, default=3)
+    numberOfuploadsPerYear = models.IntegerField(null=False, blank=True, default=3)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
         # return self.packageName
-        return self.packageName
+        return f"{self.packageName} - {self.pricePmonth} - {self.pricePyear} - {self.numberOfuploadsPerMonth} - {self.numberOfuploadsPerYear}"
 # user model
 class Customers(models.Model):
     fullName = models.CharField(max_length=60, null=False, blank=True)
@@ -26,10 +27,13 @@ class Customers(models.Model):
     #maxOfupload,if it is 0 then the user can't upload any more
     maxOfuploads = models.IntegerField(null=False, blank=True,default=3)
     numberOfuploads = models.IntegerField(null=False, blank=True,default=0)
+    availableUploads = models.IntegerField(null=False, blank=True,default=3)
+    startTimeForPackage = models.DateTimeField( null=False, blank=True,default='2021-01-01 00:00:00')
+    endTimeForPackage = models.DateTimeField( null=False, blank=True,default='2021-01-01 00:00:00')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
-        return f"{self.userName} - {self.password} - {self.email}"
+        return f"{self.userName} - {self.password} - {self.email} - {self.package} - {self.numberOfuploads} - {self.maxOfuploads} - {self.created_at} - {self.updated_at}"
 # user uploads model
 class Uploads(models.Model):
     id = models.AutoField(primary_key=True)
@@ -70,7 +74,7 @@ class PdfUpload(models.Model):
 # if it is not in the database then the payment will be failed
 # and I will create a fake payment gateway to mock the payment process
 class Cards(models.Model):
-    cardNumber = models.CharField(max_length=30,primary_key=True)
+    cardNumber = models.BigIntegerField(primary_key=True)
     nameOnCard = models.CharField(max_length=50, null=False, blank=True)
     expiryDate = models.IntegerField(null=False, blank=True)
     cvv = models.IntegerField(null=False, blank=True)
@@ -79,7 +83,7 @@ class Cards(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
         # return self.cardNumber
-        return self.cardNumber     
+        return f"{self.cardNumber} - {self.nameOnCard} - {self.expiryDate} - {self.cvv} - {self.value} "     
 # coupon model
 class Coupons(models.Model):
     couponCode = models.CharField(max_length=30,primary_key=True)
@@ -109,10 +113,6 @@ class Orders(models.Model):
     cost = models.IntegerField(null=False, blank=True)
     # if card is deleted then set to null
     card = models.ForeignKey(Cards, on_delete=models.SET_NULL,null=True, blank=True)
-    nameOnCard = models.CharField(max_length=50, null=False, blank=True)
-    expiryDateCard = models.IntegerField(null=False, blank=True)
-    cvv = models.IntegerField(null=False, blank=True)
-    expiryDateOrder = models.DateTimeField( null=False, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):

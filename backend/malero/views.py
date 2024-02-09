@@ -81,21 +81,20 @@ def upload_pdf(request):
     user = "b"
     # get the user
     user_obj = Customer.objects.get(userName=user)
+    print(user_obj)
+    # start time for the user package
+    startTimeForPackage = user_obj.startTimeForPackage
+    # end time for the user package
+    endTimeForPackage = user_obj.endTimeForPackage
     # get the number of uploads for the user
     numberOfuploads = user_obj.numberOfuploads
     # get the max of uploads for the user
     maxOfuploads = user_obj.maxOfuploads
+    # get available uploads for the user
+    availableUploads = user_obj.availableUploads
+    package_id = user_obj.package
     # check if the user can upload or not
-    # get user order
-    user_order = Order.objects.get(user=user)
-    # get user expiry date
-    expiry_date = user_order.expiryDateOrder
-    # get current date
-    current_date = datetime.datetime.now()
-    # check if the user order is expired or not +1 (619) 860-1769
-    if current_date > expiry_date:
-        return Response({"status": "failed", "errors": "your order is expired"})
-    if numberOfuploads < maxOfuploads:
+    if  availableUploads > 0:
         # upload the pdf
         if request.method == 'POST':
             form = PdfUploadForm(request.POST, request.FILES)
@@ -139,7 +138,11 @@ def upload_pdf(request):
                 newUpload = Upload.objects.create(image=image_path, pdf=pdf_path, isBenign=isBenign)
                 # if the user can upload then increase the number of uploads for the user
                 user_obj.numberOfuploads = user_obj.numberOfuploads + 1
+                # reduce the number of uploads for the user
+                user_obj.availableUploads = user_obj.maxOfuploads - user_obj.numberOfuploads
                 user_obj.save()
+                print(user_obj.numberOfuploads,"user_obj.numberOfuploads")
+                print(user_obj.maxOfuploads,"user_obj.maxOfuploads")
                 return Response({ "result": result})
             else:
                 return Response({"status": "failed", "errors": form.errors})
@@ -158,6 +161,8 @@ def sign_up(request):
         password = request.data['password']
         password2 = request.data['password2']
         package_id = "free"
+        maxOfuploads = 3
+        numberOfuploads = 0
         print(request.data)
         # validate the email
         if Customer.objects.filter(email=email).exists():
@@ -173,7 +178,7 @@ def sign_up(request):
         password = hashed_password
         print(password)
         # create new customer
-        newCustomer = Customer.objects.create(fullName=fullName,userName=userName, email=email, password=password, package_id=package_id)
+        newCustomer = Customer.objects.create(fullName=fullName,userName=userName, email=email, password=password, package_id=package_id, maxOfuploads=maxOfuploads, numberOfuploads=numberOfuploads)
         # newCustomer = Customer.objects.create(**request.data)
         serializer = SignUpSerializer(newCustomer)
         return Response(serializer.data)
@@ -195,6 +200,130 @@ def sign_in(request):
         return Response({"status": "failed", "errors": "User does not exist"})
     except Exception as e:
         return Response({"status": "failed", "errors": str(e)})
+
+# add new order
+@api_view(['POST'])
+def add_order(request):
+    try:
+        user_id = "b"
+        # get the user
+        user_obj = Customer.objects.get(userName=user_id)
+        print(user_obj)
+        # get the card
+        numberOnCard = request.data['card_id']
+        print(numberOnCard,"card_id")
+        # do numberOnCard string 
+        card = Card.objects.get(cardNumber=numberOnCard)
+        print(card,"card")
+        balance = card.value
+        expiryDate = card.expiryDate
+        current_year = datetime.datetime.now().year
+        # last two digits of the year
+        last_two_digits_year = int(str(current_year)[2:])
+        current_month = datetime.datetime.now().month
+        expiryMonth = 0
+        expiryYear = 0
+        if len(str(expiryDate)) == 3:
+            expiryMonth = int(str(expiryDate)[0])
+            expiryYear = int(str(expiryDate)[1:])
+        if len(str(expiryDate)) == 4:
+            expiryMonth = int(str(expiryDate)[:2])
+            expiryYear = int(str(expiryDate)[2:]) 
+        # check if the card is expired or not
+        if expiryYear < last_two_digits_year:
+            return Response({"status": "failed", "errors": "card is expired"})
+        if expiryYear == last_two_digits_year:
+            if expiryMonth < current_month:
+                return Response({"status": "failed", "errors": "card is expired"})
+        if expiryYear > last_two_digits_year:
+            print("card is not expired")  
+        # destrucring the request data
+        fullName = request.data['fullName']
+        print(fullName,"fullName")
+        phoneNumber = request.data['phoneNumber']
+        print(phoneNumber,"phoneNumber")
+        country = request.data['country']
+        print(country,"country")
+        # coupon_id = request.data['coupon']
+        period = request.data['period']
+        print(period,"period")
+        email = request.data['email']
+        print(email,"email")
+        package_id = request.data['package_id']
+        print(package_id,"package_id")
+        # get the package
+        package = Package.objects.get(packageName=package_id)
+        print(package)
+        # get the coupon
+        # coupon = Coupon.objects.get(couponCode=coupon_id)
+        # print(coupon)
+        # get the price of the package
+        pricePerMonth = package.pricePmonth
+        print(pricePerMonth)
+        pricePerYear = package.pricePyear
+        print(pricePerYear)
+        # calculate the cost
+        cost = 0
+        if period == "monthly":
+            cost = pricePerMonth
+        if period == "yearly":
+            cost = pricePerYear
+        # check balance
+        print(isinstance(balance, int), "balance")
+        print(isinstance(cost, int), "cost")
+        if balance < cost:
+            return Response({"status": "failed", "errors": "insufficient balance"})
+        # create new order
+        newOrder = Order.objects.create(fullName=fullName,phoneNumber=phoneNumber, email=email, country=country, user_id=user_id, package_id=package_id,card_id=numberOnCard, period=period, cost=cost)    
+        # reduce the balance
+        card.value = card.value - cost
+        card.save()
+        # change start time of user package
+        user_obj.startTimeForPackage = datetime.datetime.now()
+        # change expiry time of user package
+        if period == "monthly":
+            user_obj.maxOfuploads = user_obj.availableUploads + package.numberOfuploadsPerMonth
+            user_obj.availableUploads = user_obj.maxOfuploads
+            user_obj.numberOfuploads = 0
+            user_obj.endTimeForPackage = datetime.datetime.now() + datetime.timedelta(days=30)
+        if period == "yearly":
+            user_obj.maxOfuploads = user_obj.availableUploads + package.numberOfuploadsPerYear
+            user_obj.availableUploads = user_obj.maxOfuploads
+            user_obj.numberOfuploads = 0
+            user_obj.endTimeForPackage = datetime.datetime.now() + datetime.timedelta(days=365)
+        user_obj.package = package_id    
+        user_obj.save()
+        # return the response
+        return Response({"status": "ok"})
+    except Exception as e:
+        return Response({"status": "failed", "errors": str(e)})            
+
+# get order
+@api_view(['GET'])
+def get_order(request, id):
+    return Response({"status": "ok", "id": id})
+
+# update order
+@api_view(['PATCH'])
+def update_order(request, id):
+    return Response({"status": "ok", "id": id})
+
+# delete order
+@api_view(['DELETE'])
+def delete_order(request, id):
+    return Response({"status": "ok", "id": id})
+
+# get all orders
+@api_view(['GET'])
+def get_all_orders(request):
+    return Response({"status": "ok"})
+
+# get order for specific customer
+@api_view(['GET'])
+def get_order_for_customer(request, userName):
+    getCustomerOrder = Order.objects.filter(user=userName)
+    serializer = OrdersSerializer(getCustomerOrder, many=True)
+    return Response(serializer.data)
 
 # get customer
 @api_view(['GET'])
@@ -327,98 +456,6 @@ def delete_coupon(request, id):
 def get_all_coupons(request):
     return Response({"status": "ok"})
 
-# add new order
-@api_view(['POST'])
-def add_order(request):
-    try:
-        # destrucring the request data
-        fullName = request.data['fullName']
-        userName = request.data['userName']
-        email = request.data['email']
-        password = request.data['password']
-        package_id = request.data['package_id']
-        numberOfuploads = 0
-        expiryDateOrder = datetime.datetime.now()
-        country = request.data['country']
-        coupon = request.data['coupon']
-        period = request.data['period']
-        cost = 0
-        card = request.data['card']
-        numberOnCard = request.data['numberOnCard']
-        expiryDateCard = request.data['expiryDateCard']
-        cvv = request.data['cvv']
-        # check if the card is in the database or not
-        card_obj = Card.objects.get(cardNumber=numberOnCard)
-        # check if the card is expired or not   
-        if card_obj.expiryDate < datetime.datetime.now():
-            return Response({"status": "failed", "errors": "your card is expired"})
-        # check if the card is valid or not
-        if card_obj.cvv != cvv:
-            return Response({"status": "failed", "errors": "your card is not valid"})
-        # check if the coupon is in the database or not
-        coupon_obj = Coupon.objects.get(couponCode=coupon)
-        # check if the coupon is expired or not
-        if coupon_obj.expiryDate < datetime.datetime.now():
-            return Response({"status": "failed", "errors": "your coupon is expired"})
-        # check if the coupon is valid or not
-        if coupon_obj.numberOfUses == 0:
-            return Response({"status": "failed", "errors": "your coupon is not valid"})
-        # check if the user is in the database or not
-        user_obj = Customer.objects.get(userName=userName)
-        # check if the user is already exist or not
-        if user_obj:
-            return Response({"status": "failed", "errors": "user already exist"})
-        # check if the package is in the database or not
-        package_obj = Package.objects.get(package_id=package_id)
-        # check if the package is already exist or not
-        if package_obj:
-            return Response({"status": "failed", "errors": "package already exist"})
-        if package_id == "free":
-            maxOfuploads = 3
-            expiryDateOrder = datetime.datetime.now() + datetime.timedelta(days=3)
-        if package_id == "Gold":
-            maxOfuploads = 100    
-            expiryDateOrder = datetime.datetime.now() + datetime.timedelta(days=30)
-            if period == "monthly":
-                cost = 5
-            if period == "yearly":
-                cost = 50
-        if package_id == "diamond":
-            maxOfuploads = 200    
-            expiryDateOrder = datetime.datetime.now() + datetime.timedelta(days=360)
-            if period == "monthly":
-                cost = 10
-            if period == "yearly":
-                cost = 100
-    except:
-        return Response({"status": "failed"})            
-
-# get order
-@api_view(['GET'])
-def get_order(request, id):
-    return Response({"status": "ok", "id": id})
-
-# update order
-@api_view(['PATCH'])
-def update_order(request, id):
-    return Response({"status": "ok", "id": id})
-
-# delete order
-@api_view(['DELETE'])
-def delete_order(request, id):
-    return Response({"status": "ok", "id": id})
-
-# get all orders
-@api_view(['GET'])
-def get_all_orders(request):
-    return Response({"status": "ok"})
-
-# get order for specific customer
-@api_view(['GET'])
-def get_order_for_customer(request, userName):
-    getCustomerOrder = Order.objects.filter(user=userName)
-    serializer = OrdersSerializer(getCustomerOrder, many=True)
-    return Response(serializer.data)
 # get all uploads for specific customer
 @api_view(['GET'])
 def get_all_uploads_for_customer(request, userName):
