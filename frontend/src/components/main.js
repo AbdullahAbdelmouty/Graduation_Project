@@ -55,17 +55,27 @@ export default function Main(props){
                     let frontNameDiamond=document.querySelector(".premium-content .packages .diamond h3")
                     let priMonthDiamond=document.querySelector(".premium-content .packages .diamond .month")
                     let priYearDiamond=document.querySelector(".premium-content .packages .diamond .year")
-                    let numUsageDiamond=document.querySelector(".premium-content .packages .diamond .usage")
+                    let numUsageDiamondMonth=document.querySelector(".premium-content .packages .diamond .usage-month")
+                    let numUsageDiamondYear=document.querySelector(".premium-content .packages .diamond .usage-year")
+                    let featureOneDiamond=document.querySelector(".premium-content .packages .diamond .featuresOne")
+                    let featureTwoDiamond=document.querySelector(".premium-content .packages .diamond .featuresTwo")
                     // gold element selection
                     let frontNameGold=document.querySelector(".premium-content .packages .gold h3")
                     let priMonthGold=document.querySelector(".premium-content .packages .gold .month")
                     let priYearGold=document.querySelector(".premium-content .packages .gold .year")
-                    let numUsageGold=document.querySelector(".premium-content .packages .gold .usage")
+                    let numUsageGoldMonth=document.querySelector(".premium-content .packages .gold .usage-month")
+                    let numUsageGoldYear=document.querySelector(".premium-content .packages .gold .usage-year")
+                    let featureOneGold=document.querySelector(".premium-content .packages .gold .featuresOne")
+                    let featureTwoGold=document.querySelector(".premium-content .packages .gold .featuresTwo")
                     // free element selection
                     let frontNameFree=document.querySelector(".premium-content .packages .free h3")
                     let priMonthFree=document.querySelector(".premium-content .packages .free .month")
                     let priYearFree=document.querySelector(".premium-content .packages .free .year")
-                    let numUsageFree=document.querySelector(".premium-content .packages .free .usage")
+                    let numUsageFreeMonth=document.querySelector(".premium-content .packages .free .usage-month")
+                    let numUsageFreeYear=document.querySelector(".premium-content .packages .free .usage-year")
+                    let featureOneFree=document.querySelector(".premium-content .packages .free .featuresOne")
+                    let featureTwoFree=document.querySelector(".premium-content .packages .free .featuresTwo")
+                    
                     fetch(url,{method:"GET"}).then((res)=>{
                         return res.json()
                     }).then((res)=>{
@@ -76,18 +86,29 @@ export default function Main(props){
                         frontNameDiamond.innerHTML=(res[0].frontName)
                         priMonthDiamond.innerHTML=(`${res[0].pricePmonth}$ per Month`)
                         priYearDiamond.innerHTML=(`${res[0].pricePyear}$ per Year`)
-                        numUsageDiamond.innerHTML=(`usage number: ${res[0].numberOfuploads}`)
+                        numUsageDiamondMonth.innerHTML=(`usage per month: ${res[0].numberOfuploadsPerMonth}`)
+                        numUsageDiamondYear.innerHTML=(`usage per year: ${res[0].numberOfuploadsPerYear}`)
+                        featureOneDiamond.innerHTML=(`feature one: ${res[0].features.split(",")[0]}`)
+                        featureTwoDiamond.innerHTML=(`feature two: ${res[0].features.split(",")[1]}`)
+                            
                         // free package appending
                         frontNameFree.innerHTML=(res[1].frontName)
                         priMonthFree.innerHTML=(`${res[1].pricePmonth}$ per Month`)
                         priYearFree.innerHTML=(`${res[1].pricePyear}$ per Year`)
-                        numUsageFree.innerHTML=(`usage number: ${res[1].numberOfuploads}`)
+                        numUsageFreeMonth.innerHTML=(`usage per month: ${res[1].numberOfuploadsPerMonth}`)
+                        numUsageFreeYear.innerHTML=(`usage per year: ${res[1].numberOfuploadsPerYear}`)
+                        featureOneFree.innerHTML=(`feature one: ${res[1].features.split(",")[0]}`)
+                        featureTwoFree.innerHTML=(`feature two: ${res[1].features.split(",")[1]}`)
                         
                         // Gold package appending
                         frontNameGold.innerHTML=(res[2].frontName)
                         priMonthGold.innerHTML=(`${res[2].pricePmonth}$ per Month`)
                         priYearGold.innerHTML=(`${res[2].pricePyear}$ per Year`)
-                        numUsageGold.innerHTML=(`usage number: ${res[2].numberOfuploads}`)
+                        numUsageGoldMonth.innerHTML=(`usage per month: ${res[2].numberOfuploadsPerMonth}`)
+                        numUsageGoldYear.innerHTML=(`usage per year: ${res[2].numberOfuploadsPerYear}`)
+                        featureOneGold.innerHTML=(`feature one: ${res[2].features.split(",")[0]}`)
+                        featureTwoGold.innerHTML=(`feature two: ${res[2].features.split(",")[1]}`)
+                        
                     }).catch((error) => {
                         // Handle errors
                         console.error('Error fetching data:', error);
@@ -96,7 +117,7 @@ export default function Main(props){
                 return 
             }
             
-                FetchPack(allPackUrl)
+            FetchPack(allPackUrl)
             // Fetch(signUpUrl)
             // Fetch(signInUrl)
             // Fetch(getCustomerUrl)
@@ -163,8 +184,12 @@ return(
                         <h3></h3>
                         <span className="month"></span>
                         <span className="year"></span>
-                        <h4 className="usage"></h4>
+                        <h4 className="usage-month"></h4>
+                        <h4 className="usage-year"></h4>
                         <h4>Ads </h4>
+                        <h4 className="featuresOne"></h4>
+                        <h4 className="featuresTwo"></h4>
+                     
                         <button onClick={freeBtnScroll} className="freeBtn"><div>Try </div> <img src={arrow} alt=""/></button>
                     </div>
                     <div className="gold">
@@ -172,8 +197,12 @@ return(
                         <h3></h3>
                         <span className="month"></span>
                         <span className="year"></span>
-                        <h4 className="usage"></h4>
+                        <h4 className="usage-month"></h4>
+                        <h4 className="usage-year"></h4>
                         <h4>No Ads </h4>
+                        <h4 className="featuresOne"></h4>
+                        <h4 className="featuresTwo"></h4>
+                     
                         <button onClick={handleButtonClick}  className="goldBtn"><div>Buy </div> <img src={arrow} alt=""/></button>
                     </div>
                     <div className="diamond">
@@ -181,8 +210,12 @@ return(
                         <h3></h3>
                         <span className="month"></span>
                         <span className="year"></span>
-                        <h4 className="usage"></h4>
+                        <h4 className="usage-month"></h4>
+                        <h4 className="usage-year"></h4>
                         <h4>No Ads </h4>
+                        <h4 className="featuresOne"></h4>
+                        <h4 className="featuresTwo"></h4>
+                     
                         <button onClick={handleButtonClick} className="diamondBtn"><div>Buy </div> <img src={arrow} alt=""/></button>
                     </div>
                 </div>

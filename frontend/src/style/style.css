@@ -62,11 +62,6 @@ header .links{
     display: flex;
     align-items: center;
 }
-@media screen and (max-width:481px){
-header .links{
-    /* column */
-    }
-}
 header .links img{
     height: 16px;
     width: 16px;
@@ -161,9 +156,6 @@ header .form .drop-login{
     
 }
 
-.login-form .input-container .check-box {
-    /* background-color: #000000; */
-}
 /* The container */
 .check-container {
     display: block;
@@ -303,9 +295,6 @@ header .form img{
 .home-content .logo{
     padding-top: 85px;
     
-}
-.home-content .logo.dark{
-    /* box-shadow: var(--drop-shadow);     */
 }
 
 
@@ -1143,10 +1132,7 @@ option.dark {
     background-color: rgb(30,30,30,50%);
     color: white;
 }
-.pay-main select.dark option[disabled] {
-    
-    /* color: rgb(255, 255, 255,30%); */
-}
+
 .pay-main select.dark{
     background-color: rgb(30,30,30,50%);
     color: white;
@@ -1332,13 +1318,6 @@ option.dark {
         /* margin: 0 24px 0 0px; */
         position: relative;
 
-}
-}
-@media screen and (max-width:1024px) {
-    
-    
-    .logo-discount .discount .apply{
-        /* margin: 0 24px 0 0px; */
 }
 }
 .logo-discount .discount p{
@@ -1622,9 +1601,7 @@ option.dark {
         width:initial;
         font-size: 12px;
     }  
-    .fields input.confirmDetails{
-        /* width: 10%; */
-    }
+    
 }    
 @media screen and (max-width:481px) {
 
