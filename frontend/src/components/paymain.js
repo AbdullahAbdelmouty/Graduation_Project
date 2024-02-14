@@ -115,17 +115,19 @@ export default function PayMain(){
                     <div className="gold">
                         <img src={goldIcon}  alt=""/>
                         <h3>Gold</h3>
-                        <span className="month">5$ per Month</span>
-                        <span>40$ per Year</span>
-                        <h4>Extra Limited usage</h4>
+                        <span className="month">10$ per Month</span>
+                        <span>100$ per Year</span>
+                        <h4>usage per month: 10</h4>
+                        <h4>usage per year: 120</h4>
                         <h4>No Ads </h4>
                     </div>
                     <div className="diamond">
                         <img src={diamondIcon}  alt=""/>
                         <h3>Diamond</h3>
-                        <span className="month">15$ per Month</span>
-                        <span>80$ per Year</span>
-                        <h4>Un Limited usage</h4>
+                        <span className="month">20$ per Month</span>
+                        <span>200$ per Year</span>
+                        <h4>usage per month: 20</h4>
+                        <h4>usage per year: 240</h4>
                         <h4>No Ads </h4>
                     </div>
                 </div>
