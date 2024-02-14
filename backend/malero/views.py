@@ -21,8 +21,14 @@ from .serializers import UploadsSerializer
 from .serializers import CardsSerializer
 from .serializers import CouponsSerializer
 from .serializers import OrdersSerializer
-from .serializers import SignUpSerializer
-from .serializers import LoginSerializer
+# from .serializers import SignUpSerializer
+# from .serializers import LoginSerializer
+from django.contrib.auth.models import User
+from .serializers import RegisterSerializer
+from .serializers import MyTokenObtainPairSerializer
+from rest_framework.permissions import AllowAny
+from rest_framework import generics
+from rest_framework_simplejwt.views import TokenObtainPairView
 # forms
 from .forms import UploadForm, PdfUploadForm
 # machine learning model
@@ -56,6 +62,7 @@ def test(request):
         return Response({"status": "ok"})
     except Exception as e:
         return Response({"status": "failed", "errors": str(e)})
+ 
 # upload image
 @api_view(['POST'])
 def upload_image(request):
@@ -78,18 +85,26 @@ def upload_image(request):
 # upload pdf
 @api_view(['POST'])
 def upload_pdf(request):
-    user = "b"
+    user = request.user
     # get the user
     user_obj = Customer.objects.get(userName=user)
     print(user_obj)
     # start time for the user package
     startTimeForPackage = user_obj.startTimeForPackage
+    startYearForPackage = startTimeForPackage.year
+    startMonthForPackage = startTimeForPackage.month
     # end time for the user package
     endTimeForPackage = user_obj.endTimeForPackage
-    # get the number of uploads for the user
-    numberOfuploads = user_obj.numberOfuploads
-    # get the max of uploads for the user
-    maxOfuploads = user_obj.maxOfuploads
+    endYearForPackage = endTimeForPackage.year
+    endMonthForPackage = endTimeForPackage.month
+    # check if the user package is expired or not
+    if endYearForPackage < startYearForPackage:
+        return Response({"status": "failed", "errors": "your package is expired"})
+    if endYearForPackage == startYearForPackage:
+        if endMonthForPackage < startMonthForPackage:
+            return Response({"status": "failed", "errors": "your package is expired"})
+    if endYearForPackage > startYearForPackage:
+        print("your package is not expired")
     # get available uploads for the user
     availableUploads = user_obj.availableUploads
     package_id = user_obj.package
@@ -150,56 +165,67 @@ def upload_pdf(request):
             return Response({"status": "failed"})   
     else:
         return Response({"status": "failed", "errors": "you can't upload any more"}) 
+# Register
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    print(queryset,"queryset")
+    permission_classes = (AllowAny,)
+    serializer_class = RegisterSerializer  
+
+class MyObtainTokenPairView(TokenObtainPairView):
+    permission_classes = (AllowAny,)
+    serializer_class = MyTokenObtainPairSerializer
 # Sign up
-@api_view(['POST'])
-def sign_up(request):
-    try:
-        # destrucring the request data
-        fullName = request.data['fullName']
-        userName = request.data['userName']
-        email = request.data['email']
-        password = request.data['password']
-        password2 = request.data['password2']
-        package_id = "free"
-        maxOfuploads = 3
-        numberOfuploads = 0
-        print(request.data)
-        # validate the email
-        if Customer.objects.filter(email=email).exists():
-            return Response({"status": "failed", "errors": "email already exist"})
-        # validate the username
-        if Customer.objects.filter(userName=userName).exists():
-            return Response({"status": "failed", "errors": "username already exist"})
-        # validate the password
-        if password != password2:
-            return Response({"status": "failed", "errors": "passwords do not match"})
-        # hash the password
-        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-        password = hashed_password
-        print(password)
-        # create new customer
-        newCustomer = Customer.objects.create(fullName=fullName,userName=userName, email=email, password=password, package_id=package_id, maxOfuploads=maxOfuploads, numberOfuploads=numberOfuploads)
-        # newCustomer = Customer.objects.create(**request.data)
-        serializer = SignUpSerializer(newCustomer)
-        return Response(serializer.data)
-    except:
-        return Response({"status": "failed", "errors": "something went wrong"})
+# @api_view(['POST'])
+# def sign_up(request):
+#     try:
+#         # destrucring the request data
+#         fullName = request.data['fullName']
+#         userName = request.data['userName']
+#         email = request.data['email']
+#         password = request.data['password']
+#         password2 = request.data['password2']
+#         package_id = "free"
+#         maxOfuploads = 3
+#         numberOfuploads = 0
+#         print(request.data)
+#         # validate the email
+#         if Customer.objects.filter(email=email).exists():
+#             return Response({"status": "failed", "errors": "email already exist"})
+#         # validate the username
+#         if Customer.objects.filter(userName=userName).exists():
+#             return Response({"status": "failed", "errors": "username already exist"})
+#         # validate the password
+#         if password != password2:
+#             return Response({"status": "failed", "errors": "passwords do not match"})
+#         # hash the password
+#         hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+#         password = hashed_password
+#         print(password)
+#         # create new customer
+#         newCustomer = Customer.objects.create(fullName=fullName,userName=userName, email=email, password=password, package_id=package_id, maxOfuploads=maxOfuploads, numberOfuploads=numberOfuploads)
+#         # newCustomer = Customer.objects.create(**request.data)
+#         # jwt_token = get_tokens_for_user(newCustomer)
+#         serializer = SignUpSerializer(newCustomer)
+#         return Response({"status": "ok", "user": serializer.data, "token": "jwt_token"})
+#     except Exception as e:
+#         return Response({"status": "failed", "errors": str(e)})
 
 # Sign in
-@api_view(['POST'])
-def sign_in(request):
-    try:
-        userName = request.data['userName']
-        password = request.data['password'].encode('utf-8') # Encode the password to bytes
-        # get the user from the database
-        user_obj = Customer.objects.get(userName=userName)
-        hashPass = user_obj.password[1:].replace("'", "")
-        if bcrypt.checkpw(password, hashPass.encode('utf-8')):
-            return Response({"status": "ok", "user": userName})
-    except Customer.DoesNotExist:
-        return Response({"status": "failed", "errors": "User does not exist"})
-    except Exception as e:
-        return Response({"status": "failed", "errors": str(e)})
+# @api_view(['POST'])
+# def sign_in(request):
+#     try:
+#         userName = request.data['userName']
+#         password = request.data['password'].encode('utf-8') # Encode the password to bytes
+#         # get the user from the database
+#         user_obj = Customer.objects.get(userName=userName)
+#         hashPass = user_obj.password[1:].replace("'", "")
+#         if bcrypt.checkpw(password, hashPass.encode('utf-8')):
+#             return Response({"status": "ok", "user": userName})
+#     except Customer.DoesNotExist:
+#         return Response({"status": "failed", "errors": "User does not exist"})
+#     except Exception as e:
+#         return Response({"status": "failed", "errors": str(e)})
 
 # add new order
 @api_view(['POST'])
