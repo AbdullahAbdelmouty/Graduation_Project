@@ -231,7 +231,7 @@ class MyObtainTokenPairView(TokenObtainPairView):
 @api_view(['POST'])
 def add_order(request):
     try:
-        user_id = "b"
+        user_id = request.user
         # get the user
         user_obj = Customer.objects.get(userName=user_id)
         print(user_obj)
@@ -301,6 +301,7 @@ def add_order(request):
             return Response({"status": "failed", "errors": "insufficient balance"})
         # create new order
         newOrder = Order.objects.create(fullName=fullName,phoneNumber=phoneNumber, email=email, country=country, user_id=user_id, package_id=package_id,card_id=numberOnCard, period=period, cost=cost)    
+        user_obj.package = package
         # reduce the balance
         card.value = card.value - cost
         card.save()
@@ -308,16 +309,17 @@ def add_order(request):
         user_obj.startTimeForPackage = datetime.datetime.now()
         # change expiry time of user package
         if period == "monthly":
+            print("monthly")
             user_obj.maxOfuploads = user_obj.availableUploads + package.numberOfuploadsPerMonth
             user_obj.availableUploads = user_obj.maxOfuploads
             user_obj.numberOfuploads = 0
             user_obj.endTimeForPackage = datetime.datetime.now() + datetime.timedelta(days=30)
         if period == "yearly":
+            print("yearly")
             user_obj.maxOfuploads = user_obj.availableUploads + package.numberOfuploadsPerYear
             user_obj.availableUploads = user_obj.maxOfuploads
             user_obj.numberOfuploads = 0
             user_obj.endTimeForPackage = datetime.datetime.now() + datetime.timedelta(days=365)
-        user_obj.package = package_id    
         user_obj.save()
         # return the response
         return Response({"status": "ok"})
