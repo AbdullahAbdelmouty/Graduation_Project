@@ -15,119 +15,60 @@ import {useNavigate} from "react-router-dom"
 // import Pay from "../pages/Pay"
 import { useEffect } from "react"
 export default function Main(props){
-        
-            const url = "http://127.0.0.1:8000/api/upload_pdf"
+    const accessToken = localStorage.getItem("access-token");
+    const sanitizedAccessToken = accessToken ? accessToken.replace(/["']/g, '') : '';
+
+    // console.log(sanitizedAccessToken)
+            const url = `http://127.0.0.1:8000/api/upload_pdf`
             const uploadFile = async (event) => {
                 event.preventDefault();
                 const formData = new FormData();
                 formData.append('pdf', event.target.files[0]);
                 const response = await fetch(url, {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    headers: {
+                        'Authorization': `Bearer ${sanitizedAccessToken}`
+                    }
                 });
                 const data = await response.json();
                 console.log(data);
-                    let result=document.querySelector(".home-content .result")
-                
-                    if(parseFloat(data.result)>0.5){
-                        result.innerHTML="Malicious"
-                    }
-                    else{
-                        result.innerHTML="Benign"
-                    }
                     
+                    let popMessage=document.querySelector(".home-content .popMessage")
+                    let result=document.querySelector(".home-content .popMessage p")
+                    // let body=document.querySelector("body")
+                    if(localStorage.getItem("access-token")===null){
+                        // body.style="opacity:0.5"
+                        popMessage.style="display:flex;"
+                        result.innerHTML="you can't upload without Login"
+                    }
+                    else if(localStorage.getItem("access-token")!==null&&data.status==="failed"){
+                        // body.style="opacity:0.5"
+                        popMessage.style="display:flex;"
+                        result.innerHTML= data.errors + " update your package"                
+                    }
+                    else if(localStorage.getItem("access-token")!==null&&(data.detail==="Given token not valid for any token type" )){
+                        // body.style="opacity:0.5"
+                        popMessage.style="display:flex;"
+                        result.innerHTML= "please login first"
+                    }
+                    else if(localStorage.getItem("access-token")!==null&&data.status!=="failed"){
+                        // body.style="opacity:0.5"
+                        result.style="font-size:25px"
+                        popMessage.style="display:flex;"
+                        if(parseFloat(data.result)>0.5){
+                            result.innerHTML="Malicious"
+                        }
+                        else{
+                            result.innerHTML="Benign"
+                        }
+                    } 
+                    let popMessagebtn=document.querySelector(".home-content .popMessage button")
+                            popMessagebtn.addEventListener("click",()=>{
+                            popMessage.style="display:none"                
+                        })            
             };
-            let allPackUrl="http://127.0.0.1:8000/api/get_all_packages"
-            let signUpUrl="http://127.0.0.1:8000/api/sign_up"
-            let signInUrl="http://127.0.0.1:8000/api/sign_in"
-            let getCustomerUrl="http://127.0.0.1:8000/api/get_customer"
-            let addCustomerUrl="http://127.0.0.1:8000/api/add_package"
-            let addCardUrl="http://127.0.0.1:8000/api/add_card"
-            let getAllCardUrl="http://127.0.0.1:8000/api/get_all_cards"
-            let addUploadUrl="http://127.0.0.1:8000/api/add_upload"
-            let getOrderForCustomerUrl="http://127.0.0.1:8000/api/get_order_for_customer"
-            let updateOrderUrl="http://127.0.0.1:8000/api/update_order"
-            let getUploadsForSpecificCustomerUrl="http://127.0.0.1:8000/api/get_all_uploads_for_specific_customer"
             
-            function FetchPack(url){
-                useEffect(()=>{
-                    // diamond element selection
-                    let frontNameDiamond=document.querySelector(".premium-content .packages .diamond h3")
-                    let priMonthDiamond=document.querySelector(".premium-content .packages .diamond .month")
-                    let priYearDiamond=document.querySelector(".premium-content .packages .diamond .year")
-                    let numUsageDiamondMonth=document.querySelector(".premium-content .packages .diamond .usage-month")
-                    let numUsageDiamondYear=document.querySelector(".premium-content .packages .diamond .usage-year")
-                    let featureOneDiamond=document.querySelector(".premium-content .packages .diamond .featuresOne")
-                    let featureTwoDiamond=document.querySelector(".premium-content .packages .diamond .featuresTwo")
-                    // gold element selection
-                    let frontNameGold=document.querySelector(".premium-content .packages .gold h3")
-                    let priMonthGold=document.querySelector(".premium-content .packages .gold .month")
-                    let priYearGold=document.querySelector(".premium-content .packages .gold .year")
-                    let numUsageGoldMonth=document.querySelector(".premium-content .packages .gold .usage-month")
-                    let numUsageGoldYear=document.querySelector(".premium-content .packages .gold .usage-year")
-                    let featureOneGold=document.querySelector(".premium-content .packages .gold .featuresOne")
-                    let featureTwoGold=document.querySelector(".premium-content .packages .gold .featuresTwo")
-                    // free element selection
-                    let frontNameFree=document.querySelector(".premium-content .packages .free h3")
-                    let priMonthFree=document.querySelector(".premium-content .packages .free .month")
-                    let priYearFree=document.querySelector(".premium-content .packages .free .year")
-                    let numUsageFreeMonth=document.querySelector(".premium-content .packages .free .usage-month")
-                    let numUsageFreeYear=document.querySelector(".premium-content .packages .free .usage-year")
-                    let featureOneFree=document.querySelector(".premium-content .packages .free .featuresOne")
-                    let featureTwoFree=document.querySelector(".premium-content .packages .free .featuresTwo")
-                    
-                    fetch(url,{method:"GET"}).then((res)=>{
-                        return res.json()
-                    }).then((res)=>{
-                        console.log(res)
-                        console.log(res[0].frontName)
-                        
-                        // diamond package appending
-                        frontNameDiamond.innerHTML=(res[0].frontName)
-                        priMonthDiamond.innerHTML=(`${res[0].pricePmonth}$ per Month`)
-                        priYearDiamond.innerHTML=(`${res[0].pricePyear}$ per Year`)
-                        numUsageDiamondMonth.innerHTML=(`usage per month: ${res[0].numberOfuploadsPerMonth}`)
-                        numUsageDiamondYear.innerHTML=(`usage per year: ${res[0].numberOfuploadsPerYear}`)
-                        featureOneDiamond.innerHTML=(`feature one: ${res[0].features.split(",")[0]}`)
-                        featureTwoDiamond.innerHTML=(`feature two: ${res[0].features.split(",")[1]}`)
-                            
-                        // free package appending
-                        frontNameFree.innerHTML=(res[1].frontName)
-                        priMonthFree.innerHTML=(`${res[1].pricePmonth}$ per Month`)
-                        priYearFree.innerHTML=(`${res[1].pricePyear}$ per Year`)
-                        numUsageFreeMonth.innerHTML=(`usage per month: ${res[1].numberOfuploadsPerMonth}`)
-                        numUsageFreeYear.innerHTML=(`usage per year: ${res[1].numberOfuploadsPerYear}`)
-                        featureOneFree.innerHTML=(`feature one: ${res[1].features.split(",")[0]}`)
-                        featureTwoFree.innerHTML=(`feature two: ${res[1].features.split(",")[1]}`)
-                        
-                        // Gold package appending
-                        frontNameGold.innerHTML=(res[2].frontName)
-                        priMonthGold.innerHTML=(`${res[2].pricePmonth}$ per Month`)
-                        priYearGold.innerHTML=(`${res[2].pricePyear}$ per Year`)
-                        numUsageGoldMonth.innerHTML=(`usage per month: ${res[2].numberOfuploadsPerMonth}`)
-                        numUsageGoldYear.innerHTML=(`usage per year: ${res[2].numberOfuploadsPerYear}`)
-                        featureOneGold.innerHTML=(`feature one: ${res[2].features.split(",")[0]}`)
-                        featureTwoGold.innerHTML=(`feature two: ${res[2].features.split(",")[1]}`)
-                        
-                    }).catch((error) => {
-                        // Handle errors
-                        console.error('Error fetching data:', error);
-                    });
-                })
-                return 
-            }
-            
-            FetchPack(allPackUrl)
-            // Fetch(signUpUrl)
-            // Fetch(signInUrl)
-            // Fetch(getCustomerUrl)
-            // Fetch(addCustomerUrl)
-            // Fetch(addCardUrl)
-            // Fetch(getAllCardUrl)
-            // Fetch(addUploadUrl)
-            // Fetch(getOrderForCustomerUrl)
-            // Fetch(updateOrderUrl)
-            // Fetch(getUploadsForSpecificCustomerUrl)
 // head to pay when click the buy button
 const navigate = useNavigate();
 
@@ -144,17 +85,22 @@ return(
         <main>
         <div id="home" className="home">
             <div  className="home-content">
-                
-                <p className="result"></p>
+
                 <img className="logo" src={props.logo} alt=""/>
+                
                 <p className="first">
                     Harnessing Deep Learning for Evasive PDF Malware Detection, 
                     Pioneering a New Frontier with Efficient Net and Image Transformation.
                 </p>
-                {/* <h1>{isBegin}</h1> */}
+                <div className="popMessage">
+                    <p className="result"></p>
+                    <button>okay</button>
+                </div>                
+                
                 <form>
                     <label htmlFor="file">Upload/drag and drop your PDF </label>
-                    <input className="input-pdf" type="file" name="file" id="file" onChange={(event) => uploadFile(event)} />                </form>
+                    <input className="input-pdf" type="file" name="file" id="file" onChange={(event) => uploadFile(event)} />                
+                </form>
 
                 <p className="second">
                     By submitting data above, you are agreeing to our Terms of Service and Privacy Policy,
@@ -181,41 +127,41 @@ return(
                 <div className="packages">
                     <div className="free">
                         <img src={freeIcon}  alt=""/>
-                        <h3></h3>
-                        <span className="month"></span>
-                        <span className="year"></span>
-                        <h4 className="usage-month"></h4>
-                        <h4 className="usage-year"></h4>
+                        <h3>Free</h3>
+                        <span className="month">0$ per Month</span>
+                        <span className="year">0$ per Year</span>
+                        <h4 className="usage-month">Usage per month: 3</h4>
+                        <h4 className="usage-year">Usage per year: 3</h4>
                         <h4>Ads </h4>
-                        <h4 className="featuresOne"></h4>
-                        <h4 className="featuresTwo"></h4>
-                     
+                        {/* <h4 className="featuresOne"></h4>
+                        <h4 className="featuresTwo"></h4> */}
+                    
                         <button onClick={freeBtnScroll} className="freeBtn"><div>Try </div> <img src={arrow} alt=""/></button>
                     </div>
                     <div className="gold">
                         <img src={goldIcon}  alt=""/>
-                        <h3></h3>
-                        <span className="month"></span>
-                        <span className="year"></span>
-                        <h4 className="usage-month"></h4>
-                        <h4 className="usage-year"></h4>
-                        <h4>No Ads </h4>
-                        <h4 className="featuresOne"></h4>
-                        <h4 className="featuresTwo"></h4>
-                     
+                        <h3>Gold</h3>
+                        <span className="month">10$ per Month</span>
+                        <span className="year">100$ per Month</span>
+                        <h4 className="usage-month">usage per month: 10</h4>
+                        <h4 className="usage-year">usage per year: 120</h4>
+                        <h4>feature: No Ads</h4>
+                        {/* <h4 className="featuresOne"></h4>
+                        <h4 className="featuresTwo"></h4> */}
+                    
                         <button onClick={handleButtonClick}  className="goldBtn"><div>Buy </div> <img src={arrow} alt=""/></button>
                     </div>
                     <div className="diamond">
                         <img src={diamondIcon}  alt=""/>
-                        <h3></h3>
-                        <span className="month"></span>
-                        <span className="year"></span>
-                        <h4 className="usage-month"></h4>
-                        <h4 className="usage-year"></h4>
-                        <h4>No Ads </h4>
-                        <h4 className="featuresOne"></h4>
-                        <h4 className="featuresTwo"></h4>
-                     
+                        <h3>Diamond</h3>
+                        <span className="month">20$ per Month</span>
+                        <span className="year">200$ per Month</span>
+                        <h4 className="usage-month">usage per month: 20</h4>
+                        <h4 className="usage-year">usage per year: 240</h4>
+                        <h4>feature: No Ads </h4>
+                        {/* <h4 className="featuresOne"></h4>
+                        <h4 className="featuresTwo"></h4> */}
+                    
                         <button onClick={handleButtonClick} className="diamondBtn"><div>Buy </div> <img src={arrow} alt=""/></button>
                     </div>
                 </div>
