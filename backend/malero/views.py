@@ -62,7 +62,53 @@ def test(request):
         return Response({"status": "ok"})
     except Exception as e:
         return Response({"status": "failed", "errors": str(e)})
- 
+# receive string from mcu
+@api_view(['POST'])
+@csrf_exempt 
+def receive_string(request):
+    resvariable='okay kolo tmam '
+    if request.method == 'POST':
+        received_string = request.POST.get('string', '')
+        print("Received string:", received_string)
+        model_path = 'media/model_file/best_weights.h5'
+        ml_obj = ML_Model()
+        # convert pdf to binary
+        uploaded_pdf = 'media/malero/uploads/pdfs/'
+        out_binaries = 'media/binaries/'
+        file_name = "str(upload_instance.pdf).split("/")[-1]"
+        ml_obj.convert_to_binary(uploaded_pdf,file_name,out_binaries)
+        # convert binary to png
+        out_png = 'media/pngs/'
+        fixed_dimensions = (128, 128)
+        file_name_with_blus_bin = file_name + '.bin'
+        print(file_name_with_blus_bin,"file_name_with_blus_bin")
+        ml_obj.convert_binaries_to_images(out_binaries,file_name_with_blus_bin,out_png,fixed_dimensions)
+        # pass png to model
+        file_name_with_blus_png = file_name + '.png'
+        image_path = 'media/pngs/' + file_name_with_blus_png
+        result = ml_obj.predict(image_path,model_path)
+        # 
+        print(result,"result")    
+        # newUpload 
+        bengin_image_path = 'media/bengin_images/'
+        malicious_image_path = 'media/malignant_images/'
+        pdf_path = 'media/malero/uploads/pdfs/' + file_name
+        isBenign = False
+        if result <0.5:
+            image_path = bengin_image_path
+            isBenign = True
+        if result >=0.5:
+            image_path = malicious_image_path
+        newUpload = Upload.objects.create(image=image_path, pdf=pdf_path, isBenign=isBenign)
+        ret = ""
+        if isBenign:
+            ret = "Benign"
+        else:
+            ret = "Malicious"
+        return JsonResponse({'message': ret})
+    else:
+        return JsonResponse({'error': 'Only POST requests are allowed'})
+
 # upload image
 @api_view(['POST'])
 def upload_image(request):
@@ -289,6 +335,8 @@ def add_order(request):
         pricePerYear = package.pricePyear
         print(pricePerYear)
         # calculate the cost
+        if period == "" or period == None:
+            return Response({"status": "failed", "errors": "period is required"})
         cost = 0
         if period == "monthly":
             cost = pricePerMonth

@@ -296,6 +296,44 @@ header .form img{
     padding-top: 85px;
     
 }
+.popMessage::before{
+    content: "";
+    width: 100%;
+    height: 10%;
+    position: relative;
+    top: 0px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: darkcyan;
+}
+.popMessage {
+    display: none;
+    width: 40vw;
+    height: 20vh;
+    /* display: flex; */
+    z-index: 5;
+    background-color: #eee;
+    position: absolute;
+    color: var(--text-color);
+    top: 60%;
+    
+    border-radius: 20px;
+    justify-content: center;
+    box-shadow: var(--drop-shadow);
+}
+.popMessage button{
+    cursor: var(--hover-cursor);
+    padding: 8px 10px;
+    /* width: 15%; */
+    background-color: darkcyan;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    color: white;
+    box-shadow: var(--drop-shadow);
+    position: absolute;
+    bottom: 15px;
+}
 
 
 @media screen and (max-width:1024px){
@@ -307,13 +345,14 @@ header .form img{
 
 .home-content .result{
     position: absolute;
-    font-size: 25px;
-    top: 84%;
+    font-size: 15px;
+    top: 25%;
     font-weight: 900;
 }
 @media screen and (max-width:768px){
     .home-content .result{
-        top: 80%;
+        /* top: 80%; */
+        /* font-size: ; */
     }
     
 }
@@ -397,12 +436,19 @@ header .form img{
         .home-content form img{
             width: 10%;
             margin-right: 10px;
-        }}
-    
-    .home-end{
-        margin-top: 85px;
-        opacity: 15%;
     }
+}
+.popMessage p{
+    color: darkcyan;
+    font-size: 15px;
+    align-self: center;
+    padding: 0 10px;
+    padding-bottom: 30px;
+}    
+.home-end{
+    margin-top: 85px;
+    opacity: 15%;
+}
     /* end of home style */
     /* start premium style */
     /* @media screen and (max-width:1024) {
@@ -1542,7 +1588,7 @@ option.dark {
     }
 }
 .fields input{    
-    margin-bottom: 32px;
+    margin-bottom: 13px;
     outline: none;
     border: none;
     background: rgb(114,28,53,25%);
@@ -1550,6 +1596,11 @@ option.dark {
     border-radius: 5px;
     box-shadow: var(--drop-shadow);
 }
+.fields span{
+    color: red;
+    margin-bottom: 16px;
+    font-size: 13px;
+}    
 .fields input.dark{
     background-color: #201F2F;
     color: white;

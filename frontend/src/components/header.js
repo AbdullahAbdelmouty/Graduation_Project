@@ -6,11 +6,16 @@ import mode from "../images/night-modde 1.png"
 // import login from "../images/log-idn 1.png"
 import userIcon from "../images/account (2) 2.png"
 import passIcon from "../images/losscfk 1.png"
-import { useEffect } from "react"
+import { useEffect,useState } from "react"
 import {useNavigate} from "react-router-dom"
+// import { useHistory } from 'react-router-dom';
 
 
 export default function Header(props){
+    
+    const [username, setUserName] = useState("");
+    const [password, setPassword] = useState("");
+    
     const navigate = useNavigate();
     useEffect(() => 
     {
@@ -216,7 +221,7 @@ export default function Header(props){
                 }
             }
             
-            if(props.text==="Log in"){
+            if(props.text==="Login"){
                 
                 if (logIn) {
                     logIn.addEventListener("click", (event) => {
@@ -233,8 +238,9 @@ export default function Header(props){
             if(props.text==="Log out"){
                 
                 const handleButtonClick = () => {
+                    localStorage.clear()
                     // Navigate to the 'pay' route
-                    navigate('/Home');
+                    navigate('/');
                     window.scrollTo(0, 0);
                     
                 };
@@ -304,28 +310,73 @@ export default function Header(props){
             highLightHome()
         })
     }, []); 
+
+
+    async function login(e){
+        e.preventDefault()
+        let item={username,password};
+        let result=await fetch("http://127.0.0.1:8000/api/login",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+                "Accept":"application/json"
+            },
+            body:JSON.stringify(item) 
+        });
+        result=await result.json()
+        console.log(result)
+        console.warn(username,password)
+    if(result.access){
+        // get token
+        const jwtToken = result.access;
+        // decode token
+        const decodedToken = JSON.parse(atob(jwtToken.split('.')[1]));
+        console.log(decodedToken)
+        // console.log(result)
+        localStorage.setItem("user",JSON.stringify(result))
+        localStorage.setItem("access-token",JSON.stringify(result.access))
+        localStorage.setItem("user-username",decodedToken.username)
+        let dropLogIn = document.querySelector(".form .drop-login");
+        navigate("/")
+        function hideDrop() {
+            if (dropLogIn) {
+                dropLogIn.style.display = "none";
+            }
+        }
+        hideDrop()   
+    }
+    else{
+        alert("Please enter correct data");
+    }
+    // localStorage.setItem("refresh-token",JSON.stringify(result.refresh))
+}
+
+
+
     return(
         
         <div>
             <header>
                 <ul className="links">
-                    <li  className="get-back-to-home" ><img src={home} alt=""/> <a   href="#home">Home</a></li>
-                    <li><i className="fa-sharp fa-solid fa-crown"></i> <a  href="#premium">Premium</a></li>
-                    <li><img src={about} alt=""/> <a  href="#about">About us</a></li>
-                    <li><img src={contact} alt=""/> <a  href="#contact">Contact us</a></li>
+                    <li  className="get-back-to-home" ><img src={home} alt=""/> <a href="#home">Home</a></li>
+                    <li><i className="fa-sharp fa-solid fa-crown"></i> <a href="#premium">Premium</a></li>
+                    <li><img src={about} alt=""/> <a href="#about">About us</a></li>
+                    <li><img src={contact} alt=""/> <a href="#contact">Contact us</a></li>
                 </ul>
                 <div className="form">
                     <img className="mode" src={mode} alt=""/>
-                    <div  className="login"><img src={props.image} alt=""/> <p>{props.text}</p></div>
+                    <div  className="login"><img src={props.image}  alt=""/> <p>{props.text}</p></div>
                     <div className="drop-login">
                         <form className="login-form">
                             <div className="input-container">
                                 <img src={userIcon} alt=""/>
-                                <input id="email" type="text" placeholder="Email ID" required/>
+                                <input id="email" type="text" placeholder="username" required value={username}
+                                onChange={(e)=>setUserName(e.target.value)}/>
                             </div>
                             <div className="input-container">
                                 <img className="passIcon" src={passIcon} alt=""/>
-                                <input id="pass" type="password" placeholder="Password" required/>
+                                <input id="pass" type="password" placeholder="Password" required value={password}
+                                onChange={(e)=>setPassword(e.target.value)}/>
                             </div>
                             <label className="check-container">
                                 <p>Remember me</p> 
@@ -334,7 +385,7 @@ export default function Header(props){
                                 <input type="checkbox" />
                                 <span className="checkmark"></span>
                             </label>                            
-                            <button type="submit">Login</button>
+                            <button onClick={login} type="submit">Login</button>
                         </form>
                     </div>
                     <div className="sign-up"><img src={props.signImage} alt=""/> <p>{props.sign}</p></div>

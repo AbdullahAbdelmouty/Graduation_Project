@@ -4,102 +4,138 @@ import diamondIcon from "../images/diamond 1.png"
 // import arrow from "../images/Arrow 1.png"
 import React, { useState } from 'react';
 export default function PayMain(){
-    const countries = [
-        { name: 'USA', code: '+1-' },
-        { name: 'Canada', code: '+1-' },
-        { name: 'UK', code: '+44-' },
-        { name: 'Germany', code: '+49-' },
-        { name: 'France', code: '+33-' },
-        { name: 'India', code: '+91-' },
-        { name: 'Australia', code: '+61-' },
-        { name: 'Egypt', code: '+02-' },
-    ];
+    const [country,setCountry] = useState("")
+        // { name: 'usa', code: '+1-' },
+        // { name: 'canada', code: '+1-' },
+        // { name: 'uk', code: '+44-' },
+        // { name: 'germany', code: '+49-' },
+        // { name: 'france', code: '+33-' },
+        // { name: 'india', code: '+91-' },
+        // { name: 'australia', code: '+61-' },
+        // { name: 'egypt', code: '+02-' },
+    
     
       // State to keep track of the selected country and phone number
     const [selectedCountry, setSelectedCountry] = useState('');
     //   const [selectColor, setSelectColor] = useState('rgb(30, 30, 30,30%)');
     const [phoneNumber, setPhoneNumber] = useState('');
       // Event handler for when a country is selected
-    const handleCountryChange = (event) => {
-        const selectedCountryName = event.target.value;
-        setSelectedCountry(selectedCountryName);
+    // const handleCountryChange = (event) => {
+    //     const selectedCountryName = event.target.value;
+    //     setSelectedCountry(selectedCountryName);
     
-        // Find the selected country's phone code
-        const selectedCountryObject = countries.find(country => country.name === selectedCountryName);
-        const countryPhoneCode = selectedCountryObject ? selectedCountryObject.code : '';
+    //     // Find the selected country's phone code
+    //     const selectedCountryObject = country.find(country => country.name === selectedCountryName);
+    //     const countryPhoneCode = selectedCountryObject ? selectedCountryObject.code : '';
     
-        // Update the phone number with the country code
-        setPhoneNumber(countryPhoneCode);
-        // Change the color to black when a country is selected
+    //     // Update the phone number with the country code
+    //     setPhoneNumber(countryPhoneCode);
+    //     // Change the color to black when a country is selected
         
-        // setSelectColor('black');     
-    };
+    //     // setSelectColor('black');     
+    // };
     
-      // Event handler for when the phone number is entered
-    const handlePhoneNumberChange = (event) => {
-        setPhoneNumber(event.target.value);
-    }
-    const [selectedDuration, setSelectedDuration] = useState('');
+    // Event handler for when the phone number is entered
+    // const handlePhoneNumberChange = (event) => {
+    //     setPhoneNumber(event.target.value);
+    // }
+    const [period, setSelectedDuration] = useState('');
 
     const handleDurationChange = (event) => {
-      setSelectedDuration(event.target.value);
+        setSelectedDuration(event.target.value);
     };
-    const [selectedType, setSelectedType] = useState('');
+    const [package_id, setSelectedType] = useState('');
 
     const handleTypeChange = (event) => {
-      setSelectedType(event.target.value);
+        setSelectedType(event.target.value);
     };
+    const [card_id,setCardID]=useState("");
+    const [fullName,setFullName]=useState("");
+    const [email,setEmail]=useState("");
+    const [formError, setFormError] = useState("");
+    // const [card_id,setCardID]=useState("");
+    const accessToken = localStorage.getItem("access-token");
+    const sanitizedAccessToken = accessToken ? accessToken.replace(/["']/g, '') : '';
+    const collectData= async(e)=>{
+        e.preventDefault()
+        // console.log(card_id)
+        if (!fullName || !email) {
+            setFormError("Please fill out this field.");
+            return;
+        }
+        // console.log(JSON.stringify({ card_id }))
+        let result=await fetch("http://127.0.0.1:8000/api/add_order",{
+            method:"POST",
+            body:JSON.stringify({card_id,fullName,phoneNumber,country,period,email,package_id}),
+            headers:{ 
+                "Authorization": `Bearer ${sanitizedAccessToken}`,
+                "content-Type":"application/json",
+            }
+            
+        })
+        result=await result.json()
+        console.log(result)
+    }
+
     return(
         <div className="pay-main">
             <div className="details-logo-discount">
-                <div className="user-details">
-                    <input type="text" placeholder="Your name"/>
+                <form  className="user-details">
+                    {formError && <p style={{ color: "red" }}>{formError}</p>}
+                    <input type="text" placeholder="Your name" 
+                    onChange={(e)=>setFullName(e.target.value)}
+                    required 
+                    />
+                    {formError && <p style={{ color: "red" }}>{formError}</p>}
+                    <input type="text" placeholder="Your email" 
+                    onChange={(e)=>setEmail(e.target.value)}
+                    required 
+                    />
                     <div className="custom-dropdown-arrow">
                         <select
                         id="countryDropdown"
-                        value={selectedCountry}
-                        onChange={handleCountryChange}
+                        value={country}
+                        onChange={(e)=>setCountry(e.target.value)}
                         // style={{ color: selectColor}}
                         >
                         <option value="" disabled selected>Your Country</option>
-                        {countries.map((country) => (
-                        <option key={country.name} value={country.name}>
-                            {country.name}
-                        </option>
-                        ))}
+                        <option value="usa" >usa</option>
+                        <option value="canada">canada</option>
+                        <option value="uk">uk</option>
+                        <option value="germany">germany</option>
+                        <option value="egypt">egypt</option>
                         </select>
 
                     </div>
-                    <input  
-                    type="phone"
-                    placeholder="Your phone number"
-                    value={phoneNumber}
-                    onChange={handlePhoneNumberChange}
+                    <input type="number" placeholder="Your phone number" value={phoneNumber}
+                    onChange={(e)=>setPhoneNumber(e.target.value)}
                     
                     />
                     <div className="custom-dropdown-arrow">
-                    <select id="packageDuration"  value={selectedDuration} onChange={handleDurationChange}>
+                    <select id="packageDuration"  value={period} onChange={handleDurationChange}>
                         <option value="" selected disabled> Packet duration</option>
-                        <option value="month">Month</option>
-                        <option value="year">Year</option>
+                        <option value="month">monthly</option>
+                        <option value="year">yearly</option>
                     </select>
                     </div>
                     <div className="custom-dropdown-arrow">
-                    <select id="packageType"  value={selectedType} onChange={handleTypeChange}>
+                    <select id="packageType"  value={package_id} onChange={handleTypeChange}>
                         <option value="" selected disabled>Packet type</option>
-                        <option value="gold">Gold</option>
-                        <option value="diamond">Diamond</option>
+                        <option value="gold">gold</option>
+                        <option value="diamond">diamond</option>
                     </select>
                     </div>
-                    <input type="numeric" placeholder="Card Number"/>
+                    <input type="numeric" placeholder="Card Number"
+                    onChange={(e)=>setCardID(e.target.value)}
+                    />
                     <input type="text" placeholder="Name on card"/>
                     <div className="date-CVV" >
                         <input id="CVV" type placeholder="CVV"/>
                         <input id="date" type="" placeholder="MM/YY"/>
                     </div>
                     <input placeholder="promo code (if you have)"/>
-                    <input id="submit" type="submit" value="Confirm"/>
-                </div> 
+                    <input onClick={collectData} id="submit" type="submit" value={"Confirm"}/>
+                </form> 
                 <div className="logo-discount">
                     <img src={payLogo} alt="none"/>
                     <div className="discount">
