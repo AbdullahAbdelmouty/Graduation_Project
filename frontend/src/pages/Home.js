@@ -8,13 +8,22 @@ import login from "../images/log-idn 1.png"
 import sign from "../images/user 1.png"
 import malero from "../images/Untitled-10@3x@3x 1.png"
 import malero2 from "../images/Arrow 1.png"
+import { useNavigate } from 'react-router-dom';
 export default function Home(){
+    let navigate=useNavigate("");
+    let txt
+    if(localStorage.getItem("access-token")!==null){
+        txt="Log out"
+    }
+    else{
+        txt="Login"
+    }
     return(
         <>
             <Header
-                text="Log in"
+                text={txt}
                 image={login}
-                sign="Sign in"
+                sign="Sign Up"
                 signImage={sign}
             />
             <Main
