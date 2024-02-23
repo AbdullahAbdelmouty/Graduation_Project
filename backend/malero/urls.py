@@ -12,6 +12,7 @@ urlpatterns = [
     path('token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
     path("", views.index, name="index"),
     path("test_mcu", views.test, name="test"),
+    path("endpoint", views.receive_string, name="add_customer"),
     path("upload_image", views.upload_image, name="upload_image"),
     path("upload_pdf", views.upload_pdf, name="upload_pdf"),
     path("get_customer/<int:id>", views.get_customer, name="get_customer"),

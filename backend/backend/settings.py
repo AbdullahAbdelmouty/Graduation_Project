@@ -35,7 +35,7 @@ DEBUG = True
 
 # allow to node mcu esp_8266 12E to send request to this server
 # ALLOWED_HOSTS = ["malero.onrender.com"," 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.1.10']
 
 # ALLOWED_HOSTS = ["malero.onrender.com","127.0.0.1"]
 
