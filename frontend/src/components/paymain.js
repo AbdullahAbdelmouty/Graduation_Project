@@ -64,6 +64,7 @@ export default function PayMain(){
             return;
         }
         // console.log(JSON.stringify({ card_id }))
+        console.log(card_id,fullName,phoneNumber,country,period,email,package_id)
         let result=await fetch("http://127.0.0.1:8000/api/add_order",{
             method:"POST",
             body:JSON.stringify({card_id,fullName,phoneNumber,country,period,email,package_id}),
@@ -114,8 +115,8 @@ export default function PayMain(){
                     <div className="custom-dropdown-arrow">
                     <select id="packageDuration"  value={period} onChange={handleDurationChange}>
                         <option value="" selected disabled> Packet duration</option>
-                        <option value="month">monthly</option>
-                        <option value="year">yearly</option>
+                        <option value="monthly">monthly</option>
+                        <option value="yearly">yearly</option>
                     </select>
                     </div>
                     <div className="custom-dropdown-arrow">

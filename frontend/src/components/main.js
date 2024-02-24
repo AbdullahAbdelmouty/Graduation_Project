@@ -36,24 +36,20 @@ export default function Main(props){
                     
                     let popMessage=document.querySelector(".home-content .popMessage")
                     let result=document.querySelector(".home-content .popMessage p")
-                    // let body=document.querySelector("body")
+                
                     if(localStorage.getItem("access-token")===null){
-                        // body.style="opacity:0.5"
                         popMessage.style="display:flex;"
                         result.innerHTML="you can't upload without Login"
                     }
                     else if(localStorage.getItem("access-token")!==null&&data.status==="failed"){
-                        // body.style="opacity:0.5"
                         popMessage.style="display:flex;"
                         result.innerHTML= data.errors + " update your package"                
                     }
                     else if(localStorage.getItem("access-token")!==null&&(data.detail==="Given token not valid for any token type" )){
-                        // body.style="opacity:0.5"
                         popMessage.style="display:flex;"
                         result.innerHTML= "please login first"
                     }
                     else if(localStorage.getItem("access-token")!==null&&data.status!=="failed"){
-                        // body.style="opacity:0.5"
                         result.style="font-size:25px"
                         popMessage.style="display:flex;"
                         if(parseFloat(data.result)>0.5){
