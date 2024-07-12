@@ -34,7 +34,6 @@ SECRET_KEY = 'django-insecure-=x-oq5iewus_sm2k)wqkufg1$+_1$y_7yf8lwm=!(9+6wan*02
 DEBUG = True
 
 # allow to node mcu esp_8266 12E to send request to this server
-# ALLOWED_HOSTS = ["malero.onrender.com"," 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.1.10']
 
 # ALLOWED_HOSTS = ["malero.onrender.com","127.0.0.1"]
@@ -143,18 +142,28 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'NAME': 'malero',
+#         'ENGINE': 'django.db.backends.mysql',
+#         'HOST': 'malero.mysql.database.azure.com',
+#         'PORT': 3306,
+#         'USER': 'abdullah',
+#         'PASSWORD': 'DFdsfDSSDwefedfAQ2ewf484',
+            
+#     }
+# }
 DATABASES = {
     'default': {
         'NAME': 'malero',
         'ENGINE': 'django.db.backends.mysql',
-        'HOST': 'malero.mysql.database.azure.com',
+        'HOST': '127.0.0.1',
         'PORT': 3306,
-        'USER': 'abdullah',
-        'PASSWORD': 'DFdsfDSSDwefedfAQ2ewf484',
+        'USER': 'root',
+        'PASSWORD': 'pass',
             
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
