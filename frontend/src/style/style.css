@@ -304,7 +304,15 @@ header .form img{
     top: 0px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    background-color: darkcyan;
+    background-color: #403f5e;
+}
+.popMessage.dark{
+    background-color: #625f73;
+    
+}
+.popMessage.dark::before{
+    background-color: #28273a;
+
 }
 .popMessage {
     display: none;
@@ -316,7 +324,6 @@ header .form img{
     position: absolute;
     color: var(--text-color);
     top: 60%;
-    
     border-radius: 20px;
     justify-content: center;
     box-shadow: var(--drop-shadow);
@@ -325,7 +332,7 @@ header .form img{
     cursor: var(--hover-cursor);
     padding: 8px 10px;
     /* width: 15%; */
-    background-color: darkcyan;
+    background-color: #403f5e;
     border-radius: 5px;
     outline: none;
     border: none;
@@ -333,6 +340,9 @@ header .form img{
     box-shadow: var(--drop-shadow);
     position: absolute;
     bottom: 15px;
+}
+.popMessage button.dark{
+    background-color: #28273a;
 }
 
 
@@ -347,7 +357,7 @@ header .form img{
     position: absolute;
     font-size: 15px;
     top: 25%;
-    font-weight: 900;
+    font-weight: 100;
 }
 @media screen and (max-width:768px){
     .home-content .result{
@@ -439,12 +449,16 @@ header .form img{
     }
 }
 .popMessage p{
-    color: darkcyan;
+    color: #403f5e;
     font-size: 15px;
     align-self: center;
     padding: 0 10px;
     padding-bottom: 30px;
+    font-weight: 100;
 }    
+.popMessage p.dark{
+    color: white;
+}
 .home-end{
     margin-top: 85px;
     opacity: 15%;
